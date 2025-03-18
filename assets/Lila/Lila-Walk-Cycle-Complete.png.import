@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0uqloarwxf2o"
-path="res://.godot/imported/Lila-Idle-Complete.png-0da27890ab9c031baea068a6027f30ae.ctex"
+uid="uid://baxm234yqf0ao"
+path="res://.godot/imported/Lila-Walk-Cycle-Complete.png-7937d312ac2bd5953de611346e1ac9e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Lila-Idle-Complete.png"
-dest_files=["res://.godot/imported/Lila-Idle-Complete.png-0da27890ab9c031baea068a6027f30ae.ctex"]
+source_file="res://assets/Lila/Lila-Walk-Cycle-Complete.png"
+dest_files=["res://.godot/imported/Lila-Walk-Cycle-Complete.png-7937d312ac2bd5953de611346e1ac9e9.ctex"]
 
 [params]
 
