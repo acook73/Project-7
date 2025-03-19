@@ -292,3 +292,11 @@ autoplay = "idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -11)
 shape = SubResource("CapsuleShape2D_yi2kj")
+
+[node name="DashCool" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true

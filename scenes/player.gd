@@ -36,41 +36,132 @@ func grapple(pos):
 	
 
 	
+func dash():
+	#finds direction to dash based on sprite orientation
+	var dashDirection
+	if animated_sprite.flip_h:
+		dashDirection = -1
+	else:
+		dashDirection = 1
+	
+	played = true
+	animated_sprite.play("dash")
+	velocity.x = dashImpulse * dashDirection
+	numDashes -= 1
+	$DashCool.start()
+	$DashTimer.start()
 
-
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
+func jump():
+	if (Input.is_action_just_pressed("jump") and is_on_floor()) or (Input.is_action_just_pressed("jump") and numJumps > 0):
+		if is_on_floor():
+			$DashTimer.stop()
+			cancelled = true
+		velocity.y = JUMP_VELOCITY
+		if (numJumps > 0):
+			played = false
+		numJumps -= 1
+		if played == false:
+			animated_sprite.play("jump")
+			played = true
+	
+func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
 		if (velocity.y > 200):
 			#allows for a asymptopic acceleration curve realtive to the vertical velocity component
 			temp.y -= velocity.y/(2.5*temp.y)
 		velocity += temp
-	#dash cooldown
-	if dashed == true:
-		dashCool = true
-	if (dashCool == true):
-		dashTimer += 1
-		if (dashTimer >= 30):
-			dashTimer = 0
-			dashCool = false
+
+func slideSquish(direction: float ):
+	if squished == false:
+		animated_sprite.play("squish")
+	squished = true
+	if (abs(velocity.x) > 9.0 and direction == velocity.x/abs(velocity.x)):
+		#short slide
+		if (velocity.x > 0.0):
+			velocity.x -= friction
+		else:
+			velocity.x += friction
+		if (abs(velocity.x) <= friction):
+			velocity.x = 0.0
+	else:
+		#long slide
+		if (velocity.x > 0.0):
+			velocity.x -= longSlide*friction
+		else:
+			velocity.x += longSlide*friction
+		if (abs(velocity.x) <= longSlide*friction):
+			velocity.x = 0.0
+
+func unsquish():
+	animated_sprite.play("unsquish")
+	squished = false
+
+func runAccel(direction: float):
+	if direction and $DashTimer.is_stopped():
+		if (velocity.x != 0 and direction == abs(velocity.x)/velocity.x):
+			velocity.x += acceleration*direction*(1-((abs(velocity.x))/SPEED))
+		else:
+			velocity.x += acceleration*direction
+		#no direction input (stop)
+	elif $DashTimer.is_stopped() and !cancelled:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
+
+func animationParser(direction: float):
+	if is_on_floor():
+		if Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0:
+			dash()
+		elif direction == 0 and played == false:
+			animated_sprite.play("idle")
+		elif played == false:
+			animated_sprite.play("run")
+	else:
+		if (Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0):
+			dash()
+
+func inputParser(direction_y: float, direction: float):
+	
+	#crouch/slide begin
+	if direction_y == 1:
+		slideSquish(direction)
+	
+	#crouch end animation
+	elif squished == true:
+		unsquish()
+	
+	#run/dash begin
+	else:
+		#running acceleration (works in air)
+		runAccel(direction)
+		
+		#dash/run animation handling on floor and in the air
+		animationParser(direction)
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	doGravity(delta)
+	
+	#dash cancelling momentum ends after player hits the ground again
 	if cancelled and is_on_floor():
 		cancelled = false
-	# Handle jump.
-	if (Input.is_action_just_pressed("jump") and is_on_floor()) or (Input.is_action_just_pressed("jump") and numJumps > 0):
-		if is_on_floor():
-			dashed = false
-			counter = 0
-			cancelled = true
-		velocity.y = JUMP_VELOCITY
-		if (numJumps > 0):
-			played = false
-		numJumps -= 1
+	
+	#
+	if !$DashTimer.is_stopped():
+		velocity.y = 0
+	else:
+		played = false
+	
+	# Handle jump
+	jump()
+	
+	#resets dahes and jumps if player is on ground
 	if (is_on_floor()):
 		numJumps = maxJumps
 		numDashes = maxDash
+	
 	#-1 = left, 1 = right
 	var direction := Input.get_axis("left", "right")
+	
 	#-1 = up, 1 = down
 	var direction_y := Input.get_axis("up", "down")
 	
@@ -79,85 +170,9 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.flip_h = false
 	elif direction == -1:
 		animated_sprite.flip_h = true
-		
-	#crouch begin
-	if direction_y == 1:
-		if squished == false:
-			animated_sprite.play("squish")
-		squished = true
-		if (abs(velocity.x) > 9.0 and direction == velocity.x/abs(velocity.x)):
-			#short slide
-			if (velocity.x > 0.0):
-				velocity.x -= friction
-			else:
-				velocity.x += friction
-			if (abs(velocity.x) <= friction):
-				velocity.x = 0.0
-		else:
-			#long slide
-			if (velocity.x > 0.0):
-				velocity.x -= longSlide*friction
-			else:
-				velocity.x += longSlide*friction
-			if (abs(velocity.x) <= longSlide*friction):
-				velocity.x = 0.0
-	#crouch end animation
-	elif squished == true:
-		animated_sprite.play("unsquish")
-		squished = false
-	else:
-		
-		if direction and !dashed:
-			if (velocity.x != 0 and direction == abs(velocity.x)/velocity.x):
-				velocity.x += acceleration*direction*(1-((abs(velocity.x))/SPEED))
-			else:
-				velocity.x += acceleration*direction
-		elif !dashed and !cancelled:
-			velocity.x = move_toward(velocity.x, 0, SPEED)
-		if is_on_floor():
-			played = false
-			
-			if Input.is_action_just_pressed("dash") or dashed == true:
-				var dashDirection
-				if animated_sprite.flip_h:
-					dashDirection = -1
-				else:
-					dashDirection = 1
-				if (dashed != true and dashCool != true):
-					animated_sprite.play("dash")
-					velocity.x = dashImpulse * dashDirection
-					dashed = true
-				if dashed == true:
-					counter += 1
-					velocity.y = 0
-				if (counter >= 15):
-					dashed = false
-					counter = 0
-			elif direction == 0:
-				animated_sprite.play("idle")
-			else:
-				animated_sprite.play("run")
-		else:
-			if ((Input.is_action_just_pressed("dash") or dashed == true)):
-					var dashDirection
-					if animated_sprite.flip_h:
-						dashDirection = -1
-					else:
-						dashDirection = 1
-					if (dashed != true and dashCool != true and numDashes > 0):
-						animated_sprite.play("dash")
-						velocity.x = dashImpulse * dashDirection
-						dashed = true
-						numDashes -= 1
-					if dashed == true:
-						counter += 1
-						velocity.y = 0
-					if (counter >= 15):
-						dashed = false
-						counter = 0
-			if played == false:
-				animated_sprite.play("jump")
-				played = true
+	
+	#parses user input to determine which action needs to be played
+	inputParser(direction_y, direction)
 			
 
 
