@@ -19,8 +19,24 @@ var numJumps = maxJumps
 var played = false
 var squished = false
 var cancelled = false
+var grapplePoint
+var grappling = false
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var anim = $animationplayer
+
+func _ready():
+	add_to_group("Player", true)
+	
+func grapple(pos):
+	grapplePoint = pos
+	print("Received:", pos)
+	position = pos
+	
+	grappling = true
+	
+	
+
+	
+
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
