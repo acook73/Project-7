@@ -27,7 +27,7 @@ var played = false
 var squished = false
 var cancelled = false
 var grappling = false
-
+#test
 
 func _ready():
 	add_to_group("Player", true)
