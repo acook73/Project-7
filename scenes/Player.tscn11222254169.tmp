@@ -307,6 +307,11 @@ one_shot = true
 [node name="grapple_controller" type="Node2D" parent="."]
 position = Vector2(1, -17)
 script = ExtResource("7_cw2d6")
+grappleSpeed = null
+freezeTime = null
+wallSlackRoom = null
+ceilingSlackRoom = null
+floorSlackRoom = null
 
 [node name="Line2D" type="Line2D" parent="grapple_controller"]
 points = PackedVector2Array(0, 0, 0, 0)
@@ -314,6 +319,7 @@ width = 1.0
 
 [node name="GrappleRay" type="RayCast2D" parent="grapple_controller"]
 target_position = Vector2(200, 0)
+collision_mask = 2
 script = ExtResource("8_khinc")
 
 [node name="stopMomentum" type="Timer" parent="grapple_controller"]

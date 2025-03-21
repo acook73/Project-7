@@ -1,5 +1,10 @@
 extends CharacterBody2D
 
+@onready var animated_sprite := $AnimatedSprite2D
+@onready var grappleController := $grapple_controller
+@onready var normalCollider := $NormalCollider
+
+
 @export var SPEED = 150.0
 @export var JUMP_VELOCITY = -300.0
 @export var doubleJumpVelocity = -350.0
@@ -10,7 +15,7 @@ extends CharacterBody2D
 @export var maxJumps = 2
 @export var maxDash = 1
 
-signal grappleJump(isGrappleJumping)
+signal endGrapple(isGrappleJumping)
 
 var numDashes = maxDash
 var dashTimer = 0
@@ -22,12 +27,11 @@ var played = false
 var squished = false
 var cancelled = false
 var grappling = false
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var grappleController := $grapple_controller
+
 
 func _ready():
 	add_to_group("Player", true)
-	grappleJump.connect(grappleController.endGrappleEarly)
+	endGrapple.connect(grappleController.endGrappleEarly)
 	
 func isGrappling(data):
 	grappling = data
@@ -55,13 +59,14 @@ func jump():
 		velocity.y = JUMP_VELOCITY
 		if (numJumps > 0):
 			played = false
-		numJumps -= 1
+		if not is_on_floor():
+			numJumps -= 1
 		if played == false:
 			animated_sprite.play("jump")
 			played = true
 			
-	if Input.is_action_just_pressed("jump") and is_on_wall() and grappling:
-		grappleJump.emit(true)
+	if (Input.is_action_just_pressed("jump") and is_on_wall() and grappling) or (Input.is_action_just_pressed("jump") and is_on_ceiling() and grappling):
+		endGrapple.emit("wall")
 		velocity.y = JUMP_VELOCITY
 		grappling = false
 	
@@ -122,7 +127,6 @@ func animationParser(direction: float):
 
 
 func _physics_process(delta: float) -> void:
-
 	if not grappling:
 		doGravity(delta)
 	#dash cancelling momentum ends after player hits the ground again
@@ -138,6 +142,9 @@ func _physics_process(delta: float) -> void:
 	if (is_on_floor() or (is_on_wall() and grappling)):
 		numJumps = maxJumps
 		numDashes = maxDash
+	
+	if (is_on_floor() and grappling):
+		endGrapple.emit("ground")
 	
 	# Handle jump
 	jump()
