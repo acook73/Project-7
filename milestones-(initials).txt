@@ -1,0 +1,11 @@
+Group: Ryan Bristol / Andrew Cook
+
+Timetable / Rubric:
+https://docs.google.com/spreadsheets/d/1eTF4j_EUvGNvzUMLImwWzTzpdtglq4dNzuvr8brg4Qs/edit?usp=sharing
+
+Repository:
+https://github.com/acook73/Project-7
+(runs as a godot project)
+
+Report:
+So far the engine implementation and learning of godot has been going fairly smoothly, our creation of the art and music for the game has likewise been slowly but surely coming along. Our communication has been another strong point of our project so far with us successfully coordinating to efficiently combine our code changes. The biggest issue we have had so far with development has been developing a core player movement ability which is the grappling hook. The math was very tricky to figure out due to local vs global coordinates, in additon to needing to use radial coordinates to find the correct vector to move the player on.
