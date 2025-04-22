@@ -35,23 +35,16 @@ func _physics_process(delta: float) -> void:
 	doGravity(delta)
 	if (is_on_floor()):
 		velocity.y = 0
-	else:
-		airborne = true
-	#if (is_on_floor() and airborne):
-		#$AnimatedSprite2D.offset.y = -4
-		#$AnimatedSprite2D.play("land")
-		#await get_tree().create_timer(.5).timeout
-		#airborne = false
 	if (playerChase):
+		#sprite flipping
 		if(player.position.x-position.x < 0):
 			direction = -1
 			animated_sprite.flip_h = false
 		else:
 			direction = 1
 			animated_sprite.flip_h = true
-		if ($shootDelay.is_stopped()):
-			slashDelayPlayed = false
 		
+		#decides whether to shoot an arrow
 		if (abs(player.position.x-position.x) < 250 and abs(player.position.y-position.y) < 40):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			if ($shootDelay.is_stopped()):
@@ -63,17 +56,17 @@ func _physics_process(delta: float) -> void:
 				arrow.position.x = position.x + 11*direction
 				arrow.position.y = position.y - 20
 				arrow.direction = direction
-			slashDelayPlayed = true
-		elif (abs(player.position.x-position.x) < 150 and abs(player.position.y-position.y) > 40):
+		#out of range (y-axis)
+		elif (abs(player.position.x-position.x) < 150 and abs(player.position.y-position.y) > 40 and $shootDelay.is_stopped()):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("idle")
-		else:
+		#out of range but still in visual range
+		elif ($shootDelay.is_stopped()):
 			chase(direction)
 		
 		
-		
+	#no sight of player
 	else:
-		#$AnimatedSprite2D.offset.y = -4
 		$AnimatedSprite2D.play("idle")
 	move_and_slide()
 
