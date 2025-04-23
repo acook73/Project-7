@@ -331,10 +331,10 @@ shape = SubResource("CapsuleShape2D_w4hcs")
 position = Vector2(-3, -16)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_jn7vh")
-animation = &"shoot"
+animation = &"walk"
 autoplay = "idle"
-frame = 25
-frame_progress = 1.0
+frame = 4
+frame_progress = 0.771824
 offset = Vector2(0, -4)
 
 [node name="Area2D" type="Area2D" parent="."]

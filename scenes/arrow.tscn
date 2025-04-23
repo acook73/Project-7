@@ -9,7 +9,7 @@ spread = 180.0
 initial_velocity_min = 32.25
 initial_velocity_max = 102.15
 gravity = Vector3(0, 98, 0)
-color = Color(0.60176, 0, 0.111464, 1)
+color = Color(0.6, 0, 0.109804, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_23jat"]
 

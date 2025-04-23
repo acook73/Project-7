@@ -252,9 +252,10 @@ shape = SubResource("CircleShape2D_vnioy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jn7vh")
-animation = &"idle"
+animation = &"jump"
 autoplay = "idle"
-frame_progress = 0.247231
+frame = 16
+frame_progress = 1.0
 offset = Vector2(0, -4)
 
 [node name="DetectionRange" type="Area2D" parent="."]

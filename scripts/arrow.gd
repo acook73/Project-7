@@ -2,9 +2,10 @@ extends CharacterBody2D
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var Part: GPUParticles2D = $GPUParticles2D
 @onready var Part2: GPUParticles2D = $GPUParticlesExplode
-var SPEED = 200
+@export var SPEED = 200
 var player = null
 var direction = 0
+@export var attackPower = 15
 func _physics_process(delta: float) -> void:
 	#enables arrow trail
 	position.x += SPEED*delta*direction
@@ -21,6 +22,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	remove_child(sprite)
 	direction = 0
 	$GPUParticles2D.emitting = false
+	body.hp -= attackPower
+	print(body.hp)
 	Part2.emitting = true
 	await get_tree().create_timer(0.95).timeout
 	queue_free()

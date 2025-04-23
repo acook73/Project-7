@@ -1,12 +1,13 @@
 extends CharacterBody2D
-
+@export var hp = 150
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@export var attackPower = 20
 var player = null
 var playerChase = false
 var direction = 0
 var JumpY = -300
-var acceleration = 25
-var SPEED = 50
+@export var acceleration = 25
+@export var SPEED = 50
 var airborne = false
 var slashDelayPlayed = false
 

@@ -3,6 +3,7 @@ extends Node2D
 @onready var grappleLine := $Line2D
 @onready var stopMomentum := $stopMomentum
 @onready var player := get_parent()
+@onready var game := player.get_parent()
 
 @export var grappleSpeed = 1000.0
 @export var freezeTime = 0.1
@@ -11,6 +12,7 @@ extends Node2D
 @export var floorSlackRoom = 18.0
 @export var swingLength = 200.0
 @export var swingForce = 100.0
+@export var minLength = 5.0
 
 
 signal grappleSignal(isGrappling)
@@ -42,11 +44,12 @@ func _physics_process(delta: float) -> void:
 		
 func launch(type):
 	if grappleRay.is_colliding():
-		grappling = true
-		grapplePoint = grappleRay.get_collision_point()
-		grappleLine.show()
-		grappleSignal.emit(true)
-		stopMomentum.start()
+		if grappleRay.get_collider().name == "Grapple Layer":
+			grappling = true
+			grapplePoint = grappleRay.get_collision_point()
+			grappleLine.show()
+			grappleSignal.emit(true)
+			stopMomentum.start()
 
 	
 func retract():
@@ -69,7 +72,7 @@ func grapple(delta):
 
 		var force = dir.normalized() * grappleSpeed
 
-		if (player.is_on_wall() and wallSlackRoom > dist) or (player.is_on_ceiling() and ceilingSlackRoom > dist) or (player.is_on_floor() and floorSlackRoom > dist):
+		if (player.is_on_wall() and wallSlackRoom > dist) or (player.is_on_ceiling() and ceilingSlackRoom > dist) or (player.is_on_floor() and floorSlackRoom > dist) or (dist < minLength):
 			player.velocity = Vector2.ZERO
 		else:
 			player.velocity += force * delta
