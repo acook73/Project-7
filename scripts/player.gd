@@ -6,6 +6,8 @@ extends CharacterBody2D
 @onready var upHitbox1 := $AnimatedSprite2D/AttackHitbox/upHitbox1
 @onready var upHitbox2 := $AnimatedSprite2D/AttackHitbox/upHitbox2
 @onready var upHitbox3 := $AnimatedSprite2D/AttackHitbox/upHitbox3
+@onready var label := $Label
+@onready var exit := $Button
 
 
 @export var SPEED = 150.0
@@ -36,6 +38,7 @@ var attackSIDE = false
 var attackDOWN = false
 var attackCROUCH = false
 var attacking = false
+var lastSafePos = position
 
 
 func _ready():
@@ -101,7 +104,7 @@ func attack():
 		#attacking = true
 		pass
 	
-	
+
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
@@ -159,8 +162,19 @@ func animationParser(direction: float):
 			if (Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0):
 				dash()
 
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 func _physics_process(delta: float) -> void:
+	
+	if (hp <= 0):
+		label.visible = true
+		exit.visible = true
+		exit.disabled = false
+		acceleration = 0
+		animated_sprite.play("idle")
+		
+		
 
 	var direction := Input.get_axis("left", "right") #-1 = left, 1 = right
 	var direction_y := Input.get_axis("up", "down") #-1 = up, 1 = down
@@ -211,7 +225,10 @@ func _physics_process(delta: float) -> void:
 	else:
 		played = false
 		
-
+	
+	
+	if (is_on_floor()):
+		lastSafePos = position
 	#resets dahes and jumps if player is on ground
 	if (is_on_floor() or (is_on_wall() and grappling)):
 		numJumps = maxJumps
