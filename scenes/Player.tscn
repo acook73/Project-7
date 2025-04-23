@@ -552,13 +552,20 @@ script = ExtResource("8_khinc")
 wait_time = 0.1
 one_shot = true
 
+[node name="Button2" type="Button" parent="."]
+visible = false
+offset_left = -101.0
+offset_top = -95.0
+offset_right = 102.0
+offset_bottom = -58.0
+text = "Return to last checkpoint"
+
 [node name="Button" type="Button" parent="."]
 visible = false
 offset_left = -73.0
-offset_top = -94.0
+offset_top = -48.0
 offset_right = 73.0
-offset_bottom = -57.0
-disabled = true
+offset_bottom = -11.0
 text = "Return to Menu"
 
 [node name="Label" type="Label" parent="."]
@@ -570,4 +577,5 @@ offset_bottom = -113.0
 text = "GAME OVER"
 horizontal_alignment = 1
 
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

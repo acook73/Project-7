@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://qcivv8cmpjwi"]
+[gd_scene load_steps=12 format=4 uid="uid://qcivv8cmpjwi"]
 
 [ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scenes/game.gd" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://be5hno0j7qque" path="res://scenes/slime.tscn" id="6_p57ef"]
 [ext_resource type="PackedScene" uid="uid://80wnmousun1i" path="res://scenes/skeleton.tscn" id="6_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://0oqrks4wtmp4" path="res://scenes/zombie.tscn" id="7_gee14"]
+[ext_resource type="PackedScene" uid="uid://c3u2w1pwf3b4y" path="res://scenes/checkpoint.tscn" id="9_0tnpc"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iywne"]
 animations = [{
@@ -70,5 +71,8 @@ collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("WorldBoundaryShape2D_0tnpc")
+
+[node name="Node2D" parent="Area2D" instance=ExtResource("9_0tnpc")]
+position = Vector2(865, -166)
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

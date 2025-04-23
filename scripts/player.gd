@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var upHitbox3 := $AnimatedSprite2D/AttackHitbox/upHitbox3
 @onready var label := $Label
 @onready var exit := $Button
+@onready var button2 := $Button2
 
 
 @export var SPEED = 150.0
@@ -39,7 +40,6 @@ var attackDOWN = false
 var attackCROUCH = false
 var attacking = false
 var lastSafePos = position
-
 
 func _ready():
 	add_to_group("Player", true)
@@ -164,13 +164,45 @@ func animationParser(direction: float):
 
 func _on_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
+	
+func _on_button_2_pressed() -> void:
+	load_game()
+	
+func load_game():
+	label.visible = false
+	exit.visible = false
+	exit.disabled = true
+	button2.visible = false
+	button2.disabled = true
+	acceleration = 25.0
+	if not FileAccess.file_exists("res://savegame.save"):
+		return
+	else:
+		var save_file = FileAccess.open("res://savegame.save", FileAccess.READ)
+		while save_file.get_position() < save_file.get_length():
+			var json_string = save_file.get_line()
+			var json = JSON.new()
+			var parse_result = json.parse(json_string)
+			if not parse_result == OK:
+				print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+				continue
+			var node_data = json.data
+			position = Vector2(node_data["pos_x"], node_data["pos_y"])
+			for i in node_data.keys():
+				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
+					continue
+				set(i, node_data[i])
+
 
 func _physics_process(delta: float) -> void:
-	
+	print("hp: ")
+	print(hp)
 	if (hp <= 0):
 		label.visible = true
 		exit.visible = true
 		exit.disabled = false
+		button2.visible = true
+		button2.disabled = false
 		acceleration = 0
 		animated_sprite.play("idle")
 		
