@@ -44,6 +44,13 @@ var lastSafePos = position
 func _ready():
 	add_to_group("Player", true)
 	endGrapple.connect(grappleController.endGrappleEarly)
+	if not FileAccess.file_exists("res://loadFlag.save"):
+		return
+	else:
+		var save_file = FileAccess.open("res://loadFlag.save", FileAccess.READ)
+		if (save_file.get_line() == "1"):
+			load_game()
+		
 	
 func isGrappling(data):
 	grappling = data
@@ -195,8 +202,6 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
-	print("hp: ")
-	print(hp)
 	if (hp <= 0):
 		label.visible = true
 		exit.visible = true

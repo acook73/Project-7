@@ -45,9 +45,11 @@ func _physics_process(delta: float) -> void:
 	if (playerChase):
 		if(player.position.x-position.x < 0):
 			direction = -1
+			$RayCast2D.position.x = -10
 			animated_sprite.flip_h = true
 		else:
 			direction = 1
+			$RayCast2D.position.x = 10
 			animated_sprite.flip_h = false
 		if ($slashDelay.is_stopped()):
 			slashDelayPlayed = false
@@ -58,6 +60,9 @@ func _physics_process(delta: float) -> void:
 			$slashDelay.start()
 			slashDelayPlayed = true
 		elif (abs(player.position.x-position.x) < 20 and abs(player.position.y-position.y) > 40):
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+			$AnimatedSprite2D.play("idle")
+		elif (not $RayCast2D.is_colliding() and $slashDelay.is_stopped()):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("idle")
 		else:

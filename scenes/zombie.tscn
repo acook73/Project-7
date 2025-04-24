@@ -155,5 +155,9 @@ shape = SubResource("CircleShape2D_rp1f2")
 wait_time = 0.4
 one_shot = true
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-10, -10)
+collide_with_areas = true
+
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

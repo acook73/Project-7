@@ -32,6 +32,7 @@ func chase(direction: int):
 			velocity.x += acceleration*direction
 
 func _physics_process(delta: float) -> void:
+	print($RayCast2D.is_colliding())
 	
 	doGravity(delta)
 	if (is_on_floor()):
@@ -39,10 +40,14 @@ func _physics_process(delta: float) -> void:
 	if (playerChase):
 		#sprite flipping
 		if(player.position.x-position.x < 0):
+			print($RayCast2D.position.x)
 			direction = -1
+			$RayCast2D.position.x = -15
 			animated_sprite.flip_h = false
 		else:
+			print($RayCast2D.position.x)
 			direction = 1
+			$RayCast2D.position.x = 17
 			animated_sprite.flip_h = true
 		
 		#decides whether to shoot an arrow
@@ -62,12 +67,15 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("idle")
 		#out of range but still in visual range
-		elif ($shootDelay.is_stopped()):
+		elif ($shootDelay.is_stopped() and $RayCast2D.is_colliding()):
 			chase(direction)
-		
+		elif (not $RayCast2D.is_colliding() and $shootDelay.is_stopped()):
+			velocity.x = move_toward(velocity.x, 0, SPEED)
+			$AnimatedSprite2D.play("idle")
 		
 	#no sight of player
 	else:
+		velocity.x = move_toward(velocity.x, 0, SPEED)
 		$AnimatedSprite2D.play("idle")
 	move_and_slide()
 
