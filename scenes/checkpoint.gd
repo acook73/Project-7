@@ -7,7 +7,8 @@ func save(body: Node2D):
 		"parent" : body.get_parent().get_path(),
 		"pos_x" : body.position.x, # Vector2 is not supported by JSON
 		"pos_y" : body.position.y,
-		"hp" : body.hp
+		"hp" : body.hp,
+		"hp_max" : body.hp_max
 	}
 	return save_dict
 

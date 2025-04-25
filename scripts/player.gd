@@ -172,9 +172,11 @@ func animationParser(direction: float):
 				dash()
 
 func _on_button_pressed() -> void:
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 	
 func _on_button_2_pressed() -> void:
+	get_tree().paused = false
 	load_game()
 	
 func load_game():
@@ -206,8 +208,11 @@ func load_game():
 func _physics_process(delta: float) -> void:
 	$TextureProgressBar.max_value = hp_max
 	$TextureProgressBar.value = hp
+	print($TextureProgressBar.max_value)
 	print(hp)
 	if (hp <= 0):
+		get_tree().paused = true
+		
 		label.visible = true
 		exit.visible = true
 		exit.disabled = false
@@ -220,6 +225,17 @@ func _physics_process(delta: float) -> void:
 
 	var direction := Input.get_axis("left", "right") #-1 = left, 1 = right
 	var direction_y := Input.get_axis("up", "down") #-1 = up, 1 = down
+	
+	if (Input.is_action_just_pressed("pause")):
+		get_tree().paused = true
+		$Menu.visible = true
+		$Menu.disabled = false
+		$Reset.visible = true
+		$Reset.disabled = false
+		$Resume.visible = true
+		$Resume.disabled = false
+		$Pause.visible = true
+		
 	
 	if (direction == -1): # Handles flipping the hitboxes when the character flips
 		upHitbox1.apply_scale(Vector2(-1, 1))
@@ -306,3 +322,33 @@ func _physics_process(delta: float) -> void:
 			#dash/run animation handling on floor and in the air
 			animationParser(direction)
 	move_and_slide()
+
+
+func _on_menu_pressed() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")
+
+
+
+
+func _on_reset_pressed() -> void:
+	get_tree().paused = false
+	$Menu.visible = false
+	$Menu.disabled = true
+	$Reset.visible = false
+	$Reset.disabled = true
+	$Resume.visible = false
+	$Resume.disabled = true
+	$Pause.visible = false
+	load_game()
+
+
+func _on_resume_pressed() -> void:
+	$Menu.visible = false
+	$Menu.disabled = true
+	$Reset.visible = false
+	$Reset.disabled = true
+	$Resume.visible = false
+	$Resume.disabled = true
+	$Pause.visible = false
+	get_tree().paused = false

@@ -555,6 +555,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="Button2" type="Button" parent="."]
+process_mode = 2
 visible = false
 offset_left = -101.0
 offset_top = -95.0
@@ -563,6 +564,7 @@ offset_bottom = -58.0
 text = "Return to last checkpoint"
 
 [node name="Button" type="Button" parent="."]
+process_mode = 2
 visible = false
 offset_left = -73.0
 offset_top = -48.0
@@ -584,6 +586,45 @@ position = Vector2(0, -11)
 zoom = Vector2(3.5, 3.5)
 position_smoothing_speed = 20.0
 
+[node name="Menu" type="Button" parent="."]
+process_mode = 2
+visible = false
+offset_left = -159.0
+offset_top = 54.0
+offset_right = 161.0
+offset_bottom = 126.0
+disabled = true
+text = "Return to Menu"
+
+[node name="Reset" type="Button" parent="."]
+process_mode = 2
+visible = false
+offset_left = -160.0
+offset_top = -32.0
+offset_right = 160.0
+offset_bottom = 40.0
+disabled = true
+text = "Return to Last Checkpoint"
+
+[node name="Resume" type="Button" parent="."]
+process_mode = 2
+visible = false
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = -48.0
+disabled = true
+text = "Resume"
+
+[node name="Pause" type="Label" parent="."]
+visible = false
+offset_left = -88.0
+offset_top = -176.0
+offset_right = 90.0
+offset_bottom = -151.0
+text = "Paused"
+horizontal_alignment = 1
+
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
 offset_left = -330.0
 offset_top = -218.0
@@ -598,3 +639,6 @@ tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
