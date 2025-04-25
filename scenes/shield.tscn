@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://bnmo3adp8vqi0"]
 
-[ext_resource type="Script" uid="uid://bnvr15tpym5m1" path="res://shield.gd" id="1_ohv3a"]
+[ext_resource type="Script" path="res://scripts/shield.gd" id="1_ohv3a"]
 [ext_resource type="Texture2D" uid="uid://cbulg2tc6d6m0" path="res://assets/pickups/Shield.png" id="2_e3gf5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gsp1a"]
@@ -62,7 +62,7 @@ script = ExtResource("1_ohv3a")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ddk7a")
 animation = &"idle"
-frame_progress = 0.833386
+frame_progress = 0.217092
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4

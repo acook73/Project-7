@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=4 uid="uid://qcivv8cmpjwi"]
 
-[ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scenes/game.gd" id="1_gee14"]
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_dinhu"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
 [ext_resource type="TileSet" uid="uid://dt4gun2268wqr" path="res://scenes/TilesetForest.tres" id="2_iywne"]
 [ext_resource type="Texture2D" uid="uid://dnb14ox0cy0de" path="res://assets/Cursor/Cursor.png" id="4_lbhrr"]
@@ -29,7 +29,7 @@ normal = Vector2(-0.00325202, -0.999995)
 distance = -395.982
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_gee14")
+script = ExtResource("1_dinhu")
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("1_uwrxv")]
 z_index = 10

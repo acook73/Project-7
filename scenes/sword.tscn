@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://7v78v2uod16s"]
 
-[ext_resource type="Script" uid="uid://cb2rflptfly6a" path="res://sword.gd" id="1_n355p"]
+[ext_resource type="Script" path="res://scripts/sword.gd" id="1_n355p"]
 [ext_resource type="Texture2D" uid="uid://68qvfx6pewyx" path="res://assets/pickups/Sword.png" id="2_s4ec8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k5whp"]
@@ -62,7 +62,7 @@ script = ExtResource("1_n355p")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_p4x8v")
 animation = &"idle"
-frame_progress = 0.393607
+frame_progress = 0.809992
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4

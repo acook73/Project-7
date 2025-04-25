@@ -208,8 +208,6 @@ func load_game():
 func _physics_process(delta: float) -> void:
 	$TextureProgressBar.max_value = hp_max
 	$TextureProgressBar.value = hp
-	print($TextureProgressBar.max_value)
-	print(hp)
 	if (hp <= 0):
 		get_tree().paused = true
 		
