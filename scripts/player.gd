@@ -22,6 +22,7 @@ extends CharacterBody2D
 @export var acceleration = 25.0
 @export var maxJumps = 2
 @export var maxDash = 1
+@export var attackPower = 25
 
 signal endGrapple(isGrappleJumping)
 
