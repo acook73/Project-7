@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://6t3rhj7cu0t7"]
+[gd_scene load_steps=77 format=3 uid="uid://6t3rhj7cu0t7"]
 
 [ext_resource type="Script" uid="uid://d2tsv5skjn3fu" path="res://scripts/player.gd" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://bssymvtxbkvg6" path="res://assets/Lila/Lila-Dash-Complete.png" id="2_70d11"]
@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cdr4cvw6palo6" path="res://assets/Lila/Lila-Upward-Swing.png" id="7_bruh7"]
 [ext_resource type="Script" uid="uid://c6tscfdrl3ojq" path="res://scripts/grapple_controller.gd" id="7_cw2d6"]
 [ext_resource type="Script" uid="uid://ixgave8akowv" path="res://scenes/grapple_ray.gd" id="8_khinc"]
+[ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="11_o4126"]
+[ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="12_lkdrv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_khinc"]
 atlas = ExtResource("2_70d11")
@@ -581,6 +583,18 @@ horizontal_alignment = 1
 position = Vector2(0, -11)
 zoom = Vector2(3.5, 3.5)
 position_smoothing_speed = 20.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+offset_left = -330.0
+offset_top = -218.0
+offset_right = -255.0
+offset_bottom = -154.0
+value = 50.0
+allow_lesser = true
+nine_patch_stretch = true
+texture_under = ExtResource("11_o4126")
+texture_progress = ExtResource("12_lkdrv")
+tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

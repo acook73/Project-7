@@ -203,6 +203,8 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
+	$TextureProgressBar.max_value = hp_max
+	$TextureProgressBar.value = hp
 	
 	if (hp <= 0):
 		label.visible = true
