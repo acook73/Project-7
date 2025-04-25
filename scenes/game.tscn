@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://qcivv8cmpjwi"]
+[gd_scene load_steps=13 format=4 uid="uid://qcivv8cmpjwi"]
 
 [ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scenes/game.gd" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://80wnmousun1i" path="res://scenes/skeleton.tscn" id="6_u5sy4"]
 [ext_resource type="PackedScene" uid="uid://0oqrks4wtmp4" path="res://scenes/zombie.tscn" id="7_gee14"]
 [ext_resource type="PackedScene" uid="uid://c3u2w1pwf3b4y" path="res://scenes/checkpoint.tscn" id="9_0tnpc"]
+[ext_resource type="PackedScene" uid="uid://kq15awkbn6ff" path="res://scenes/heal_potion.tscn" id="10_vtaks"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iywne"]
 animations = [{
@@ -31,11 +32,6 @@ script = ExtResource("1_gee14")
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("1_uwrxv")]
 z_index = 10
 position = Vector2(25, -1)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, -11)
-zoom = Vector2(3.5, 3.5)
-position_smoothing_speed = 20.0
 
 [node name="Ground Layer" type="TileMapLayer" parent="."]
 use_parent_material = true
@@ -65,14 +61,17 @@ position = Vector2(594, -15)
 [node name="Zombie" parent="." instance=ExtResource("7_gee14")]
 position = Vector2(406, -162)
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Checkpoint" parent="." instance=ExtResource("9_0tnpc")]
+position = Vector2(1196, -167)
+
+[node name="Teleport barrier" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Teleport barrier"]
 shape = SubResource("WorldBoundaryShape2D_0tnpc")
 
-[node name="Node2D" parent="Area2D" instance=ExtResource("9_0tnpc")]
-position = Vector2(865, -166)
+[node name="healPotion" parent="." instance=ExtResource("10_vtaks")]
+position = Vector2(1270, -23)
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Teleport barrier" to="." method="_on_area_2d_body_entered"]

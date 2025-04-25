@@ -13,6 +13,7 @@ extends CharacterBody2D
 
 @export var SPEED = 150.0
 @export var hp = 150.0
+@export var hp_max = 150.0
 @export var JUMP_VELOCITY = -300.0
 @export var doubleJumpVelocity = -350.0
 @export var dashImpulse = 400
@@ -202,6 +203,7 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
+	
 	if (hp <= 0):
 		label.visible = true
 		exit.visible = true

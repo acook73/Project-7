@@ -577,5 +577,10 @@ offset_bottom = -113.0
 text = "GAME OVER"
 horizontal_alignment = 1
 
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -11)
+zoom = Vector2(3.5, 3.5)
+position_smoothing_speed = 20.0
+
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
