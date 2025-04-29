@@ -9,7 +9,7 @@ var direction = 0
 @export var JumpX = 200
 var jumpDelayPlayed = false
 var airborne = false
-
+@export var knockback = 200
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
@@ -73,3 +73,9 @@ func _on_detection_range_body_exited(body: Node2D) -> void:
 	playerChase = false
 	$jumpDelay.stop()
 	jumpDelayPlayed = false
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	body.hp -= attackPower
+	body.knockback = knockback
+	body.knockbackDir = direction

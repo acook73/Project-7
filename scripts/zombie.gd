@@ -50,9 +50,9 @@ func _physics_process(delta: float) -> void:
 			animated_sprite.flip_h = false
 		
 		if($slashDelayHit.is_stopped() and not $slashDelay.is_stopped()):
-			$AttackBox.position.y = -19
+			$AttackBox/CollisionShape2D.disabled = false
 		else:
-			$AttackBox.position.y = 1000
+			$AttackBox/CollisionShape2D.disabled = true
 		
 		if (abs(player.position.x-position.x) < 20 and abs(player.position.y-position.y) < 40):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
@@ -94,5 +94,5 @@ func _on_attack_box_body_entered(body: Node2D) -> void:
 	body.hp -= attackPower
 	body.knockback = knockback
 	body.knockbackDir = direction
-	$AttackBox.position.y = 1000
+	$AttackBox/CollisionShape2D.disabled = true
 	
