@@ -42,6 +42,10 @@ var attackDOWN = false
 var attackCROUCH = false
 var attacking = false
 var lastSafePos = position
+var knockback = 0
+var knockbackDir = 0
+var permaUpgrades: Array
+var reset: Array
 
 func _ready():
 	add_to_group("Player", true)
@@ -186,6 +190,7 @@ func load_game():
 	button2.visible = false
 	button2.disabled = true
 	acceleration = 25.0
+	velocity = Vector2.ZERO
 	if not FileAccess.file_exists("res://savegame.save"):
 		return
 	else:
@@ -199,8 +204,23 @@ func load_game():
 				continue
 			var node_data = json.data
 			position = Vector2(node_data["pos_x"], node_data["pos_y"])
+			for i in reset.size():
+				var path = NodePath(reset[i])
+				get_parent().get_node(path).anim.visible = true
+				get_parent().get_node(path).coll.disabled = false
 			for i in node_data.keys():
 				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
+					continue
+				elif i == "rem":
+					permaUpgrades = node_data[i]
+					for j in node_data[i].size():
+						print(node_data[i][j])
+						#print($Game)
+						print(get_tree().get_root())
+						var temp = get_parent().get_node(node_data[i][j])
+						if (temp != null):
+							temp.queue_free()
+						#get_tree().get_root().remove_child(find_child(node_data[i][j]))
 					continue
 				set(i, node_data[i])
 
@@ -224,6 +244,18 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("left", "right") #-1 = left, 1 = right
 	var direction_y := Input.get_axis("up", "down") #-1 = up, 1 = down
 	
+	if (knockback != 0):
+		#position.y += -15
+		velocity.x += knockbackDir * knockback
+		velocity.y += knockback * -1
+		move_and_slide()
+		#velocity.x = move_toward(velocity.x, knockback, SPEED)
+		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
+		knockback = 0
+		cancelled = true
+		squished = true
+		#direction = 0
+		#$KnockbackTimer.start()
 	if (Input.is_action_just_pressed("pause")):
 		get_tree().paused = true
 		$Menu.visible = true
@@ -309,7 +341,7 @@ func _physics_process(delta: float) -> void:
 			slideSquish(direction)
 	
 		#crouch end animation
-		elif squished == true:
+		elif squished == true and $KnockbackTimer.is_stopped():
 			unsquish()
 	
 		#run/dash begin

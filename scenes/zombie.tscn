@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://0oqrks4wtmp4"]
+[gd_scene load_steps=23 format=3 uid="uid://0oqrks4wtmp4"]
 
 [ext_resource type="Script" uid="uid://uv6k4hsmglvo" path="res://scripts/zombie.gd" id="1_4gx57"]
 [ext_resource type="Texture2D" uid="uid://dixnqfr0yadw8" path="res://assets/Enemies/Zombie Idle.png" id="2_4gx57"]
@@ -128,6 +128,10 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rp1f2"]
 radius = 229.079
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4gx57"]
+radius = 9.0
+height = 40.1
+
 [node name="Zombie" type="CharacterBody2D"]
 script = ExtResource("1_4gx57")
 
@@ -155,9 +159,22 @@ shape = SubResource("CircleShape2D_rp1f2")
 wait_time = 0.4
 one_shot = true
 
+[node name="slashDelayHit" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(-10, -10)
 collide_with_areas = true
 
+[node name="AttackBox" type="Area2D" parent="."]
+position = Vector2(7, -19)
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
+shape = SubResource("CapsuleShape2D_4gx57")
+
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]
+[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]

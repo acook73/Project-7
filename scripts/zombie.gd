@@ -9,8 +9,7 @@ var JumpY = -300
 @export var acceleration = 25
 @export var SPEED = 50
 var airborne = false
-var slashDelayPlayed = false
-
+@export var knockback = 200
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
@@ -21,7 +20,7 @@ func doGravity(delta: float):
 
 func chase(direction: int):
 	#position += (player.position-position)/JumpX
-	if (direction * velocity.x < 0 or slashDelayPlayed):
+	if (direction * velocity.x < 0 or not $slashDelay.is_stopped()):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	else:
 		$AnimatedSprite2D.play("walk")
@@ -32,33 +31,35 @@ func chase(direction: int):
 
 func _physics_process(delta: float) -> void:
 	
+		
 	doGravity(delta)
 	if (is_on_floor()):
 		velocity.y = 0
 	else:
 		airborne = true
-	#if (is_on_floor() and airborne):
-		#$AnimatedSprite2D.offset.y = -4
-		#$AnimatedSprite2D.play("land")
-		#await get_tree().create_timer(.5).timeout
-		#airborne = false
 	if (playerChase):
 		if(player.position.x-position.x < 0):
 			direction = -1
 			$RayCast2D.position.x = -10
+			$AttackBox.position.x = -7
 			animated_sprite.flip_h = true
 		else:
 			direction = 1
 			$RayCast2D.position.x = 10
+			$AttackBox.position.x = 7
 			animated_sprite.flip_h = false
-		if ($slashDelay.is_stopped()):
-			slashDelayPlayed = false
+		
+		if($slashDelayHit.is_stopped() and not $slashDelay.is_stopped()):
+			$AttackBox.position.y = -19
+		else:
+			$AttackBox.position.y = 1000
 		
 		if (abs(player.position.x-position.x) < 20 and abs(player.position.y-position.y) < 40):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("slash")
-			$slashDelay.start()
-			slashDelayPlayed = true
+			if ($slashDelay.is_stopped()):
+				$slashDelay.start()
+				$slashDelayHit.start()
 		elif (abs(player.position.x-position.x) < 20 and abs(player.position.y-position.y) > 40):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("idle")
@@ -67,6 +68,7 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.play("idle")
 		else:
 			chase(direction)
+		
 		
 		
 		
@@ -86,3 +88,11 @@ func _on_detection_range_body_exited(body: Node2D) -> void:
 	player = null
 	playerChase = false
 	velocity.x = move_toward(velocity.x, 0, SPEED)
+
+
+func _on_attack_box_body_entered(body: Node2D) -> void:
+	body.hp -= attackPower
+	body.knockback = knockback
+	body.knockbackDir = direction
+	$AttackBox.position.y = 1000
+	

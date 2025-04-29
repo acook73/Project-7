@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bwfq7l8qkaldg" path="res://assets/Lila/Lila-Crouch-Complete.png" id="6_cw2d6"]
 [ext_resource type="Texture2D" uid="uid://cdr4cvw6palo6" path="res://assets/Lila/Lila-Upward-Swing.png" id="7_bruh7"]
 [ext_resource type="Script" uid="uid://c6tscfdrl3ojq" path="res://scripts/grapple_controller.gd" id="7_cw2d6"]
-[ext_resource type="Script" path="res://scripts/grapple_ray.gd" id="10_o4126"]
+[ext_resource type="Script" uid="uid://ixgave8akowv" path="res://scripts/grapple_ray.gd" id="10_o4126"]
 [ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="11_o4126"]
 [ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="12_lkdrv"]
 
@@ -425,7 +425,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_yrxk4")
 }],
-"loop": true,
+"loop": false,
 "name": &"unsquish",
 "speed": 20.0
 }, {
@@ -499,7 +499,7 @@ maxJumps = 1
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(4, -24)
 sprite_frames = SubResource("SpriteFrames_nckey")
-animation = &"sideAttack"
+animation = &"unsquish"
 autoplay = "idle"
 
 [node name="AttackHitbox" type="Area2D" parent="AnimatedSprite2D"]
@@ -534,6 +534,10 @@ one_shot = true
 
 [node name="DashTimer" type="Timer" parent="."]
 wait_time = 0.15
+one_shot = true
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.3
 one_shot = true
 
 [node name="grapple_controller" type="Node2D" parent="."]

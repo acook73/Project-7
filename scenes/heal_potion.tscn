@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://kq15awkbn6ff"]
 
-[ext_resource type="Script" path="res://scripts/heal_potion.gd" id="1_p1y2b"]
+[ext_resource type="Script" uid="uid://pxo2qhmqq1ea" path="res://scripts/heal_potion.gd" id="1_p1y2b"]
 [ext_resource type="Texture2D" uid="uid://hnt8mddts7o0" path="res://assets/pickups/Potion.png" id="2_ia001"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3dvrr"]

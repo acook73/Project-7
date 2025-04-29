@@ -7,5 +7,8 @@ func _ready() -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	body.hp = body.hp_max
-	
-	queue_free()
+	$Area2D/CollisionShape2D.disabled = true
+	$AnimatedSprite2D.visible = false
+	await get_tree().create_timer(60).timeout
+	$Area2D/CollisionShape2D.disabled = false
+	$AnimatedSprite2D.visible = true

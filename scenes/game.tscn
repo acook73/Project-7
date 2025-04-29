@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=4 uid="uid://qcivv8cmpjwi"]
 
-[ext_resource type="Script" path="res://scripts/game.gd" id="1_dinhu"]
+[ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scripts/game.gd" id="1_dinhu"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
 [ext_resource type="TileSet" uid="uid://dt4gun2268wqr" path="res://scenes/TilesetForest.tres" id="2_iywne"]
 [ext_resource type="Texture2D" uid="uid://dnb14ox0cy0de" path="res://assets/Cursor/Cursor.png" id="4_lbhrr"]
@@ -76,10 +76,10 @@ shape = SubResource("WorldBoundaryShape2D_0tnpc")
 [node name="healPotion" parent="." instance=ExtResource("10_vtaks")]
 position = Vector2(1270, -22)
 
-[node name="Shield" parent="." instance=ExtResource("11_kvpfn")]
+[node name="Shield0" parent="." instance=ExtResource("11_kvpfn")]
 position = Vector2(1319, -22)
 
-[node name="Sword" parent="." instance=ExtResource("12_dinhu")]
+[node name="Sword0" parent="." instance=ExtResource("12_dinhu")]
 position = Vector2(1374, -22)
 
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_area_2d_body_entered"]
