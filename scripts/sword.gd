@@ -15,4 +15,4 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	body.permaUpgrades.append(self.name)
 	body.reset.append(self.name)
 	$AnimatedSprite2D.visible = false
-	$Area2D/CollisionShape2D.disabled = true
+	$Area2D/CollisionShape2D.set_deferred("disabled", true) 

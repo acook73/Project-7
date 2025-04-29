@@ -226,6 +226,7 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
+	print(hp_max)
 	$TextureProgressBar.max_value = hp_max
 	$TextureProgressBar.value = hp
 	if (hp <= 0):
@@ -253,7 +254,8 @@ func _physics_process(delta: float) -> void:
 		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
 		knockback = 0
 		cancelled = true
-		squished = true
+		animated_sprite.play("falling")
+		#squished = true
 		#direction = 0
 		#$KnockbackTimer.start()
 	if (Input.is_action_just_pressed("pause")):

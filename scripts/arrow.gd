@@ -20,23 +20,24 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	var temp = body
 	remove_child(sprite)
-	body.knockback = knockback
-	body.knockbackDir = direction
+	$Area2D/CollisionShape2D.set_deferred("disabled", true) 
+	temp.hp -= attackPower
+	temp.knockback = knockback
+	temp.knockbackDir = direction
 	direction = 0
 	$GPUParticles2D.emitting = false
-	body.hp -= attackPower
-	print(body.hp)
+	print(temp.hp)
 	Part2.emitting = true
 	await get_tree().create_timer(0.95).timeout
 	queue_free()
 
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func _on_area_2d_area_entered(_area: Area2D) -> void:
 	remove_child(sprite)
+	$Area2D/CollisionShape2D.set_deferred("disabled", true) 
 	$GPUParticles2D.emitting = false
 	Part2.emitting = true
-	
-	direction = 0
 	await get_tree().create_timer(0.95).timeout
 	queue_free()

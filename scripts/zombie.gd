@@ -6,6 +6,7 @@ var player = null
 var playerChase = false
 var direction = 0
 var JumpY = -300
+var hit = false
 @export var acceleration = 25
 @export var SPEED = 50
 var airborne = false
@@ -49,15 +50,16 @@ func _physics_process(delta: float) -> void:
 			$AttackBox.position.x = 7
 			animated_sprite.flip_h = false
 		
-		if($slashDelayHit.is_stopped() and not $slashDelay.is_stopped()):
-			$AttackBox/CollisionShape2D.disabled = false
+		if($slashDelayHit.is_stopped() and not $slashDelay.is_stopped() and not hit):
+			$AttackBox/CollisionShape2D.set_deferred("disabled", false) 
 		else:
-			$AttackBox/CollisionShape2D.disabled = true
+			$AttackBox/CollisionShape2D.set_deferred("disabled", true) 
 		
 		if (abs(player.position.x-position.x) < 20 and abs(player.position.y-position.y) < 40):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("slash")
 			if ($slashDelay.is_stopped()):
+				hit = false
 				$slashDelay.start()
 				$slashDelayHit.start()
 		elif (abs(player.position.x-position.x) < 20 and abs(player.position.y-position.y) > 40):
@@ -94,5 +96,6 @@ func _on_attack_box_body_entered(body: Node2D) -> void:
 	body.hp -= attackPower
 	body.knockback = knockback
 	body.knockbackDir = direction
-	$AttackBox/CollisionShape2D.disabled = true
+	$AttackBox/CollisionShape2D.set_deferred("disabled", true) 
+	hit = true
 	

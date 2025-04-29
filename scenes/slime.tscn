@@ -237,7 +237,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rp1f2"]
-radius = 96.0469
+radius = 200.04
 
 [node name="Slime" type="CharacterBody2D"]
 script = ExtResource("1_2npkn")
