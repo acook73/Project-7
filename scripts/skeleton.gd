@@ -11,7 +11,8 @@ var JumpY = -300
 var airborne = false
 var slashDelayPlayed = false
 var playerShoot = false
-
+var incomingKnockback = 0
+var knockbackDir = 0
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
@@ -32,6 +33,17 @@ func chase(direction: int):
 			velocity.x += acceleration*direction
 
 func _physics_process(delta: float) -> void:
+	if (hp <= 0):
+		queue_free()
+	if (incomingKnockback != 0):
+		#position.y += -15
+		velocity.y = incomingKnockback * -1 
+		velocity.x = incomingKnockback * knockbackDir
+		move_and_slide()
+		#velocity.x = move_toward(velocity.x, knockback, SPEED)
+		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
+		incomingKnockback = 0
+	
 	print($RayCast2D.is_colliding())
 	
 	doGravity(delta)

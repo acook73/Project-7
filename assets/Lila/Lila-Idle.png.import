@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwfq7l8qkaldg"
-path="res://.godot/imported/Lila-Crouch-Complete.png-e07e2e142b5f955f88cffe1f00dda419.ctex"
+uid="uid://b0orsr6kdbjwt"
+path="res://.godot/imported/Lila-Idle.png-780a8b1b4f87af1b5844c8b7265f8706.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Lila/Lila-Crouch-Complete.png"
-dest_files=["res://.godot/imported/Lila-Crouch-Complete.png-e07e2e142b5f955f88cffe1f00dda419.ctex"]
+source_file="res://assets/Lila/Lila-Idle.png"
+dest_files=["res://.godot/imported/Lila-Idle.png-780a8b1b4f87af1b5844c8b7265f8706.ctex"]
 
 [params]
 

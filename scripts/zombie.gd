@@ -7,6 +7,8 @@ var playerChase = false
 var direction = 0
 var JumpY = -300
 var hit = false
+var incomingKnockback = 0
+var knockbackDir = 0
 @export var acceleration = 25
 @export var SPEED = 50
 var airborne = false
@@ -31,8 +33,16 @@ func chase(direction: int):
 			velocity.x += acceleration*direction
 
 func _physics_process(delta: float) -> void:
+	if (hp <= 0):
+		queue_free()
 	
-		
+	if (incomingKnockback != 0):
+		velocity.y = incomingKnockback * -1 
+		velocity.x = incomingKnockback * knockbackDir
+		move_and_slide()
+		#velocity.x = move_toward(velocity.x, knockback, SPEED)
+		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
+		incomingKnockback = 0
 	doGravity(delta)
 	if (is_on_floor()):
 		velocity.y = 0

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bsgi6l4tflt5j"
-path="res://.godot/imported/Lila-Forward-Swing.png-5433c72d0ba6a8513a66f81c723375fb.ctex"
+uid="uid://7djm2vrfcoyq"
+path="res://.godot/imported/Lila-Walk-Cycle.png-e9d9956463ab0f32390c518c375448d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Lila/Lila-Forward-Swing.png"
-dest_files=["res://.godot/imported/Lila-Forward-Swing.png-5433c72d0ba6a8513a66f81c723375fb.ctex"]
+source_file="res://assets/Lila/Lila-Walk-Cycle.png"
+dest_files=["res://.godot/imported/Lila-Walk-Cycle.png-e9d9956463ab0f32390c518c375448d1.ctex"]
 
 [params]
 

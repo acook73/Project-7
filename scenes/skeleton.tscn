@@ -314,6 +314,8 @@ radius = 250.0
 radius = 400.0
 
 [node name="Skeleton" type="CharacterBody2D"]
+collision_layer = 17
+collision_mask = 17
 script = ExtResource("1_bnirc")
 
 [node name="shootDelay" type="Timer" parent="."]

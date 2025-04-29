@@ -1,5 +1,6 @@
 extends CharacterBody2D
 @export var hp = 100
+
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @export var attackPower = 10
 var player = null
@@ -10,6 +11,9 @@ var direction = 0
 var jumpDelayPlayed = false
 var airborne = false
 @export var knockback = 200
+var incomingKnockback = 0
+var knockbackDir = 0
+var cancelled = false
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
@@ -33,13 +37,24 @@ func chase(direction: int):
 		jumpDelayPlayed = false
 
 func _physics_process(delta: float) -> void:
-	
+	if (hp <= 0):
+		queue_free()
 	doGravity(delta)
 	if (is_on_floor()):
 		velocity.x = 0
 		velocity.y = 0
+	#elif (is_on_floor()):
+		#cancelled = false
 	else:
 		airborne = true
+	
+	if (incomingKnockback != 0):
+		velocity.y = incomingKnockback * -1 
+		velocity.x = incomingKnockback * knockbackDir
+		move_and_slide()
+		#velocity.x = move_toward(velocity.x, knockback, SPEED)
+		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
+		incomingKnockback = 0
 	#if (is_on_floor() and airborne):
 		#$AnimatedSprite2D.offset.y = -4
 		#$AnimatedSprite2D.play("land")

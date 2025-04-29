@@ -1,1 +1,1 @@
-{"filename":"res://scenes/game.tscn","hp":175.0,"hp_max":175.0,"parent":"/root/Game","pos_x":1208.1923828125,"pos_y":-23.3582096099854,"rem":["Shield0","Sword0"]}
+{"filename":"res://scenes/game.tscn","hp":175.0,"hp_max":175.0,"parent":"/root/Game","pos_x":1213.38952636719,"pos_y":0.928406059741974,"rem":["Shield0","Sword0"]}

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0uqloarwxf2o"
-path="res://.godot/imported/Lila-Idle-Complete.png-634c84f9fdd58ee54874775565fac350.ctex"
+uid="uid://dsivcgnc332o7"
+path="res://.godot/imported/Lila-Dash.png-177f7622f8fd9d934fc0a47b9a3638c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Lila/Lila-Idle-Complete.png"
-dest_files=["res://.godot/imported/Lila-Idle-Complete.png-634c84f9fdd58ee54874775565fac350.ctex"]
+source_file="res://assets/Lila/Lila-Dash.png"
+dest_files=["res://.godot/imported/Lila-Dash.png-177f7622f8fd9d934fc0a47b9a3638c4.ctex"]
 
 [params]
 

@@ -6,6 +6,12 @@ extends CharacterBody2D
 @onready var upHitbox1 := $AnimatedSprite2D/AttackHitbox/upHitbox1
 @onready var upHitbox2 := $AnimatedSprite2D/AttackHitbox/upHitbox2
 @onready var upHitbox3 := $AnimatedSprite2D/AttackHitbox/upHitbox3
+@onready var sideHitbox1 := $AnimatedSprite2D/AttackHitbox/sideHitbox1
+@onready var crouchHitbox1 := $AnimatedSprite2D/AttackHitbox/crouchHitbox1
+@onready var downHitbox1 := $AnimatedSprite2D/AttackHitbox/downHitbox1
+@onready var downHitbox2 := $AnimatedSprite2D/AttackHitbox/downHitbox2
+@onready var downHitbox3 := $AnimatedSprite2D/AttackHitbox/downHitbox3
+@onready var downHitbox4 := $AnimatedSprite2D/AttackHitbox/downHitbox4
 @onready var label := $Label
 @onready var exit := $Button
 @onready var button2 := $Button2
@@ -23,14 +29,18 @@ extends CharacterBody2D
 @export var maxJumps = 2
 @export var maxDash = 1
 @export var attackPower = 25
+@export var outgoingKnockback = 200
 
 signal endGrapple(isGrappleJumping)
 
+var direction = 0
 var numDashes = maxDash
 var dashTimer = 0
 var counter = 0
 var dashCool = false
 var dashed = false
+var dashing = false
+var wasDashing = false
 var numJumps = maxJumps
 var played = false
 var squished = false
@@ -46,8 +56,21 @@ var knockback = 0
 var knockbackDir = 0
 var permaUpgrades: Array
 var reset: Array
+var hitboxPos
+var hitboxRot
+var dir
 
 func _ready():
+	hitboxPos = {"upHitbox1": upHitbox1.position, "upHitbox2": upHitbox2.position, 
+	"upHitbox3": upHitbox3.position, "sideHitbox1": sideHitbox1.position,
+	"crouchHitbox1": crouchHitbox1.position, "downHitbox1": downHitbox1.position,
+	"downHitbox2": downHitbox2.position, "downHitbox3": downHitbox3.position,
+	"downHitbox4": downHitbox4.position}
+	hitboxRot = {"upHitbox1": upHitbox1.rotation, "upHitbox2": upHitbox2.rotation,
+	"upHitbox3": upHitbox3.rotation, "sideHitbox1": sideHitbox1.rotation,
+	"crouchHitbox1": crouchHitbox1.rotation, "downHitbox1": downHitbox1.rotation,
+	"downHitbox2": downHitbox2.rotation, "downHitbox3": downHitbox3.rotation,
+	"downHitbox4": downHitbox4.rotation}
 	add_to_group("Player", true)
 	endGrapple.connect(grappleController.endGrappleEarly)
 	if not FileAccess.file_exists("res://loadFlag.save"):
@@ -63,18 +86,12 @@ func isGrappling(data):
 	if (isGrappling):
 		cancelled = true
 
-func dash():
+func dash(dir: int):
 	#finds direction to dash based on sprite orientation
 	if (!attacking):
-		var dashDirection
-		if animated_sprite.flip_h:
-			dashDirection = -1
-		else:
-			dashDirection = 1
-		
 		played = true
-		animated_sprite.play("dash")
-		velocity.x = dashImpulse * dashDirection
+		dashing = true
+		velocity.x = dashImpulse * dir
 		numDashes -= 1
 		$DashCool.start()
 		$DashTimer.start()
@@ -104,18 +121,21 @@ func attack():
 	if (!attacking and Input.is_action_pressed("up")):
 		animated_sprite.play("upAttack")
 		attacking = true
-	elif (!attacking and squished):
-		#animated_sprite.play("squishAttack")
-		#attacking = true
+		attackUP = true
+	elif (!attacking and squished and is_on_floor()):
+		animated_sprite.play("crouchAttack")
+		attacking = true
+		attackCROUCH = true
 		pass
-	elif (!attacking and Input.is_action_pressed("down")):
-		#animated_sprite.play("downAttack")
-		#attacking = true
+	elif (!attacking and Input.is_action_pressed("down") and not is_on_floor()):
+		animated_sprite.play("downAttack")
+		attacking = true
+		attackDOWN = true
 		pass
-	if (!attacking):
-		#animated_sprite.play("frontAttack")
-		#attacking = true
-		pass
+	elif (!attacking):
+		animated_sprite.play("sideAttack")
+		attacking = true
+		attackSIDE = true
 	
 
 func doGravity(delta: float):
@@ -129,7 +149,7 @@ func doGravity(delta: float):
 func slideSquish(direction: float ):
 	if squished == false and not attacking:
 		animated_sprite.play("squish")
-	squished = true
+		squished = true
 	if (abs(velocity.x) > 9.0 and direction == velocity.x/abs(velocity.x)):
 		#short slide
 		if (velocity.x > 0.0):
@@ -164,16 +184,97 @@ func runAccel(direction: float):
 
 func animationParser(direction: float):
 	if (not attacking):
-		if is_on_floor():
-			if Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0:
-				dash()
-			elif direction == 0 and played == false:
+		if (squished):
+			animated_sprite.play("squishing")
+		elif (dashing):
+			animated_sprite.play("dash")
+		elif is_on_floor():
+			if direction == 0 and played == false:
 				animated_sprite.play("idle")
 			elif played == false:
 				animated_sprite.play("run")
+		elif (not is_on_floor()):
+			if (velocity.y < 0):
+				animated_sprite.play("rising")
+			elif (velocity.y > 0):
+				animated_sprite.play("falling")
+
+func moveHitboxes(dir: int):
+	upHitbox1.position.x = hitboxPos["upHitbox1"].x * dir
+	upHitbox1.rotation = hitboxRot["upHitbox1"] * dir
+	upHitbox2.position.x = hitboxPos["upHitbox2"].x * dir
+	upHitbox2.rotation = hitboxRot["upHitbox2"] * dir
+	upHitbox3.position.x = hitboxPos["upHitbox3"].x * dir
+	upHitbox3.rotation = hitboxRot["upHitbox3"] * dir
+	sideHitbox1.position.x = hitboxPos["sideHitbox1"].x * dir
+	sideHitbox1.rotation = hitboxRot["sideHitbox1"] * dir
+	crouchHitbox1.position.x = hitboxPos["crouchHitbox1"].x * dir
+	crouchHitbox1.rotation = hitboxRot["crouchHitbox1"] * dir
+	downHitbox1.position.x = hitboxPos["downHitbox1"].x * dir
+	downHitbox1.rotation = hitboxRot["downHitbox1"] * dir
+	downHitbox2.position.x = hitboxPos["downHitbox2"].x * dir
+	downHitbox2.rotation = hitboxRot["downHitbox2"] * dir
+	downHitbox3.position.x = hitboxPos["downHitbox3"].x * dir
+	downHitbox3.rotation = hitboxRot["downHitbox3"] * dir
+	downHitbox4.position.x = hitboxPos["downHitbox4"].x * dir
+	downHitbox4.rotation = hitboxRot["downHitbox4"] * dir
+
+func attackHit():
+	if (attackUP): # Handles the hitboxes of attacking upwards
+		if (animated_sprite.frame >= 4 and animated_sprite.frame < 6):
+			upHitbox1.set_deferred("disabled", false)
 		else:
-			if (Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0):
-				dash()
+			upHitbox1.set_deferred("disabled", true)
+		if (animated_sprite.frame >= 6 and animated_sprite.frame < 8):
+			upHitbox2.set_deferred("disabled", false)
+		else:
+			upHitbox2.set_deferred("disabled", true)
+		if (animated_sprite.frame >= 8 and animated_sprite.frame < 10):
+			upHitbox3.set_deferred("disabled", false)
+		else:
+			upHitbox3.set_deferred("disabled", true)
+	if (animated_sprite.animation == "upAttack" and animated_sprite.frame == 12): # Ends upwards attack
+		attackUP = false
+		attacking = false
+		
+	if (attackCROUCH):
+		if (animated_sprite.frame >= 6 and animated_sprite.frame < 10):
+			crouchHitbox1.set_deferred("disabled", false)
+		else:
+			crouchHitbox1.set_deferred("disabled", true)
+	if (animated_sprite.animation == "crouchAttack" and animated_sprite.frame == 10):
+		attackCROUCH = false
+		attacking = false
+		
+	if (attackDOWN):
+		if (animated_sprite.frame >= 7 and animated_sprite.frame < 9):
+			downHitbox1.set_deferred("disabled", false)
+		else:
+			downHitbox1.set_deferred("disabled", true)
+		if (animated_sprite.frame >= 9 and animated_sprite.frame < 10):
+			downHitbox2.set_deferred("disabled", false)
+		else:
+			downHitbox2.set_deferred("disabled", true)
+		if (animated_sprite.frame >= 10 and animated_sprite.frame < 12):
+			downHitbox3.set_deferred("disabled", false)
+		else:
+			downHitbox3.set_deferred("disabled", true)
+		if (animated_sprite.frame >= 12 and animated_sprite.frame < 14):
+			downHitbox4.set_deferred("disabled", false)
+		else:
+			downHitbox4.set_deferred("disabled", true)
+	if (animated_sprite.animation == "downAttack" and animated_sprite.frame == 14):
+		attackDOWN = false
+		attacking = false
+		
+	if (attackSIDE): # Handles the hitbox of attacking to the side
+		if (animated_sprite.frame >= 4 and animated_sprite.frame < 10):
+			sideHitbox1.set_deferred("disabled", false)
+		else:
+			sideHitbox1.set_deferred("disabled", true)
+	if (animated_sprite.animation == "sideAttack" and animated_sprite.frame == 10):
+		attackSIDE = false
+		attacking = false
 
 func _on_button_pressed() -> void:
 	get_tree().paused = false
@@ -184,6 +285,24 @@ func _on_button_2_pressed() -> void:
 	load_game()
 	
 func load_game():
+	direction = 0
+	numDashes = maxDash
+	dashTimer = 0
+	counter = 0
+	dashCool = false
+	dashed = false
+	dashing = false
+	wasDashing = false
+	numJumps = maxJumps
+	played = false
+	squished = false
+	cancelled = false
+	grappling = false
+	attackUP = false
+	attackSIDE = false
+	attackDOWN = false
+	attackCROUCH = false
+	attacking = false
 	label.visible = false
 	exit.visible = false
 	exit.disabled = true
@@ -226,7 +345,14 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
-	print(hp_max)
+	wasDashing = dashing
+
+	#print(hp_max)
+	#print("Squish: ")
+	#print(squished)
+	#print("Attack: ")
+	#print(attacking)
+
 	$TextureProgressBar.max_value = hp_max
 	$TextureProgressBar.value = hp
 	if (hp <= 0):
@@ -242,9 +368,18 @@ func _physics_process(delta: float) -> void:
 		
 		
 
-	var direction := Input.get_axis("left", "right") #-1 = left, 1 = right
+	direction = Input.get_axis("left", "right") #-1 = left, 1 = right
 	var direction_y := Input.get_axis("up", "down") #-1 = up, 1 = down
+	if (animated_sprite.flip_h): # This is used for manuvering the hitboxes
+		dir = -1
+	else:
+		dir = 1
+	moveHitboxes(dir) # Make sure hitboxes are in the right spot
+	attackHit() # Activate and deactivate hitboxes as needed
 	
+	if Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0:
+		dash(dir)
+
 	if (knockback != 0):
 		#position.y += -15
 		velocity.x += knockbackDir * knockback
@@ -254,7 +389,7 @@ func _physics_process(delta: float) -> void:
 		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
 		knockback = 0
 		cancelled = true
-		animated_sprite.play("falling")
+		#animated_sprite.play("falling")
 		#squished = true
 		#direction = 0
 		#$KnockbackTimer.start()
@@ -267,38 +402,6 @@ func _physics_process(delta: float) -> void:
 		$Resume.visible = true
 		$Resume.disabled = false
 		$Pause.visible = true
-		
-	
-	if (direction == -1): # Handles flipping the hitboxes when the character flips
-		upHitbox1.apply_scale(Vector2(-1, 1))
-		upHitbox2.apply_scale(Vector2(-1, 1))
-		upHitbox3.apply_scale(Vector2(-1, 1))
-	if (direction == 1):
-		upHitbox1.apply_scale(Vector2(1, 1))
-		upHitbox2.apply_scale(Vector2(1, 1))
-		upHitbox3.apply_scale(Vector2(1, 1))
-		
-	print(direction)
-	
-	if (attackUP): # Handles the hitboxes of attacking upwards
-		if (animated_sprite.frame >= 4 and animated_sprite.frame < 6):
-			upHitbox1.disabled = false
-		else:
-			upHitbox1.disabled = true
-		if (animated_sprite.frame >= 6 and animated_sprite.frame < 8):
-			upHitbox2.disabled = false
-		else:
-			upHitbox2.disabled = true
-		if (animated_sprite.frame >= 8 and animated_sprite.frame < 10):
-			upHitbox3.disabled = false
-		else:
-			upHitbox3.disabled = true
-	if (animated_sprite.animation == "upAttack" and animated_sprite.frame == 12): # Ends upwards attack
-		attackUP = false
-		attacking = false
-	
-	if (attackSIDE): # Handles the hitboxes of attacking to the side
-		pass
 	
 
 	
@@ -314,8 +417,11 @@ func _physics_process(delta: float) -> void:
 		velocity.y = 0
 	else:
 		played = false
-		
+		dashing = false
 	
+	if (not dashing and wasDashing):
+		velocity.x = SPEED * direction
+		wasDashing = false
 	
 	if (is_on_floor()):
 		lastSafePos = position
@@ -351,8 +457,8 @@ func _physics_process(delta: float) -> void:
 			#running acceleration (works in air)
 			runAccel(direction)
 		
-			#dash/run animation handling on floor and in the air
-			animationParser(direction)
+		#dash/run animation handling on floor and in the air
+		animationParser(direction)
 	move_and_slide()
 
 
@@ -384,3 +490,11 @@ func _on_resume_pressed() -> void:
 	$Resume.disabled = true
 	$Pause.visible = false
 	get_tree().paused = false
+
+
+
+func _on_attack_hitbox_body_entered(body: Node2D) -> void:
+	body.hp -= attackPower
+	body.incomingKnockback = outgoingKnockback
+	body.knockbackDir = dir
+	print (body.hp)
