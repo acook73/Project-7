@@ -21,7 +21,7 @@ func doGravity(delta: float):
 			temp.y -= velocity.y/(2.5*temp.y)
 		velocity += temp
 
-func chase(direction: int):
+func chase():
 	#position += (player.position-position)/JumpX
 	if (direction * velocity.x < 0 or slashDelayPlayed):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
@@ -33,6 +33,7 @@ func chase(direction: int):
 			velocity.x += acceleration*direction
 
 func _physics_process(delta: float) -> void:
+	
 	if (hp <= 0):
 		queue_free()
 	if (incomingKnockback != 0):
@@ -80,7 +81,7 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.play("idle")
 		#out of range but still in visual range
 		elif ($shootDelay.is_stopped() and $RayCast2D.is_colliding()):
-			chase(direction)
+			chase()
 		elif (not $RayCast2D.is_colliding() and $shootDelay.is_stopped()):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 			$AnimatedSprite2D.play("idle")
@@ -93,20 +94,22 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_detection_range_body_entered(body: Node2D) -> void:
-	player = body
-	playerChase = true
+	if (body.name == "Player"):
+		player = body
+		playerChase = true
 	
 
 
 func _on_detection_range_body_exited(body: Node2D) -> void:
-	player = null
-	playerChase = false
-	velocity.x = move_toward(velocity.x, 0, SPEED)
+	if (body.name == "Player"):
+		player = null
+		playerChase = false
+		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+func _on_area_2d_body_entered(_body: Node2D) -> void:
 	playerShoot = true
 
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
+func _on_area_2d_body_exited(_body: Node2D) -> void:
 	playerShoot = false

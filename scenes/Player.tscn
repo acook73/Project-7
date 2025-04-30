@@ -751,7 +751,6 @@ points = PackedVector2Array(0, 0, 0, 0)
 width = 1.0
 
 [node name="GrappleRay" type="RayCast2D" parent="grapple_controller"]
-visible = false
 target_position = Vector2(200, 0)
 collision_mask = 3
 script = ExtResource("10_o4126")

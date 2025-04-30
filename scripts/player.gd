@@ -51,6 +51,7 @@ var attackSIDE = false
 var attackDOWN = false
 var attackCROUCH = false
 var attacking = false
+var scan = 1
 var lastSafePos = position
 var knockback = 0
 var knockbackDir = 0
@@ -59,6 +60,7 @@ var reset: Array
 var hitboxPos
 var hitboxRot
 var dir
+var offset = 1
 
 func _ready():
 	hitboxPos = {"upHitbox1": upHitbox1.position, "upHitbox2": upHitbox2.position, 
@@ -349,6 +351,7 @@ func load_game():
 
 func _physics_process(delta: float) -> void:
 	wasDashing = dashing
+		
 
 	#print(hp_max)
 	#print("Squish: ")
@@ -383,7 +386,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0:
 		dash(dir)
 
-	if (knockback != 0):
+	if (knockback != 0 and not grappling):
 		#position.y += -15
 		velocity.x += knockbackDir * knockback
 		velocity.y += knockback * -1
@@ -396,6 +399,8 @@ func _physics_process(delta: float) -> void:
 		#squished = true
 		#direction = 0
 		#$KnockbackTimer.start()
+	else:
+		knockback = 0
 	if (Input.is_action_just_pressed("pause")):
 		get_tree().paused = true
 		$Menu.visible = true
