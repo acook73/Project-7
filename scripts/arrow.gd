@@ -7,7 +7,13 @@ extends CharacterBody2D
 var player = null
 var direction = 0
 @export var attackPower = 15
+
+func _ready() -> void:
+	$Lifetime.start()
+
 func _physics_process(delta: float) -> void:
+	if ($Lifetime.is_stopped()):
+		queue_free()
 	#enables arrow trail
 	position.x += SPEED*delta*direction
 	if (direction == -1):
@@ -34,7 +40,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	queue_free()
 
 
-func _on_area_2d_area_entered(_area: Area2D) -> void:
+
+
+func _on_area_2d_2_body_entered(body: Node2D) -> void:
+	#if(body.name !=)
 	remove_child(sprite)
 	$Area2D/CollisionShape2D.set_deferred("disabled", true) 
 	$GPUParticles2D.emitting = false

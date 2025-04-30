@@ -89,6 +89,8 @@ func isGrappling(data):
 func dash(dir: int):
 	#finds direction to dash based on sprite orientation
 	if (!attacking):
+		set_collision_layer_value(4, false)
+		
 		played = true
 		dashing = true
 		velocity.x = dashImpulse * dir
@@ -187,6 +189,7 @@ func animationParser(direction: float):
 		if (squished):
 			animated_sprite.play("squishing")
 		elif (dashing):
+			
 			animated_sprite.play("dash")
 		elif is_on_floor():
 			if direction == 0 and played == false:
@@ -459,6 +462,8 @@ func _physics_process(delta: float) -> void:
 		
 		#dash/run animation handling on floor and in the air
 		animationParser(direction)
+	if (not dashing):
+		set_collision_layer_value(4, true)
 	move_and_slide()
 
 
