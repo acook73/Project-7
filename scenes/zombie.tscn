@@ -1,13 +1,22 @@
-[gd_scene load_steps=23 format=3 uid="uid://0oqrks4wtmp4"]
+[gd_scene load_steps=27 format=3 uid="uid://0oqrks4wtmp4"]
 
 [ext_resource type="Script" uid="uid://uv6k4hsmglvo" path="res://scripts/zombie.gd" id="1_4gx57"]
+[ext_resource type="Shader" uid="uid://cccw2sr8fwgb8" path="res://scenes/skeleton.gdshader" id="1_ycv6i"]
 [ext_resource type="Texture2D" uid="uid://dixnqfr0yadw8" path="res://assets/Enemies/Zombie Idle.png" id="2_4gx57"]
 [ext_resource type="Texture2D" uid="uid://dl6aacyf4dd24" path="res://assets/Enemies/Zombie Slash.png" id="3_ycv6i"]
 [ext_resource type="Texture2D" uid="uid://bcxkyigqa872m" path="res://assets/Enemies/Zombie Walk.png" id="4_pjjxt"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pjjxt"]
+shader = ExtResource("1_ycv6i")
+shader_parameter/solid_color = Color(0, 0, 0, 1)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7pfmu"]
 radius = 7.0
 height = 38.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ycv6i"]
+shader = ExtResource("1_ycv6i")
+shader_parameter/solid_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3fthk"]
 atlas = ExtResource("2_4gx57")
@@ -132,7 +141,18 @@ radius = 229.079
 radius = 9.0
 height = 40.1
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4gx57"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 32.25
+initial_velocity_max = 102.15
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 2.0
+color = Color(0.168627, 0.278431, 0.188235, 1)
+
 [node name="Zombie" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_pjjxt")
 collision_layer = 17
 collision_mask = 17
 script = ExtResource("1_4gx57")
@@ -142,6 +162,7 @@ position = Vector2(0, -19)
 shape = SubResource("CapsuleShape2D_7pfmu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ycv6i")
 position = Vector2(0, -15)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_jn7vh")
@@ -176,6 +197,19 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
 shape = SubResource("CapsuleShape2D_4gx57")
+
+[node name="hitEffect" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="GPUParticlesExplode" type="GPUParticles2D" parent="."]
+position = Vector2(0, -19)
+emitting = false
+amount = 20
+lifetime = 0.15
+one_shot = true
+fixed_fps = 120
+process_material = SubResource("ParticleProcessMaterial_4gx57")
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

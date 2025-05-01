@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="11_o4126"]
 [ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="12_lkdrv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yi2kj"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p7iby"]
 radius = 5.0
 height = 20.0
 
@@ -719,16 +719,24 @@ radius = 7.0
 height = 16.0
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 10
 collision_layer = 12
 collision_mask = 12
 script = ExtResource("1_v6fml")
 maxJumps = 1
 outgoingKnockback = 100
 
-[node name="NormalCollider" type="CollisionShape2D" parent="."]
-visible = false
+[node name="Area2D" type="Area2D" parent="."]
 position = Vector2(1, -11)
-shape = SubResource("CapsuleShape2D_yi2kj")
+collision_layer = 0
+collision_mask = 32
+
+[node name="NormalCollider2" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_p7iby")
+
+[node name="NormalCollider" type="CollisionShape2D" parent="."]
+position = Vector2(1, -11)
+shape = SubResource("CapsuleShape2D_p7iby")
 
 [node name="DashCool" type="Timer" parent="."]
 wait_time = 0.4
@@ -762,6 +770,7 @@ one_shot = true
 [node name="Button2" type="Button" parent="."]
 process_mode = 2
 visible = false
+z_index = 15
 offset_left = -101.0
 offset_top = -95.0
 offset_right = 102.0
@@ -771,6 +780,7 @@ text = "Return to last checkpoint"
 [node name="Button" type="Button" parent="."]
 process_mode = 2
 visible = false
+z_index = 15
 offset_left = -73.0
 offset_top = -48.0
 offset_right = 73.0
@@ -779,6 +789,7 @@ text = "Return to Menu"
 
 [node name="Label" type="Label" parent="."]
 visible = false
+z_index = 15
 offset_left = -96.0
 offset_top = -136.0
 offset_right = 96.0
@@ -794,6 +805,7 @@ position_smoothing_speed = 20.0
 [node name="Menu" type="Button" parent="."]
 process_mode = 2
 visible = false
+z_index = 15
 offset_left = -159.0
 offset_top = 54.0
 offset_right = 161.0
@@ -804,6 +816,7 @@ text = "Return to Menu"
 [node name="Reset" type="Button" parent="."]
 process_mode = 2
 visible = false
+z_index = 15
 offset_left = -160.0
 offset_top = -32.0
 offset_right = 160.0
@@ -814,6 +827,7 @@ text = "Return to Last Checkpoint"
 [node name="Resume" type="Button" parent="."]
 process_mode = 2
 visible = false
+z_index = 15
 offset_left = -160.0
 offset_top = -120.0
 offset_right = 160.0
@@ -823,6 +837,7 @@ text = "Resume"
 
 [node name="Pause" type="Label" parent="."]
 visible = false
+z_index = 15
 offset_left = -88.0
 offset_top = -176.0
 offset_right = 90.0
@@ -908,6 +923,7 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_viqgg")
 disabled = true
 
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]

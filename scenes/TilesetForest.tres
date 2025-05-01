@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://dt4gun2268wqr"]
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://dt4gun2268wqr"]
 
 [ext_resource type="Texture2D" uid="uid://67mqrrjfrd8p" path="res://assets/brackeys_platformer_assets/sprites/world_tileset.png" id="1_5jeo6"]
 [ext_resource type="Texture2D" uid="uid://tsorr8t5jxro" path="res://assets/brackeys_platformer_assets/sprites/platforms.png" id="2_iwlao"]
 [ext_resource type="Texture2D" uid="uid://cnu3u1ua637qu" path="res://assets/Tileset/Dark-Forest-Tileset.png" id="3_rpsqu"]
+[ext_resource type="Texture2D" uid="uid://b0740yl0cctn6" path="res://assets/Tileset/spike-1.png.png" id="4_iwlao"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnu2h"]
 texture = ExtResource("1_5jeo6")
@@ -707,11 +708,26 @@ texture = ExtResource("3_rpsqu")
 0:15/0/physics_layer_1/polygon_0/points = PackedVector2Array(8, -8, 8, 8, -0.0124722, 8, -0.0249443, -8)
 11:11/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rpsqu"]
+texture = ExtResource("4_iwlao")
+0:0/0 = 0
+0:0/0/physics_layer_2/polygon_0/points = PackedVector2Array(-8, -8, 5.20252, -8, 0.743218, 2.77468, -3.81518, 2.87378)
+1:0/0 = 0
+1:0/0/physics_layer_2/polygon_0/points = PackedVector2Array(8, -8, 8, 4.95479, -2.92332, 0.297287, -3.12151, -3.86473)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0/physics_layer_2/polygon_0/points = PackedVector2Array(-8, -4.75659, -8, 8, 3.22061, 2.87378, 3.02242, 0)
+1:1/0 = 0
+1:1/0/physics_layer_2/polygon_0/points = PackedVector2Array(-5.59891, 8, 8, 8, 3.12152, -2.87378, 0.148643, -2.87378)
+
 [resource]
 physics_layer_0/collision_layer = 5
 physics_layer_0/collision_mask = 5
 physics_layer_1/collision_layer = 2
 physics_layer_1/collision_mask = 2
+physics_layer_2/collision_layer = 32
+physics_layer_2/collision_mask = 32
 sources/0 = SubResource("TileSetAtlasSource_lnu2h")
 sources/1 = SubResource("TileSetAtlasSource_lbhrr")
 sources/3 = SubResource("TileSetAtlasSource_gee14")
+sources/4 = SubResource("TileSetAtlasSource_rpsqu")

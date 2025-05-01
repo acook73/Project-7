@@ -350,6 +350,7 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
+	print(hp_max)
 	wasDashing = dashing
 		
 
@@ -432,7 +433,8 @@ func _physics_process(delta: float) -> void:
 		wasDashing = false
 	
 	if (is_on_floor()):
-		lastSafePos = position
+		lastSafePos.x = position.x - 5*direction
+		lastSafePos.y = position.y
 	#resets dahes and jumps if player is on ground
 	if (is_on_floor() or (is_on_wall() and grappling)):
 		numJumps = maxJumps
@@ -507,4 +509,10 @@ func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	body.hp -= attackPower
 	body.incomingKnockback = outgoingKnockback
 	body.knockbackDir = dir
+	body.damaged = true
 	print (body.hp)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	set_position(lastSafePos)
+	hp -= 25

@@ -1,12 +1,30 @@
-[gd_scene load_steps=38 format=3 uid="uid://be5hno0j7qque"]
+[gd_scene load_steps=41 format=3 uid="uid://be5hno0j7qque"]
 
 [ext_resource type="Script" uid="uid://c54q00xcgnm2e" path="res://scripts/slime.gd" id="1_2npkn"]
 [ext_resource type="Texture2D" uid="uid://dly6yaxls8gl8" path="res://assets/Enemies/Slime Idle5.png" id="2_2npkn"]
+[ext_resource type="Shader" uid="uid://cccw2sr8fwgb8" path="res://scenes/skeleton.gdshader" id="2_fd6lc"]
 [ext_resource type="Texture2D" uid="uid://nir57fsu62dr" path="res://assets/Enemies/Slime Jump.png" id="3_gstla"]
 [ext_resource type="Texture2D" uid="uid://bmta6v5sfu8pn" path="res://assets/Enemies/Slime Landing.png" id="4_v5wyi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vnioy"]
 radius = 4.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rp1f2"]
+radius = 200.04
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v5wyi"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 32.25
+initial_velocity_max = 102.15
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 2.0
+color = Color(0.556863, 0.207843, 0.207843, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gstla"]
+shader = ExtResource("2_fd6lc")
+shader_parameter/solid_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fd6lc"]
 atlas = ExtResource("2_2npkn")
@@ -236,9 +254,6 @@ animations = [{
 "speed": 14.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_rp1f2"]
-radius = 200.04
-
 [node name="Slime" type="CharacterBody2D"]
 collision_layer = 17
 collision_mask = 17
@@ -251,14 +266,6 @@ one_shot = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_vnioy")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_jn7vh")
-animation = &"jump"
-autoplay = "idle"
-frame = 16
-frame_progress = 1.0
-offset = Vector2(0, -4)
 
 [node name="DetectionRange" type="Area2D" parent="."]
 collision_layer = 8
@@ -275,6 +282,26 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_vnioy")
+
+[node name="hitEffect" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="GPUParticlesExplode" type="GPUParticles2D" parent="."]
+position = Vector2(0, -4)
+emitting = false
+amount = 20
+lifetime = 0.15
+one_shot = true
+fixed_fps = 120
+process_material = SubResource("ParticleProcessMaterial_v5wyi")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_gstla")
+sprite_frames = SubResource("SpriteFrames_jn7vh")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0, -4)
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]
 [connection signal="body_exited" from="DetectionRange" to="." method="_on_detection_range_body_exited"]

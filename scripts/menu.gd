@@ -34,4 +34,15 @@ func _on_button_3_pressed() -> void:
 	var save_file = FileAccess.open("res://loadFlag.save", FileAccess.WRITE)
 	var node_data = "1"
 	save_file.store_line(node_data)
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	var save_file2 = FileAccess.open("res://savegame.save", FileAccess.READ)
+	while save_file2.get_position() < save_file2.get_length():
+		
+		var json_string = save_file2.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		var node_data2 = json.data
+		for i in node_data2.keys():
+			if i == "filename":
+				print(node_data2[i])
+				get_tree().change_scene_to_file(node_data2[i])
+	

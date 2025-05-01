@@ -13,6 +13,8 @@ var slashDelayPlayed = false
 var playerShoot = false
 var incomingKnockback = 0
 var knockbackDir = 0
+var damaged = false
+
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
@@ -33,8 +35,20 @@ func chase():
 			velocity.x += acceleration*direction
 
 func _physics_process(delta: float) -> void:
+	if (damaged and $AnimatedSprite2D != null):
+		$AnimatedSprite2D.material.set_shader_parameter("solid_color", Color.WHITE)
+		$hitEffect.start()
+		damaged = false
+		$GPUParticlesExplode.emitting = true
+	
+	if ($hitEffect.is_stopped() and $AnimatedSprite2D != null):
+		$AnimatedSprite2D.material.set_shader_parameter("solid_color", Color.TRANSPARENT)
 	
 	if (hp <= 0):
+		remove_child($Area2D)
+		remove_child($AnimatedSprite2D)
+		$shootDelay.start()
+		await get_tree().create_timer(0.3).timeout
 		queue_free()
 	if (incomingKnockback != 0):
 		#position.y += -15

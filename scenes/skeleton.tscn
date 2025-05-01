@@ -1,6 +1,7 @@
-[gd_scene load_steps=49 format=3 uid="uid://80wnmousun1i"]
+[gd_scene load_steps=52 format=3 uid="uid://80wnmousun1i"]
 
 [ext_resource type="Script" uid="uid://u1vewgrbttkm" path="res://scripts/skeleton.gd" id="1_bnirc"]
+[ext_resource type="Shader" uid="uid://cccw2sr8fwgb8" path="res://scenes/skeleton.gdshader" id="2_5pgwy"]
 [ext_resource type="Texture2D" uid="uid://dpnl1gf58uuhb" path="res://assets/Enemies/Skeleton Archer Idle.png" id="2_bnirc"]
 [ext_resource type="Texture2D" uid="uid://cg58gs38qlhyg" path="res://assets/Enemies/Skeleton Archer Firing.png" id="3_5pgwy"]
 [ext_resource type="Texture2D" uid="uid://daugnaa820yr" path="res://assets/Enemies/Skeleton Archer Walk(1).png" id="4_ssl1b"]
@@ -8,6 +9,10 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w4hcs"]
 radius = 9.0
 height = 38.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ssl1b"]
+shader = ExtResource("2_5pgwy")
+shader_parameter/solid_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_haw2w"]
 atlas = ExtResource("2_bnirc")
@@ -313,6 +318,16 @@ radius = 250.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_rp1f2"]
 radius = 400.0
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5pgwy"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 32.25
+initial_velocity_max = 102.15
+gravity = Vector3(0, 98, 0)
+scale_min = 2.0
+scale_max = 2.0
+color = Color(0.901961, 0.901961, 0.737255, 1)
+
 [node name="Skeleton" type="CharacterBody2D"]
 collision_layer = 16
 collision_mask = 17
@@ -330,6 +345,7 @@ position = Vector2(2, -18)
 shape = SubResource("CapsuleShape2D_w4hcs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ssl1b")
 position = Vector2(-3, -16)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_jn7vh")
@@ -357,6 +373,19 @@ shape = SubResource("CircleShape2D_rp1f2")
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(-17, -17)
 collide_with_areas = true
+
+[node name="hitEffect" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="GPUParticlesExplode" type="GPUParticles2D" parent="."]
+position = Vector2(2, -18)
+emitting = false
+amount = 20
+lifetime = 0.15
+one_shot = true
+fixed_fps = 120
+process_material = SubResource("ParticleProcessMaterial_5pgwy")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
