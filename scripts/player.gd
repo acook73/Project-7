@@ -61,6 +61,8 @@ var hitboxPos
 var hitboxRot
 var dir
 var offset = 1
+var dJump = false
+var uDash = false
 
 func _ready():
 	hitboxPos = {"upHitbox1": upHitbox1.position, "upHitbox2": upHitbox2.position, 
@@ -350,10 +352,18 @@ func load_game():
 
 
 func _physics_process(delta: float) -> void:
-	print(hp_max)
 	wasDashing = dashing
 		
-
+	if (dJump and maxJumps == 1):
+		$DJump.visible = true
+		dJump = false
+		await get_tree().create_timer(2).timeout
+		$DJump.visible = false
+	if (uDash and maxDash == 1):
+		$uDash.visible = true
+		uDash = false
+		await get_tree().create_timer(2).timeout
+		$uDash.visible = false
 	#print(hp_max)
 	#print("Squish: ")
 	#print(squished)
@@ -434,7 +444,7 @@ func _physics_process(delta: float) -> void:
 	
 	if (is_on_floor()):
 		lastSafePos.x = position.x - 5*direction
-		lastSafePos.y = position.y
+		lastSafePos.y = position.y - 13
 	#resets dahes and jumps if player is on ground
 	if (is_on_floor() or (is_on_wall() and grappling)):
 		numJumps = maxJumps
@@ -510,7 +520,6 @@ func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	body.incomingKnockback = outgoingKnockback
 	body.knockbackDir = dir
 	body.damaged = true
-	print (body.hp)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

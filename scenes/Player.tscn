@@ -922,6 +922,26 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_viqgg")
 disabled = true
 
+[node name="DJump" type="Label" parent="."]
+visible = false
+offset_left = -67.0
+offset_top = -112.0
+offset_right = 67.0
+offset_bottom = -89.0
+theme_override_font_sizes/font_size = 12
+text = "Double Jump Unlocked"
+
+[node name="uDash" type="Label" parent="."]
+visible = false
+offset_left = -67.0
+offset_top = -112.0
+offset_right = 67.0
+offset_bottom = -89.0
+theme_override_font_sizes/font_size = 12
+text = "Dash Unlocked"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

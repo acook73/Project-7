@@ -1,0 +1,10 @@
+Paths:
+Double Jump - ✓
+Shield 1 - ✓
+Shield 2 -
+Shield 3 -
+Sword 1 -
+Sword 2 -
+Dash -
+Triple Jump -
+Boss Arena -

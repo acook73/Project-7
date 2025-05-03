@@ -21,6 +21,7 @@ scale_max = 2.0
 color = Color(0.227451, 0.180392, 0.309804, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gstla"]
+resource_local_to_scene = true
 shader = ExtResource("2_fd6lc")
 shader_parameter/solid_color = Color(0, 0, 0, 1)
 

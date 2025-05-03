@@ -43,6 +43,6 @@ func _on_button_3_pressed() -> void:
 		var node_data2 = json.data
 		for i in node_data2.keys():
 			if i == "filename":
-				print(node_data2[i])
+				#print(node_data2[i])
 				get_tree().change_scene_to_file(node_data2[i])
 	

@@ -34,7 +34,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	temp.knockbackDir = direction
 	direction = 0
 	$GPUParticles2D.emitting = false
-	print(temp.hp)
+	#print(temp.hp)
 	Part2.emitting = true
 	await get_tree().create_timer(0.95).timeout
 	queue_free()

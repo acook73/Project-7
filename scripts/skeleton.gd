@@ -59,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
 		incomingKnockback = 0
 	
-	print($RayCast2D.is_colliding())
+	#print($RayCast2D.is_colliding())
 	
 	doGravity(delta)
 	if (is_on_floor()):
@@ -67,12 +67,12 @@ func _physics_process(delta: float) -> void:
 	if (playerChase):
 		#sprite flipping
 		if(player.position.x-position.x < 0):
-			print($RayCast2D.position.x)
+			#print($RayCast2D.position.x)
 			direction = -1
 			$RayCast2D.position.x = -15
 			animated_sprite.flip_h = false
 		else:
-			print($RayCast2D.position.x)
+			#print($RayCast2D.position.x)
 			direction = 1
 			$RayCast2D.position.x = 17
 			animated_sprite.flip_h = true

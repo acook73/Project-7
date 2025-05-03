@@ -50,7 +50,7 @@ func dive():
 	if (abs(velocity.x) < 75 or velocity.x/abs(velocity.x) != direction):
 		velocity.x += 25*direction
 	if ((player.position.y-position.y) < minHeight/2 and abs(player.position.y-position.y) > 20 and $diveDelay.is_stopped()):
-		print("played")
+		#print("played")
 		$AnimatedSprite2D.play("undive")
 		$diveDelay.start()
 	elif (abs(player.position.y-position.y) < 20 and $diveDelay.is_stopped()):
@@ -60,8 +60,8 @@ func dive():
 		first = false
 	
 func _physics_process(delta: float) -> void:
-	print(diving)
-	print(first)
+	#print(diving)
+	#print(first)
 	if (incomingKnockback != 0):
 		velocity.y = incomingKnockback * -1 
 		velocity.x = incomingKnockback * knockbackDir
