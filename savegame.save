@@ -1,1 +1,1 @@
-{"filename":"res://scenes/game_2.tscn","hp":150.0,"hp_max":150.0,"maxDash":2.0,"maxJumps":2.0,"parent":"/root/Game2","pos_x":7.45050525665283,"pos_y":0.925243556499481,"rem":["Jump","Jump2"]}
+{"filename":"res://scenes/game_2.tscn","hp":150.0,"hp_max":150.0,"maxDash":0.0,"maxJumps":0.0,"parent":"/root/Game2","pos_x":-1074.48791503906,"pos_y":32.9333801269531,"rem":[]}
