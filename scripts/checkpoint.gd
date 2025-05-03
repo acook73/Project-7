@@ -9,7 +9,9 @@ func save(body: Node2D):
 		"pos_y" : body.position.y,
 		"hp" : body.hp,
 		"hp_max" : body.hp_max,
-		"rem" : body.permaUpgrades
+		"rem" : body.permaUpgrades,
+		"maxJumps": body.maxJumps,
+		"maxDash": body.maxDash
 	}
 	return save_dict
 

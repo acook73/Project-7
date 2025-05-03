@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=4 uid="uid://b7d301ch6d8yy"]
+[gd_scene load_steps=16 format=4 uid="uid://b7d301ch6d8yy"]
 
-[ext_resource type="Script" path="res://scripts/game_2.gd" id="1_c45dc"]
+[ext_resource type="Script" uid="uid://dneim0qiti01q" path="res://scripts/game_2.gd" id="1_c45dc"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_vttgw"]
 [ext_resource type="TileSet" uid="uid://dt4gun2268wqr" path="res://scenes/TilesetForest.tres" id="3_wgl31"]
 [ext_resource type="Texture2D" uid="uid://dnb14ox0cy0de" path="res://assets/Cursor/Cursor.png" id="4_f674i"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://kq15awkbn6ff" path="res://scenes/heal_potion.tscn" id="9_c45dc"]
 [ext_resource type="PackedScene" uid="uid://qigdud1qd548" path="res://scenes/bat.tscn" id="10_b4gt0"]
 [ext_resource type="PackedScene" uid="uid://dbduawhc25w1r" path="res://scenes/bat2.tscn" id="11_kmooo"]
+[ext_resource type="PackedScene" uid="uid://qqp0iwqyn23m" path="res://scenes/jump.tscn" id="12_glh1a"]
+[ext_resource type="PackedScene" uid="uid://cde7eytv48th8" path="res://scenes/dash.tscn" id="13_dr8oi"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1oiof"]
 normal = Vector2(-0.00325202, -0.999995)
@@ -76,5 +78,11 @@ position = Vector2(784, -144)
 
 [node name="Bat2" parent="." instance=ExtResource("11_kmooo")]
 position = Vector2(736, -144)
+
+[node name="Jump" parent="." instance=ExtResource("12_glh1a")]
+position = Vector2(94, -16)
+
+[node name="Jump2" parent="." instance=ExtResource("13_dr8oi")]
+position = Vector2(126, -16)
 
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_teleport_barrier_body_entered"]

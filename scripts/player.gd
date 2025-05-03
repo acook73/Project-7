@@ -26,8 +26,8 @@ extends CharacterBody2D
 @export var friction = 3.0
 @export var longSlide = 2.0
 @export var acceleration = 25.0
-@export var maxJumps = 2
-@export var maxDash = 1
+@export var maxJumps = 0
+@export var maxDash = 0
 @export var attackPower = 25
 @export var outgoingKnockback = 200
 

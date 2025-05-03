@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://qcivv8cmpjwi"]
+[gd_scene load_steps=19 format=4 uid="uid://qcivv8cmpjwi"]
 
 [ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scripts/game.gd" id="1_dinhu"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://kq15awkbn6ff" path="res://scenes/heal_potion.tscn" id="10_vtaks"]
 [ext_resource type="PackedScene" uid="uid://bnmo3adp8vqi0" path="res://scenes/shield.tscn" id="11_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://7v78v2uod16s" path="res://scenes/sword.tscn" id="12_dinhu"]
+[ext_resource type="PackedScene" uid="uid://cde7eytv48th8" path="res://scenes/dash.tscn" id="12_kvuet"]
+[ext_resource type="PackedScene" uid="uid://qqp0iwqyn23m" path="res://scenes/jump.tscn" id="13_trtic"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_0tnpc"]
 font_size = 12
@@ -208,5 +210,11 @@ position = Vector2(4008, 216)
 
 [node name="Skeleton" parent="." instance=ExtResource("6_u5sy4")]
 position = Vector2(3416, 0)
+
+[node name="Jump" parent="." instance=ExtResource("12_kvuet")]
+position = Vector2(-967, -14)
+
+[node name="Jump2" parent="." instance=ExtResource("13_trtic")]
+position = Vector2(-925, -14)
 
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_area_2d_body_entered"]

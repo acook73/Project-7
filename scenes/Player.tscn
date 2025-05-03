@@ -723,7 +723,6 @@ z_index = 10
 collision_layer = 12
 collision_mask = 12
 script = ExtResource("1_v6fml")
-maxJumps = 1
 outgoingKnockback = 100
 
 [node name="Area2D" type="Area2D" parent="."]
