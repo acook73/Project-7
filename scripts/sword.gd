@@ -11,7 +11,7 @@ func _ready() -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	body.attackPower += 5
+	body.attackPower += 10
 	body.permaUpgrades.append(self.name)
 	body.reset.append(self.name)
 	$AnimatedSprite2D.visible = false

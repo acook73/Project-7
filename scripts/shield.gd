@@ -11,8 +11,8 @@ func _ready() -> void:
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	body.hp_max += 25
-	body.hp += 25
+	body.hp_max += 50
+	body.hp += 50
 	
 	body.permaUpgrades.append(self.name)
 	body.reset.append(self.name)
