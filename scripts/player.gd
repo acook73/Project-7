@@ -350,8 +350,14 @@ func load_game():
 					continue
 				set(i, node_data[i])
 
-
+#const CAMERA_MOVEMENT_SPEED : int = 5
 func _physics_process(delta: float) -> void:
+	#if (Input.is_action_pressed("left")):
+		#$ParallaxBackground/ParallaxLayerFar.position.x -= CAMERA_MOVEMENT_SPEED
+		#$ParallaxBackground/ParallaxLayerNear.position.x -= CAMERA_MOVEMENT_SPEED*2
+	#if (Input.is_action_pressed("right")):
+		#$ParallaxBackground/ParallaxLayerFar.position.x += CAMERA_MOVEMENT_SPEED
+		#$ParallaxBackground/ParallaxLayerNear.position.x += CAMERA_MOVEMENT_SPEED*2
 	wasDashing = dashing
 		
 	if (dJump and maxJumps == 1):

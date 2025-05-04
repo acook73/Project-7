@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=3 uid="uid://6t3rhj7cu0t7"]
+[gd_scene load_steps=115 format=3 uid="uid://6t3rhj7cu0t7"]
 
 [ext_resource type="Script" uid="uid://d2tsv5skjn3fu" path="res://scripts/player.gd" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://dsivcgnc332o7" path="res://assets/Lila/Lila-Dash.png" id="2_70d11"]
@@ -14,6 +14,10 @@
 [ext_resource type="Script" uid="uid://ixgave8akowv" path="res://scripts/grapple_ray.gd" id="10_o4126"]
 [ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="11_o4126"]
 [ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="12_lkdrv"]
+[ext_resource type="Texture2D" uid="uid://cejuifoquj2v1" path="res://assets/Background/junglepng.parspng.com-5-3801635659.png" id="15_61ith"]
+[ext_resource type="Texture2D" uid="uid://2aipy5532h46" path="res://assets/Background/Nebula Aqua-Pink.png" id="15_jfpux"]
+[ext_resource type="Texture2D" uid="uid://d2j26ar0g1jdi" path="res://assets/Background/Stars Small_2.png" id="16_61ith"]
+[ext_resource type="Texture2D" uid="uid://3s7rm51pvain" path="res://assets/Background/Stars Small_1.png" id="17_ebwui"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p7iby"]
 radius = 5.0
@@ -943,11 +947,45 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+follow_viewport_scale = 0.5
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-position = Vector2(0, -11)
+[node name="ParallaxForest" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.8, 0.8)
+motion_mirroring = Vector2(600, 0)
 
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxForest"]
+z_index = 10
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_61ith")
+centered = false
+
+[node name="ParallaxLayerNebula" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.6, 0.6)
+motion_mirroring = Vector2(590, 395)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayerNebula"]
+scale = Vector2(0.146, 0.098)
+texture = ExtResource("15_jfpux")
+centered = false
+region_rect = Rect2(0, 0, 4096, 4096)
+
+[node name="ParallaxLayerStar1" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(590, 395)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayerStar1"]
+scale = Vector2(0.146, 0.098)
+texture = ExtResource("16_61ith")
+centered = false
+
+[node name="ParallaxLayerStar2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.3, 0.3)
+motion_mirroring = Vector2(590, 395)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayerStar2"]
+scale = Vector2(0.146, 0.098)
+texture = ExtResource("17_ebwui")
+centered = false
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
