@@ -273,6 +273,7 @@ collision_layer = 8
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionRange"]
+visible = false
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_rp1f2")
 

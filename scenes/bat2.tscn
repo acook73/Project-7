@@ -130,6 +130,7 @@ one_shot = true
 shape = SubResource("CircleShape2D_vnioy")
 
 [node name="DetectionRange" type="Area2D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 8
 
