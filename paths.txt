@@ -4,7 +4,7 @@ Shield 1 - ✓
 Sword 1 - ✓
 Dash - ✓
 Shield 2 - ✓
-Sword 2 -
+Sword 2 - ✓
 Triple Jump -
 Shield 3 -
 Boss Arena -

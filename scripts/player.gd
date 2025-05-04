@@ -524,4 +524,5 @@ func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	set_position(lastSafePos)
+	velocity = Vector2.ZERO
 	hp -= 25
