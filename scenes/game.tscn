@@ -31,13 +31,13 @@ animations = [{
 normal = Vector2(-0.00325202, -0.999995)
 distance = -395.982
 
-[sub_resource type="LabelSettings" id="LabelSettings_0tnpc"]
-font_size = 12
-
 [sub_resource type="SystemFont" id="SystemFont_vtaks"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kvpfn"]
 font = SubResource("SystemFont_vtaks")
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_0tnpc"]
 font_size = 12
 
 [node name="Game" type="Node2D"]
@@ -103,6 +103,25 @@ position = Vector2(3416, 0)
 
 [node name="Labels" type="Node" parent="."]
 
+[node name="Label" type="Label" parent="Labels"]
+offset_left = -1154.0
+offset_top = -220.0
+offset_right = -938.0
+offset_bottom = -171.0
+text = "Use A and D to move left and right."
+label_settings = SubResource("LabelSettings_kvpfn")
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="Labels"]
+offset_left = 320.0
+offset_top = -64.0
+offset_right = 520.0
+offset_bottom = 13.0
+text = "Hooks and stone surfaces can be grappled to, use Right Mouse Button to use the grappling hook."
+label_settings = SubResource("LabelSettings_0tnpc")
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="Label3" type="Label" parent="Labels"]
 offset_left = 704.0
 offset_top = -196.0
@@ -110,6 +129,26 @@ offset_right = 878.0
 offset_bottom = -119.0
 text = "Hooks can be flown through if the grapple is released before colliding with it."
 label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label4" type="Label" parent="Labels"]
+offset_left = -685.0
+offset_top = -210.0
+offset_right = -461.0
+offset_bottom = -161.0
+text = "Press Spacebar to jump / double jump (unlocked through pickup)"
+label_settings = SubResource("LabelSettings_kvpfn")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label5" type="Label" parent="Labels"]
+offset_left = -271.0
+offset_top = -210.0
+offset_right = -23.0
+offset_bottom = -161.0
+text = "Press Shift to dash to cover more distance (unlocked through pickup)"
+label_settings = SubResource("LabelSettings_kvpfn")
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Label6" type="Label" parent="Labels"]
@@ -166,15 +205,6 @@ text = "You are immune to attacks while dashing"
 label_settings = SubResource("LabelSettings_0tnpc")
 autowrap_mode = 2
 
-[node name="Label13" type="Label" parent="Labels"]
-offset_left = 3952.0
-offset_top = -72.0
-offset_right = 4072.0
-offset_bottom = 5.0
-text = "Drop down to begin."
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
 [node name="Label12" type="Label" parent="Labels"]
 offset_left = 2372.0
 offset_top = -218.0
@@ -190,43 +220,13 @@ label_settings = SubResource("LabelSettings_0tnpc")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Label2" type="Label" parent="Labels"]
-offset_left = 320.0
-offset_top = -64.0
-offset_right = 520.0
-offset_bottom = 13.0
-text = "Hooks and stone surfaces can be grappled to, use Right Mouse Button to use the grappling hook."
+[node name="Label13" type="Label" parent="Labels"]
+offset_left = 3952.0
+offset_top = -72.0
+offset_right = 4072.0
+offset_bottom = 5.0
+text = "Drop down to begin."
 label_settings = SubResource("LabelSettings_0tnpc")
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="Label" type="Label" parent="Labels"]
-offset_left = -1154.0
-offset_top = -220.0
-offset_right = -938.0
-offset_bottom = -171.0
-text = "Use A and D to move left and right."
-label_settings = SubResource("LabelSettings_kvpfn")
-autowrap_mode = 2
-
-[node name="Label4" type="Label" parent="Labels"]
-offset_left = -685.0
-offset_top = -210.0
-offset_right = -461.0
-offset_bottom = -161.0
-text = "Press Spacebar to jump / double jump (unlocked through pickup)"
-label_settings = SubResource("LabelSettings_kvpfn")
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="Label5" type="Label" parent="Labels"]
-offset_left = -271.0
-offset_top = -210.0
-offset_right = -23.0
-offset_bottom = -161.0
-text = "Press Shift to dash to cover more distance (unlocked through pickup)"
-label_settings = SubResource("LabelSettings_kvpfn")
-horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Pickups" type="Node" parent="."]
