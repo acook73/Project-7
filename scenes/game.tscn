@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://qcivv8cmpjwi"]
+[gd_scene load_steps=22 format=4 uid="uid://qcivv8cmpjwi"]
 
 [ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scripts/game.gd" id="1_dinhu"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://7v78v2uod16s" path="res://scenes/sword.tscn" id="12_dinhu"]
 [ext_resource type="PackedScene" uid="uid://cde7eytv48th8" path="res://scenes/dash.tscn" id="12_kvuet"]
 [ext_resource type="PackedScene" uid="uid://qqp0iwqyn23m" path="res://scenes/jump.tscn" id="13_trtic"]
+[ext_resource type="PackedScene" uid="uid://cxglx40cd4r3v" path="res://scenes/treantStuff/treant.tscn" id="16_ca42v"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iywne"]
 animations = [{
@@ -239,5 +240,8 @@ position = Vector2(-967, -14)
 
 [node name="Jump2" parent="Pickups" instance=ExtResource("13_trtic")]
 position = Vector2(-925, -14)
+
+[node name="Treant" parent="." instance=ExtResource("16_ca42v")]
+position = Vector2(-665, 1)
 
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_area_2d_body_entered"]
