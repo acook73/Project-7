@@ -12,9 +12,9 @@ extends CharacterBody2D
 @onready var downHitbox2 := $AnimatedSprite2D/AttackHitbox/downHitbox2
 @onready var downHitbox3 := $AnimatedSprite2D/AttackHitbox/downHitbox3
 @onready var downHitbox4 := $AnimatedSprite2D/AttackHitbox/downHitbox4
-@onready var label := $Label
-@onready var exit := $Button
-@onready var button2 := $Button2
+@onready var label := $Labels/Label
+@onready var exit := $Buttons/Button
+@onready var button2 := $Buttons/Button2
 
 
 @export var SPEED = 150.0
@@ -99,13 +99,13 @@ func dash(dir: int):
 		dashing = true
 		velocity.x = dashImpulse * dir
 		numDashes -= 1
-		$DashCool.start()
-		$DashTimer.start()
+		$Timers/DashCool.start()
+		$Timers/DashTimer.start()
 
 func jump():
 	if (Input.is_action_just_pressed("jump") and is_on_floor() and not grappling) or (Input.is_action_just_pressed("jump") and numJumps > 0 and not grappling):
 		if is_on_floor():
-			$DashTimer.stop()
+			$Timers/DashTimer.stop()
 			cancelled = true
 		velocity.y = JUMP_VELOCITY
 		if (numJumps > 0):
@@ -179,13 +179,13 @@ func unsquish():
 		squished = false
 
 func runAccel(direction: float):
-	if direction and $DashTimer.is_stopped():
+	if direction and $Timers/DashTimer.is_stopped():
 		if (velocity.x != 0 and direction == abs(velocity.x)/velocity.x):
 			velocity.x += acceleration*direction*(1-((abs(velocity.x))/SPEED))
 		else:
 			velocity.x += acceleration*direction
 		#no direction input (stop)
-	elif $DashTimer.is_stopped() and !cancelled:
+	elif $Timers/DashTimer.is_stopped() and !cancelled:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 func animationParser(direction: float):
@@ -361,23 +361,23 @@ func _physics_process(delta: float) -> void:
 	wasDashing = dashing
 		
 	if (dJump and maxJumps == 1):
-		$DJump.visible = true
+		$Labels/DJump.visible = true
 		dJump = false
 		await get_tree().create_timer(2).timeout
-		$DJump.visible = false
+		$Labels/DJump.visible = false
 	if (uDash and maxDash == 1):
-		$uDash.visible = true
+		$Labels/uDash.visible = true
 		uDash = false
 		await get_tree().create_timer(2).timeout
-		$uDash.visible = false
+		$Labels/uDash.visible = false
 	#print(hp_max)
 	#print("Squish: ")
 	#print(squished)
 	#print("Attack: ")
 	#print(attacking)
 
-	$TextureProgressBar.max_value = hp_max
-	$TextureProgressBar.value = hp
+	#$TextureProgressBar.max_value = hp_max
+	#$TextureProgressBar.value = hp
 	if (hp <= 0):
 		get_tree().paused = true
 		
@@ -400,7 +400,7 @@ func _physics_process(delta: float) -> void:
 	moveHitboxes(dir) # Make sure hitboxes are in the right spot
 	attackHit() # Activate and deactivate hitboxes as needed
 	
-	if Input.is_action_just_pressed("dash") and $DashCool.is_stopped() and numDashes != 0:
+	if Input.is_action_just_pressed("dash") and $Timers/DashCool.is_stopped() and numDashes != 0:
 		dash(dir)
 
 	if (knockback != 0 and not grappling):
@@ -420,13 +420,13 @@ func _physics_process(delta: float) -> void:
 		knockback = 0
 	if (Input.is_action_just_pressed("pause")):
 		get_tree().paused = true
-		$Menu.visible = true
-		$Menu.disabled = false
-		$Reset.visible = true
-		$Reset.disabled = false
-		$Resume.visible = true
-		$Resume.disabled = false
-		$Pause.visible = true
+		$Buttons/Menu.visible = true
+		$Buttons/Menu.disabled = false
+		$Buttons/Reset.visible = true
+		$Buttons/Reset.disabled = false
+		$Buttons/Resume.visible = true
+		$Buttons/Resume.disabled = false
+		$Labels/Pause.visible = true
 	
 
 	
@@ -438,7 +438,7 @@ func _physics_process(delta: float) -> void:
 	if cancelled and is_on_floor():
 		cancelled = false
 	
-	if !$DashTimer.is_stopped():
+	if !$Timers/DashTimer.is_stopped():
 		velocity.y = 0
 	else:
 		played = false
@@ -475,7 +475,7 @@ func _physics_process(delta: float) -> void:
 			slideSquish(direction)
 	
 		#crouch end animation
-		elif squished == true and $KnockbackTimer.is_stopped():
+		elif squished == true and $Timers/KnockbackTimer.is_stopped():
 			unsquish()
 	
 		#run/dash begin
@@ -499,24 +499,24 @@ func _on_menu_pressed() -> void:
 
 func _on_reset_pressed() -> void:
 	get_tree().paused = false
-	$Menu.visible = false
-	$Menu.disabled = true
-	$Reset.visible = false
-	$Reset.disabled = true
-	$Resume.visible = false
-	$Resume.disabled = true
-	$Pause.visible = false
+	$Buttons/Menu.visible = false
+	$Buttons/Menu.disabled = true
+	$Buttons/Reset.visible = false
+	$Buttons/Reset.disabled = true
+	$Buttons/Resume.visible = false
+	$Buttons/Resume.disabled = true
+	$Labels/Pause.visible = false
 	load_game()
 
 
 func _on_resume_pressed() -> void:
-	$Menu.visible = false
-	$Menu.disabled = true
-	$Reset.visible = false
-	$Reset.disabled = true
-	$Resume.visible = false
-	$Resume.disabled = true
-	$Pause.visible = false
+	$Buttons/Menu.visible = false
+	$Buttons/Menu.disabled = true
+	$Buttons/Reset.visible = false
+	$Buttons/Reset.disabled = true
+	$Buttons/Resume.visible = false
+	$Buttons/Resume.disabled = true
+	$Labels/Pause.visible = false
 	get_tree().paused = false
 
 

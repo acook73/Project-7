@@ -1,8 +1,10 @@
-[gd_scene load_steps=19 format=4 uid="uid://qcivv8cmpjwi"]
+[gd_scene load_steps=21 format=4 uid="uid://qcivv8cmpjwi"]
 
 [ext_resource type="Script" uid="uid://b8rcg3cr2mhoo" path="res://scripts/game.gd" id="1_dinhu"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_uwrxv"]
 [ext_resource type="TileSet" uid="uid://dt4gun2268wqr" path="res://scenes/TilesetForest.tres" id="2_iywne"]
+[ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="3_ir15t"]
+[ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="4_ca42v"]
 [ext_resource type="Texture2D" uid="uid://dnb14ox0cy0de" path="res://assets/Cursor/Cursor.png" id="4_lbhrr"]
 [ext_resource type="Script" uid="uid://47daoa3em67h" path="res://scripts/pointer.gd" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://80wnmousun1i" path="res://scenes/skeleton.tscn" id="6_u5sy4"]
@@ -13,15 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://7v78v2uod16s" path="res://scenes/sword.tscn" id="12_dinhu"]
 [ext_resource type="PackedScene" uid="uid://cde7eytv48th8" path="res://scenes/dash.tscn" id="12_kvuet"]
 [ext_resource type="PackedScene" uid="uid://qqp0iwqyn23m" path="res://scenes/jump.tscn" id="13_trtic"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_0tnpc"]
-font_size = 12
-
-[sub_resource type="SystemFont" id="SystemFont_vtaks"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_kvpfn"]
-font = SubResource("SystemFont_vtaks")
-font_size = 12
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_iywne"]
 animations = [{
@@ -38,134 +31,37 @@ animations = [{
 normal = Vector2(-0.00325202, -0.999995)
 distance = -395.982
 
+[sub_resource type="LabelSettings" id="LabelSettings_0tnpc"]
+font_size = 12
+
+[sub_resource type="SystemFont" id="SystemFont_vtaks"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kvpfn"]
+font = SubResource("SystemFont_vtaks")
+font_size = 12
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_dinhu")
 
-[node name="Label3" type="Label" parent="."]
-offset_left = 704.0
-offset_top = -144.0
-offset_right = 878.0
-offset_bottom = -67.0
-text = "Hooks can be flown through if the grapple is released before colliding with it."
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label6" type="Label" parent="."]
-offset_left = 1120.0
-offset_top = -160.0
-offset_right = 1294.0
-offset_bottom = -83.0
-text = "This is a checkpoint, walking past it will save your progress in case you die or quit the game."
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label7" type="Label" parent="."]
-offset_left = 1736.0
-offset_top = -168.0
-offset_right = 1936.0
-offset_bottom = -91.0
-text = "These are pickups for the player. "
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label8" type="Label" parent="."]
-offset_left = 1528.0
-offset_top = -64.0
-offset_right = 1704.0
-offset_bottom = 13.0
-text = "HP Potion: restores full health"
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label9" type="Label" parent="."]
-offset_left = 1744.0
-offset_top = -64.0
-offset_right = 1920.0
-offset_bottom = 13.0
-text = "Shield: Reduces damage taken"
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label10" type="Label" parent="."]
-offset_left = 1968.0
-offset_top = -64.0
-offset_right = 2152.0
-offset_bottom = 13.0
-text = "Sword: Increases damage dealt "
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label11" type="Label" parent="."]
-offset_left = 2952.0
-offset_top = -72.0
-offset_right = 3192.0
-offset_bottom = 5.0
-text = "You are immune to attacks while dashing"
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label13" type="Label" parent="."]
-offset_left = 3952.0
-offset_top = -72.0
-offset_right = 4072.0
-offset_bottom = 5.0
-text = "Drop down to begin."
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label12" type="Label" parent="."]
-offset_left = 2376.0
-offset_top = -152.0
-offset_right = 2680.0
-offset_bottom = 5.0
-text = "Use:
-Left Mouse Button for side attack.
-Left Mouse Button + W for up attack
-Left Mouse Button + S (in air) for down attack
-Left Mouse Button + S (on ground) for crouch attack
-"
-label_settings = SubResource("LabelSettings_0tnpc")
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="Label2" type="Label" parent="."]
-offset_left = 320.0
-offset_top = -64.0
-offset_right = 520.0
-offset_bottom = 13.0
-text = "Hooks and stone surfaces can be grappled to, use Right Mouse Button to use the grappling hook."
-label_settings = SubResource("LabelSettings_0tnpc")
-autowrap_mode = 2
-
-[node name="Label" type="Label" parent="."]
-offset_left = -1152.0
-offset_top = -80.0
-offset_right = -936.0
-offset_bottom = -31.0
-text = "Use A and D to move left and right."
-label_settings = SubResource("LabelSettings_kvpfn")
-autowrap_mode = 2
-
-[node name="Label4" type="Label" parent="."]
-offset_left = -688.0
-offset_top = -80.0
-offset_right = -464.0
-offset_bottom = -31.0
-text = "Press Spacebar to jump / double jump"
-label_settings = SubResource("LabelSettings_kvpfn")
-autowrap_mode = 2
-
-[node name="Label5" type="Label" parent="."]
-offset_left = -264.0
-offset_top = -80.0
-offset_right = -16.0
-offset_bottom = -31.0
-text = "Press Shift to dash to cover more distance"
-label_settings = SubResource("LabelSettings_kvpfn")
-autowrap_mode = 2
-
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("1_uwrxv")]
 position = Vector2(-1047, -5)
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+position = Vector2(0, -11)
+zoom = Vector2(3.5, 3.5)
+position_smoothing_speed = 20.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Player/Camera2D2"]
+offset_left = -329.0
+offset_top = -200.0
+offset_right = -254.0
+offset_bottom = -136.0
+value = 50.0
+allow_lesser = true
+nine_patch_stretch = true
+texture_under = ExtResource("3_ir15t")
+texture_progress = ExtResource("4_ca42v")
+tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 
 [node name="Ground Layer" type="TileMapLayer" parent="."]
 use_parent_material = true
@@ -196,25 +92,152 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Teleport barrier"]
 shape = SubResource("WorldBoundaryShape2D_0tnpc")
 
-[node name="healPotion" parent="." instance=ExtResource("10_vtaks")]
-position = Vector2(1616, -16)
-
-[node name="Shield0" parent="." instance=ExtResource("11_kvpfn")]
-position = Vector2(1832, -16)
-
-[node name="Sword0" parent="." instance=ExtResource("12_dinhu")]
-position = Vector2(2056, -16)
-
 [node name="LoadBarrier" parent="." instance=ExtResource("10_kvpfn")]
 position = Vector2(4008, 216)
 
 [node name="Skeleton" parent="." instance=ExtResource("6_u5sy4")]
 position = Vector2(3416, 0)
 
-[node name="Jump" parent="." instance=ExtResource("12_kvuet")]
+[node name="Labels" type="Node" parent="."]
+
+[node name="Label3" type="Label" parent="Labels"]
+offset_left = 704.0
+offset_top = -144.0
+offset_right = 878.0
+offset_bottom = -67.0
+text = "Hooks can be flown through if the grapple is released before colliding with it."
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label6" type="Label" parent="Labels"]
+offset_left = 1120.0
+offset_top = -160.0
+offset_right = 1294.0
+offset_bottom = -83.0
+text = "This is a checkpoint, walking past it will save your progress in case you die or quit the game."
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label7" type="Label" parent="Labels"]
+offset_left = 1736.0
+offset_top = -168.0
+offset_right = 1936.0
+offset_bottom = -91.0
+text = "These are pickups for the player. "
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label8" type="Label" parent="Labels"]
+offset_left = 1528.0
+offset_top = -64.0
+offset_right = 1704.0
+offset_bottom = 13.0
+text = "HP Potion: restores full health"
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label9" type="Label" parent="Labels"]
+offset_left = 1744.0
+offset_top = -64.0
+offset_right = 1920.0
+offset_bottom = 13.0
+text = "Shield: Reduces damage taken"
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label10" type="Label" parent="Labels"]
+offset_left = 1968.0
+offset_top = -64.0
+offset_right = 2152.0
+offset_bottom = 13.0
+text = "Sword: Increases damage dealt "
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label11" type="Label" parent="Labels"]
+offset_left = 2952.0
+offset_top = -72.0
+offset_right = 3192.0
+offset_bottom = 5.0
+text = "You are immune to attacks while dashing"
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label13" type="Label" parent="Labels"]
+offset_left = 3952.0
+offset_top = -72.0
+offset_right = 4072.0
+offset_bottom = 5.0
+text = "Drop down to begin."
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label12" type="Label" parent="Labels"]
+offset_left = 2376.0
+offset_top = -152.0
+offset_right = 2680.0
+offset_bottom = 5.0
+text = "Use:
+Left Mouse Button for side attack.
+Left Mouse Button + W for up attack
+Left Mouse Button + S (in air) for down attack
+Left Mouse Button + S (on ground) for crouch attack
+"
+label_settings = SubResource("LabelSettings_0tnpc")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="Labels"]
+offset_left = 320.0
+offset_top = -64.0
+offset_right = 520.0
+offset_bottom = 13.0
+text = "Hooks and stone surfaces can be grappled to, use Right Mouse Button to use the grappling hook."
+label_settings = SubResource("LabelSettings_0tnpc")
+autowrap_mode = 2
+
+[node name="Label" type="Label" parent="Labels"]
+offset_left = -1152.0
+offset_top = -80.0
+offset_right = -936.0
+offset_bottom = -31.0
+text = "Use A and D to move left and right."
+label_settings = SubResource("LabelSettings_kvpfn")
+autowrap_mode = 2
+
+[node name="Label4" type="Label" parent="Labels"]
+offset_left = -688.0
+offset_top = -80.0
+offset_right = -464.0
+offset_bottom = -31.0
+text = "Press Spacebar to jump / double jump"
+label_settings = SubResource("LabelSettings_kvpfn")
+autowrap_mode = 2
+
+[node name="Label5" type="Label" parent="Labels"]
+offset_left = -264.0
+offset_top = -80.0
+offset_right = -16.0
+offset_bottom = -31.0
+text = "Press Shift to dash to cover more distance"
+label_settings = SubResource("LabelSettings_kvpfn")
+autowrap_mode = 2
+
+[node name="Pickups" type="Node" parent="."]
+
+[node name="healPotion" parent="Pickups" instance=ExtResource("10_vtaks")]
+position = Vector2(1616, -16)
+
+[node name="Shield0" parent="Pickups" instance=ExtResource("11_kvpfn")]
+position = Vector2(1832, -16)
+
+[node name="Sword0" parent="Pickups" instance=ExtResource("12_dinhu")]
+position = Vector2(2056, -16)
+
+[node name="Jump" parent="Pickups" instance=ExtResource("12_kvuet")]
 position = Vector2(-967, -14)
 
-[node name="Jump2" parent="." instance=ExtResource("13_trtic")]
+[node name="Jump2" parent="Pickups" instance=ExtResource("13_trtic")]
 position = Vector2(-925, -14)
 
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_area_2d_body_entered"]

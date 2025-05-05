@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://6t3rhj7cu0t7"]
+[gd_scene load_steps=112 format=3 uid="uid://6t3rhj7cu0t7"]
 
 [ext_resource type="Script" uid="uid://d2tsv5skjn3fu" path="res://scripts/player.gd" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://dsivcgnc332o7" path="res://assets/Lila/Lila-Dash.png" id="2_70d11"]
@@ -12,8 +12,6 @@
 [ext_resource type="Script" uid="uid://c6tscfdrl3ojq" path="res://scripts/grapple_controller.gd" id="7_cw2d6"]
 [ext_resource type="Texture2D" uid="uid://dm58tv0aha8dh" path="res://assets/Lila/Lila-Downward-Swing.png" id="8_0rnld"]
 [ext_resource type="Script" uid="uid://ixgave8akowv" path="res://scripts/grapple_ray.gd" id="10_o4126"]
-[ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="11_o4126"]
-[ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="12_lkdrv"]
 [ext_resource type="Texture2D" uid="uid://dgaegwo348jvs" path="res://assets/Background/path5545-3.png" id="17_jfpux"]
 [ext_resource type="Texture2D" uid="uid://coo0ass450pdn" path="res://assets/Background/Background - Layered.png" id="19_sfy4j"]
 [ext_resource type="Texture2D" uid="uid://cscsgsr50jhdk" path="res://assets/Background/Background - Top.png" id="20_gv3ic"]
@@ -740,15 +738,17 @@ shape = SubResource("CapsuleShape2D_p7iby")
 position = Vector2(1, -11)
 shape = SubResource("CapsuleShape2D_p7iby")
 
-[node name="DashCool" type="Timer" parent="."]
+[node name="Timers" type="Node" parent="."]
+
+[node name="DashCool" type="Timer" parent="Timers"]
 wait_time = 0.4
 one_shot = true
 
-[node name="DashTimer" type="Timer" parent="."]
+[node name="DashTimer" type="Timer" parent="Timers"]
 wait_time = 0.15
 one_shot = true
 
-[node name="KnockbackTimer" type="Timer" parent="."]
+[node name="KnockbackTimer" type="Timer" parent="Timers"]
 wait_time = 0.3
 one_shot = true
 
@@ -768,96 +768,6 @@ script = ExtResource("10_o4126")
 [node name="stopMomentum" type="Timer" parent="grapple_controller"]
 wait_time = 0.1
 one_shot = true
-
-[node name="Button2" type="Button" parent="."]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -101.0
-offset_top = -95.0
-offset_right = 102.0
-offset_bottom = -58.0
-text = "Return to last checkpoint"
-
-[node name="Button" type="Button" parent="."]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -73.0
-offset_top = -48.0
-offset_right = 73.0
-offset_bottom = -11.0
-text = "Return to Menu"
-
-[node name="Label" type="Label" parent="."]
-visible = false
-z_index = 15
-offset_left = -96.0
-offset_top = -136.0
-offset_right = 96.0
-offset_bottom = -113.0
-text = "GAME OVER"
-horizontal_alignment = 1
-
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -11)
-zoom = Vector2(3.5, 3.5)
-position_smoothing_speed = 20.0
-
-[node name="Menu" type="Button" parent="."]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -159.0
-offset_top = 54.0
-offset_right = 161.0
-offset_bottom = 126.0
-disabled = true
-text = "Return to Menu"
-
-[node name="Reset" type="Button" parent="."]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -160.0
-offset_top = -32.0
-offset_right = 160.0
-offset_bottom = 40.0
-disabled = true
-text = "Return to Last Checkpoint"
-
-[node name="Resume" type="Button" parent="."]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -160.0
-offset_top = -120.0
-offset_right = 160.0
-offset_bottom = -48.0
-disabled = true
-text = "Resume"
-
-[node name="Pause" type="Label" parent="."]
-visible = false
-z_index = 15
-offset_left = -88.0
-offset_top = -176.0
-offset_right = 90.0
-offset_bottom = -151.0
-text = "Paused"
-horizontal_alignment = 1
-
-[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-offset_left = -330.0
-offset_top = -218.0
-offset_right = -255.0
-offset_bottom = -154.0
-value = 50.0
-allow_lesser = true
-nine_patch_stretch = true
-texture_under = ExtResource("11_o4126")
-texture_progress = ExtResource("12_lkdrv")
-tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -15)
@@ -925,7 +835,9 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_viqgg")
 disabled = true
 
-[node name="DJump" type="Label" parent="."]
+[node name="Labels" type="Node" parent="."]
+
+[node name="DJump" type="Label" parent="Labels"]
 visible = false
 offset_left = -67.0
 offset_top = -112.0
@@ -934,7 +846,7 @@ offset_bottom = -89.0
 theme_override_font_sizes/font_size = 12
 text = "Double Jump Unlocked"
 
-[node name="uDash" type="Label" parent="."]
+[node name="uDash" type="Label" parent="Labels"]
 visible = false
 offset_left = -67.0
 offset_top = -112.0
@@ -944,6 +856,26 @@ theme_override_font_sizes/font_size = 12
 text = "Dash Unlocked"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Label" type="Label" parent="Labels"]
+visible = false
+z_index = 15
+offset_left = -96.0
+offset_top = -136.0
+offset_right = 96.0
+offset_bottom = -113.0
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="Pause" type="Label" parent="Labels"]
+visible = false
+z_index = 15
+offset_left = -88.0
+offset_top = -176.0
+offset_right = 90.0
+offset_bottom = -151.0
+text = "Paused"
+horizontal_alignment = 1
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scale = Vector2(3, 3)
@@ -977,10 +909,65 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("17_jfpux")
 centered = false
 
+[node name="Buttons" type="Node" parent="."]
+
+[node name="Button2" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -101.0
+offset_top = -95.0
+offset_right = 102.0
+offset_bottom = -58.0
+text = "Return to last checkpoint"
+
+[node name="Button" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -73.0
+offset_top = -48.0
+offset_right = 73.0
+offset_bottom = -11.0
+text = "Return to Menu"
+
+[node name="Menu" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -159.0
+offset_top = 54.0
+offset_right = 161.0
+offset_bottom = 126.0
+disabled = true
+text = "Return to Menu"
+
+[node name="Reset" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -160.0
+offset_top = -32.0
+offset_right = 160.0
+offset_bottom = 40.0
+disabled = true
+text = "Return to Last Checkpoint"
+
+[node name="Resume" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -160.0
+offset_top = -120.0
+offset_right = 160.0
+offset_bottom = -48.0
+disabled = true
+text = "Resume"
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="Menu" to="." method="_on_menu_pressed"]
-[connection signal="pressed" from="Reset" to="." method="_on_reset_pressed"]
-[connection signal="pressed" from="Resume" to="." method="_on_resume_pressed"]
 [connection signal="body_entered" from="AnimatedSprite2D/AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
+[connection signal="pressed" from="Buttons/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Buttons/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Buttons/Menu" to="." method="_on_menu_pressed"]
+[connection signal="pressed" from="Buttons/Reset" to="." method="_on_reset_pressed"]
+[connection signal="pressed" from="Buttons/Resume" to="." method="_on_resume_pressed"]

@@ -1,9 +1,11 @@
-[gd_scene load_steps=19 format=4 uid="uid://b7d301ch6d8yy"]
+[gd_scene load_steps=21 format=4 uid="uid://b7d301ch6d8yy"]
 
-[ext_resource type="Script" path="res://scripts/game_2.gd" id="1_c45dc"]
+[ext_resource type="Script" uid="uid://dneim0qiti01q" path="res://scripts/game_2.gd" id="1_c45dc"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_vttgw"]
+[ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="3_io8iw"]
 [ext_resource type="TileSet" uid="uid://dt4gun2268wqr" path="res://scenes/TilesetForest.tres" id="3_wgl31"]
 [ext_resource type="Texture2D" uid="uid://dnb14ox0cy0de" path="res://assets/Cursor/Cursor.png" id="4_f674i"]
+[ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="4_rye4h"]
 [ext_resource type="Script" uid="uid://47daoa3em67h" path="res://scripts/pointer.gd" id="5_wjphx"]
 [ext_resource type="PackedScene" uid="uid://c3u2w1pwf3b4y" path="res://scenes/checkpoint.tscn" id="6_f674i"]
 [ext_resource type="PackedScene" uid="uid://be5hno0j7qque" path="res://scenes/slime.tscn" id="7_wjphx"]
@@ -35,49 +37,51 @@ animations = [{
 [node name="Game2" type="Node2D"]
 script = ExtResource("1_c45dc")
 
-[node name="Hat1" type="Label" parent="."]
+[node name="Hat Placements" type="Node" parent="."]
+
+[node name="Hat1" type="Label" parent="Hat Placements"]
 offset_left = -986.0
 offset_top = -620.0
 offset_right = -835.0
 offset_bottom = -597.0
 text = "Put Collectible here"
 
-[node name="Hat2" type="Label" parent="."]
+[node name="Hat2" type="Label" parent="Hat Placements"]
 offset_left = -152.0
 offset_top = -1392.0
 offset_right = -1.0
 offset_bottom = -1369.0
 text = "Put Collectible here"
 
-[node name="Hat3" type="Label" parent="."]
+[node name="Hat3" type="Label" parent="Hat Placements"]
 offset_left = 1945.0
 offset_top = 568.0
 offset_right = 2096.0
 offset_bottom = 591.0
 text = "Put Collectible here"
 
-[node name="Hat4" type="Label" parent="."]
+[node name="Hat4" type="Label" parent="Hat Placements"]
 offset_left = 998.0
 offset_top = -615.0
 offset_right = 1149.0
 offset_bottom = -592.0
 text = "Put Collectible here"
 
-[node name="Hat5" type="Label" parent="."]
+[node name="Hat5" type="Label" parent="Hat Placements"]
 offset_left = 2461.0
 offset_top = -1536.0
 offset_right = 2612.0
 offset_bottom = -1513.0
 text = "Put Collectible here"
 
-[node name="Hat6" type="Label" parent="."]
+[node name="Hat6" type="Label" parent="Hat Placements"]
 offset_left = 3968.0
 offset_top = -440.0
 offset_right = 4119.0
 offset_bottom = -417.0
 text = "Put Collectible here"
 
-[node name="Hat7" type="Label" parent="."]
+[node name="Hat7" type="Label" parent="Hat Placements"]
 offset_left = 4040.0
 offset_top = 128.0
 offset_right = 4104.0
@@ -86,21 +90,21 @@ theme_override_font_sizes/font_size = 10
 text = "Put Collectible here"
 autowrap_mode = 2
 
-[node name="Hat8" type="Label" parent="."]
+[node name="Hat8" type="Label" parent="Hat Placements"]
 offset_left = 7416.0
 offset_top = -504.0
 offset_right = 7567.0
 offset_bottom = -481.0
 text = "Put Collectible here"
 
-[node name="Hat9" type="Label" parent="."]
+[node name="Hat9" type="Label" parent="Hat Placements"]
 offset_left = 6432.0
 offset_top = -1720.0
 offset_right = 6583.0
 offset_bottom = -1697.0
 text = "Put Collectible here"
 
-[node name="Hat10" type="Label" parent="."]
+[node name="Hat10" type="Label" parent="Hat Placements"]
 offset_left = 8896.0
 offset_top = 16.0
 offset_right = 9198.0
@@ -109,6 +113,23 @@ text = "Hat 10 comes from defeating final boss"
 
 [node name="Player" parent="." instance=ExtResource("1_vttgw")]
 position = Vector2(-1168, -320)
+
+[node name="Camera2D2" type="Camera2D" parent="Player"]
+position = Vector2(0, -11)
+zoom = Vector2(3.5, 3.5)
+position_smoothing_speed = 20.0
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Player/Camera2D2"]
+offset_left = -328.0
+offset_top = -205.0
+offset_right = -253.0
+offset_bottom = -141.0
+value = 50.0
+allow_lesser = true
+nine_patch_stretch = true
+texture_under = ExtResource("3_io8iw")
+texture_progress = ExtResource("4_rye4h")
+tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 
 [node name="Teleport barrier" type="Area2D" parent="."]
 position = Vector2(328, 424)
@@ -137,285 +158,291 @@ position = Vector2(124, -49)
 sprite_frames = SubResource("SpriteFrames_so0bb")
 script = ExtResource("5_wjphx")
 
-[node name="Checkpoint" parent="." instance=ExtResource("6_f674i")]
-position = Vector2(-1054, -69)
+[node name="Enemies" type="Node" parent="."]
 
-[node name="Slime" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(549, 30)
-
-[node name="Slime2" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(635, -478)
-
-[node name="Slime3" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(545, -479)
-
-[node name="Slime4" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(-164, -977)
-
-[node name="Jump" parent="." instance=ExtResource("12_glh1a")]
-position = Vector2(760, -1456)
-
-[node name="healPotion" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(832, -1456)
-
-[node name="healPotion2" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(-1096, 16)
-
-[node name="Bat" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(1120, 368)
-
-[node name="Checkpoint2" parent="." instance=ExtResource("6_f674i")]
-position = Vector2(1256, -56)
-
-[node name="Checkpoint3" parent="." instance=ExtResource("6_f674i")]
-position = Vector2(576, -1536)
-
-[node name="Bat2" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(1432, 432)
-
-[node name="Bat3" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(1576, 432)
-
-[node name="Bat4" parent="." instance=ExtResource("10_b4gt0")]
-position = Vector2(1920, 288)
-
-[node name="Bat5" parent="." instance=ExtResource("10_b4gt0")]
-position = Vector2(2096, 288)
-
-[node name="Bat6" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(2008, 336)
-
-[node name="Shield" parent="." instance=ExtResource("12_dr8oi")]
-position = Vector2(2320, 464)
-
-[node name="healPotion3" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(2352, 464)
-
-[node name="Checkpoint4" parent="." instance=ExtResource("6_f674i")]
-position = Vector2(2336, 424)
-
-[node name="Zombie" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(794, -1442)
-
-[node name="Skeleton" parent="." instance=ExtResource("10_glh1a")]
+[node name="Skeleton" parent="Enemies" instance=ExtResource("10_glh1a")]
 position = Vector2(1727, 36)
 
-[node name="Skeleton2" parent="." instance=ExtResource("10_glh1a")]
+[node name="Skeleton2" parent="Enemies" instance=ExtResource("10_glh1a")]
 position = Vector2(1972, 33)
 
-[node name="Skeleton3" parent="." instance=ExtResource("10_glh1a")]
+[node name="Skeleton3" parent="Enemies" instance=ExtResource("10_glh1a")]
 position = Vector2(1347, -177)
 
-[node name="Slime5" parent="." instance=ExtResource("7_wjphx")]
+[node name="Skeleton4" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(3360, -80)
+
+[node name="Skeleton5" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(3360, -224)
+
+[node name="Skeleton6" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(3360, -368)
+
+[node name="Skeleton7" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(4096, 192)
+
+[node name="Skeleton8" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(3792, 352)
+
+[node name="Skeleton9" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(4352, 352)
+
+[node name="Skeleton10" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(6048, -496)
+
+[node name="Skeleton11" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(7216, -256)
+
+[node name="Skeleton12" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(6648, -696)
+
+[node name="Skeleton13" parent="Enemies" instance=ExtResource("10_glh1a")]
+position = Vector2(6312, -688)
+
+[node name="Slime" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(549, 30)
+
+[node name="Slime2" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(635, -478)
+
+[node name="Slime3" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(545, -479)
+
+[node name="Slime4" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(-164, -977)
+
+[node name="Slime5" parent="Enemies" instance=ExtResource("7_wjphx")]
 position = Vector2(1618, -191)
 
-[node name="Slime6" parent="." instance=ExtResource("7_wjphx")]
+[node name="Slime6" parent="Enemies" instance=ExtResource("7_wjphx")]
 position = Vector2(1489, -191)
 
-[node name="Bat7" parent="." instance=ExtResource("10_b4gt0")]
-position = Vector2(1438, -532)
+[node name="Slime7" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(2256, -912)
 
-[node name="Bat8" parent="." instance=ExtResource("10_b4gt0")]
-position = Vector2(1817, -532)
-
-[node name="Slime8" parent="." instance=ExtResource("7_wjphx")]
+[node name="Slime8" parent="Enemies" instance=ExtResource("7_wjphx")]
 position = Vector2(1616, -366)
 
-[node name="healPotion4" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(1326, -371)
+[node name="Slime9" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(5968, -464)
 
-[node name="Zombie2" parent="." instance=ExtResource("8_so0bb")]
+[node name="Slime10" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(5936, -464)
+
+[node name="Slime11" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(6000, -464)
+
+[node name="Slime12" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(6528, -128)
+
+[node name="Slime13" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(7128, -224)
+
+[node name="Slime14" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(6440, -1040)
+
+[node name="Slime15" parent="Enemies" instance=ExtResource("7_wjphx")]
+position = Vector2(6560, -1040)
+
+[node name="Zombie" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(794, -1442)
+
+[node name="Zombie2" parent="Enemies" instance=ExtResource("8_so0bb")]
 position = Vector2(1569, -642)
 
-[node name="Bat9" parent="." instance=ExtResource("11_kmooo")]
+[node name="Zombie3" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(3928, -112)
+
+[node name="Zombie4" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(4120, -112)
+
+[node name="Zombie5" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(3600, 352)
+
+[node name="Zombie6" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(3024, 496)
+
+[node name="Zombie7" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(4816, 288)
+
+[node name="Zombie8" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(4688, 336)
+
+[node name="Zombie9" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(6592, -160)
+
+[node name="Zombie10" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(6376, -160)
+
+[node name="Zombie11" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(6400, -664)
+
+[node name="Zombie12" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(6576, -656)
+
+[node name="Zombie13" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(6640, -1040)
+
+[node name="Zombie14" parent="Enemies" instance=ExtResource("8_so0bb")]
+position = Vector2(6368, -1040)
+
+[node name="Bat" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(1120, 368)
+
+[node name="Bat2" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(1432, 432)
+
+[node name="Bat3" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(1576, 432)
+
+[node name="Bat4" parent="Enemies" instance=ExtResource("10_b4gt0")]
+position = Vector2(1920, 288)
+
+[node name="Bat5" parent="Enemies" instance=ExtResource("10_b4gt0")]
+position = Vector2(2096, 288)
+
+[node name="Bat6" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(2008, 336)
+
+[node name="Bat7" parent="Enemies" instance=ExtResource("10_b4gt0")]
+position = Vector2(1438, -532)
+
+[node name="Bat8" parent="Enemies" instance=ExtResource("10_b4gt0")]
+position = Vector2(1817, -532)
+
+[node name="Bat9" parent="Enemies" instance=ExtResource("11_kmooo")]
 position = Vector2(1463, -770)
 
-[node name="Bat10" parent="." instance=ExtResource("11_kmooo")]
+[node name="Bat10" parent="Enemies" instance=ExtResource("11_kmooo")]
 position = Vector2(1676, -768)
 
-[node name="healPotion5" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(1577, -913)
+[node name="Bat11" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(3488, 344)
 
-[node name="Sword" parent="." instance=ExtResource("15_k563j")]
+[node name="Bat12" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(3104, 272)
+
+[node name="Bat13" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(3704, 456)
+
+[node name="Bat14" parent="Enemies" instance=ExtResource("10_b4gt0")]
+position = Vector2(7128, -384)
+
+[node name="Bat15" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(7128, -296)
+
+[node name="Bat16" parent="Enemies" instance=ExtResource("10_b4gt0")]
+position = Vector2(6504, -1208)
+
+[node name="Bat17" parent="Enemies" instance=ExtResource("11_kmooo")]
+position = Vector2(6504, -1120)
+
+[node name="Pickups" type="Node" parent="."]
+
+[node name="Shield" parent="Pickups" instance=ExtResource("12_dr8oi")]
+position = Vector2(2320, 464)
+
+[node name="Shield2" parent="Pickups" instance=ExtResource("12_dr8oi")]
+position = Vector2(4480, -320)
+
+[node name="Shield3" parent="Pickups" instance=ExtResource("12_dr8oi")]
+position = Vector2(6504, -1384)
+
+[node name="Sword" parent="Pickups" instance=ExtResource("15_k563j")]
 position = Vector2(1643, -913)
 
-[node name="Checkpoint5" parent="." instance=ExtResource("6_f674i")]
+[node name="Sword2" parent="Pickups" instance=ExtResource("15_k563j")]
+position = Vector2(2696, 160)
+
+[node name="Jump" parent="Pickups" instance=ExtResource("12_glh1a")]
+position = Vector2(760, -1456)
+
+[node name="Jump2" parent="Pickups" instance=ExtResource("12_glh1a")]
+position = Vector2(7776, -72)
+
+[node name="Dash" parent="Pickups" instance=ExtResource("13_dr8oi")]
+position = Vector2(4616, -833)
+
+[node name="healPotion" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(832, -1456)
+
+[node name="healPotion2" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(-1096, 16)
+
+[node name="healPotion3" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(2352, 464)
+
+[node name="healPotion4" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(1326, -371)
+
+[node name="healPotion5" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(1577, -913)
+
+[node name="healPotion6" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(4664, -833)
+
+[node name="healPotion7" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(4424, -320)
+
+[node name="healPotion8" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(2736, 160)
+
+[node name="healPotion9" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(3832, 336)
+
+[node name="healPotion10" parent="Pickups" instance=ExtResource("9_c45dc")]
+position = Vector2(7808, -72)
+
+[node name="Checkpoints" type="Node" parent="."]
+
+[node name="Checkpoint" parent="Checkpoints" instance=ExtResource("6_f674i")]
+position = Vector2(-1054, -69)
+
+[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("6_f674i")]
+position = Vector2(1256, -56)
+
+[node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("6_f674i")]
+position = Vector2(576, -1536)
+
+[node name="Checkpoint4" parent="Checkpoints" instance=ExtResource("6_f674i")]
+position = Vector2(2336, 424)
+
+[node name="Checkpoint5" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(1844, -257)
 scale = Vector2(0.5, 0.5)
 
-[node name="Checkpoint6" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint6" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(1364, -1063)
 
-[node name="Checkpoint7" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint7" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(2452, -129)
 
-[node name="Checkpoint8" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint8" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(2809, -1076)
 
-[node name="Jump3" parent="." instance=ExtResource("13_dr8oi")]
-position = Vector2(4616, -833)
-
-[node name="healPotion6" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(4664, -833)
-
-[node name="Checkpoint9" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint9" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(4639, -976)
 
-[node name="Checkpoint10" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint10" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(383, -1011)
 
-[node name="Shield2" parent="." instance=ExtResource("12_dr8oi")]
-position = Vector2(4480, -320)
-
-[node name="healPotion7" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(4424, -320)
-
-[node name="Skeleton4" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(3360, -80)
-
-[node name="Skeleton5" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(3360, -224)
-
-[node name="Skeleton6" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(3360, -368)
-
-[node name="Sword2" parent="." instance=ExtResource("15_k563j")]
-position = Vector2(2696, 160)
-
-[node name="healPotion8" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(2736, 160)
-
-[node name="Zombie3" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(3928, -112)
-
-[node name="Zombie4" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(4120, -112)
-
-[node name="Bat11" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(3488, 344)
-
-[node name="Bat12" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(3104, 272)
-
-[node name="Skeleton7" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(4096, 192)
-
-[node name="Zombie5" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(3600, 352)
-
-[node name="Bat13" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(3704, 456)
-
-[node name="Skeleton8" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(3792, 352)
-
-[node name="Zombie6" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(3024, 496)
-
-[node name="Zombie7" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(4816, 288)
-
-[node name="Zombie8" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(4688, 336)
-
-[node name="Skeleton9" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(4352, 352)
-
-[node name="healPotion9" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(3832, 336)
-
-[node name="Slime7" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(2256, -912)
-
-[node name="Checkpoint11" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint11" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(4552, 264)
 
-[node name="Checkpoint12" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint12" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(5136, -104)
 
-[node name="Checkpoint13" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint13" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(2808, 216)
 
-[node name="Checkpoint14" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint14" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(4720, -328)
 scale = Vector2(0.75, 0.75)
 
-[node name="Slime9" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(5968, -464)
-
-[node name="Slime10" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(5936, -464)
-
-[node name="Slime11" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(6000, -464)
-
-[node name="Skeleton10" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(6048, -496)
-
-[node name="Zombie9" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(6592, -160)
-
-[node name="Slime12" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(6528, -128)
-
-[node name="Zombie10" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(6376, -160)
-
-[node name="Bat14" parent="." instance=ExtResource("10_b4gt0")]
-position = Vector2(7128, -384)
-
-[node name="Bat15" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(7128, -296)
-
-[node name="Slime13" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(7128, -224)
-
-[node name="Skeleton11" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(7216, -256)
-
-[node name="Jump2" parent="." instance=ExtResource("12_glh1a")]
-position = Vector2(7776, -72)
-
-[node name="healPotion10" parent="." instance=ExtResource("9_c45dc")]
-position = Vector2(7808, -72)
-
-[node name="Skeleton12" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(6648, -696)
-
-[node name="Skeleton13" parent="." instance=ExtResource("10_glh1a")]
-position = Vector2(6312, -688)
-
-[node name="Zombie11" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(6400, -664)
-
-[node name="Zombie12" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(6576, -656)
-
-[node name="Zombie13" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(6640, -1040)
-
-[node name="Zombie14" parent="." instance=ExtResource("8_so0bb")]
-position = Vector2(6368, -1040)
-
-[node name="Bat16" parent="." instance=ExtResource("10_b4gt0")]
-position = Vector2(6504, -1208)
-
-[node name="Bat17" parent="." instance=ExtResource("11_kmooo")]
-position = Vector2(6504, -1120)
-
-[node name="Slime14" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(6440, -1040)
-
-[node name="Slime15" parent="." instance=ExtResource("7_wjphx")]
-position = Vector2(6560, -1040)
-
-[node name="Shield3" parent="." instance=ExtResource("12_dr8oi")]
-position = Vector2(6504, -1384)
-
-[node name="Checkpoint15" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint15" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(8104, 56)
 
-[node name="Checkpoint16" parent="." instance=ExtResource("6_f674i")]
+[node name="Checkpoint16" parent="Checkpoints" instance=ExtResource("6_f674i")]
 position = Vector2(6848, -1056)
 
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_teleport_barrier_body_entered"]
