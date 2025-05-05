@@ -1,1 +1,1 @@
-{"filename":"res://scenes/game_2.tscn","hp":165.0,"hp_max":200.0,"maxDash":1.0,"maxJumps":1.0,"parent":"/root/Game2","pos_x":-1073.68579101562,"pos_y":32.9252471923828,"rem":["Hat2","Jump","Shield","Hat3","Hat4","Sword","Hat5","Dash","Sword2","Hat"],"selectedHat":5}
+{"filename":"res://scenes/game_2.tscn","hp":300.0,"hp_max":300.0,"maxDash":1.0,"maxJumps":2.0,"parent":"/root/Game2","pos_x":8082.9208984375,"pos_y":224.933486938477,"rem":["Hat2","Jump","Shield","Hat3","Hat4","Sword","Hat5","Dash","Sword2","Hat","Shield2","Shield3","Jump2"],"selectedHat":5}

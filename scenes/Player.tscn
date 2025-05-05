@@ -994,6 +994,17 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("17_jfpux")
 centered = false
 
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, 64)
+motion_scale = Vector2(0.4, 0.4)
+motion_mirroring = Vector2(1109, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(0.5, 1)
+texture = ExtResource("17_jfpux")
+centered = false
+flip_v = true
+
 [node name="PausePreview" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(-240, -32)
@@ -1003,7 +1014,6 @@ sprite_frames = SubResource("SpriteFrames_e2ifm")
 [node name="Hat" type="Sprite2D" parent="PausePreview"]
 visible = false
 position = Vector2(3, -20)
-scale = Vector2(1, 1)
 
 [connection signal="pressed" from="Buttons/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Buttons/Button" to="." method="_on_button_pressed"]
