@@ -163,6 +163,8 @@ func doGravity(delta: float):
 func slideSquish(direction: float ):
 	if squished == false and not attacking:
 		$Hat.position.y = -31
+		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
+			$Hat.position.y = -28
 		animated_sprite.play("squish")
 		squished = true
 	if (abs(velocity.x) > 9.0 and direction == velocity.x/abs(velocity.x)):
@@ -185,6 +187,8 @@ func slideSquish(direction: float ):
 func unsquish():
 	if (not attacking):
 		$Hat.position.y = -35
+		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
+			$Hat.position.y = -32
 		animated_sprite.play("unsquish")
 		squished = false
 
@@ -398,6 +402,19 @@ func loadHats():
 						hats.append(node_data[i][j])
 	if(hats[selectedHat%hats.size()] != "none"):
 		$Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
+			$Hat.position.y = -32
+			$Hat.scale = Vector2(.4, .4)
+			$PausePreview/Hat.scale = Vector2(.4, .4)
+			$PausePreview/Hat.position.y = -18
+		elif (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-7.png"):
+			$Hat.position.y = -29
+			$PausePreview/Hat.position.y = -16
+		else:
+			$Hat.scale = Vector2(1, 1)
+			$PausePreview/Hat.scale = Vector2(1, 1)
+			$PausePreview/Hat.position.y = -20
+			$Hat.position.y = -35
 	else:
 		$Hat.visible = false
 		$PausePreview/Hat.visible = false
@@ -489,6 +506,19 @@ func _physics_process(delta: float) -> void:
 		if (hats[selectedHat%hats.size()] != "none"):
 			$PausePreview/Hat.visible = true
 			$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
+			if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
+				$Hat.position.y = -32
+				$Hat.scale = Vector2(.4, .4)
+				$PausePreview/Hat.scale = Vector2(.4, .4)
+				$PausePreview/Hat.position.y = -18
+			elif (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-7.png"):
+				$Hat.position.y = -29
+				$PausePreview/Hat.position.y = -16
+			else:
+				$Hat.scale = Vector2(1, 1)
+				$PausePreview/Hat.scale = Vector2(1, 1)
+				$PausePreview/Hat.position.y = -20
+				$Hat.position.y = -35
 		else:
 			$PausePreview/Hat.visible = false
 		$Labels/Pause.visible = true
@@ -626,6 +656,19 @@ func _on_right_pressed() -> void:
 	if (hats[selectedHat%hats.size()] != "none"):
 		$PausePreview/Hat.visible = true
 		$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
+			$Hat.position.y = -32
+			$Hat.scale = Vector2(.4, .4)
+			$PausePreview/Hat.scale = Vector2(.4, .4)
+			$PausePreview/Hat.position.y = -18
+		elif (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-7.png"):
+			$Hat.position.y = -29
+			$PausePreview/Hat.position.y = -16
+		else:
+			$Hat.scale = Vector2(1, 1)
+			$PausePreview/Hat.scale = Vector2(1, 1)
+			$PausePreview/Hat.position.y = -20
+			$Hat.position.y = -35
 		$Hat.set_texture(load(hats[selectedHat%hats.size()]))
 		$Hat.visible = true
 	else:
@@ -639,6 +682,19 @@ func _on_left_pressed() -> void:
 		$PausePreview/Hat.visible = true
 		$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
 		$Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
+			$Hat.position.y = -32
+			$Hat.scale = Vector2(.4, .4)
+			$PausePreview/Hat.scale = Vector2(.4, .4)
+			$PausePreview/Hat.position.y = -18
+		elif (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-7.png"):
+			$Hat.position.y = -29
+			$PausePreview/Hat.position.y = -16
+		else:
+			$Hat.scale = Vector2(1, 1)
+			$PausePreview/Hat.scale = Vector2(1, 1)
+			$PausePreview/Hat.position.y = -20
+			$Hat.position.y = -35
 		$Hat.visible = true
 	else:
 		$PausePreview/Hat.visible = false

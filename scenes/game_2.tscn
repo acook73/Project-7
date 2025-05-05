@@ -41,43 +41,6 @@ script = ExtResource("1_c45dc")
 
 [node name="Hat Placements" type="Node" parent="."]
 
-[node name="Hat6" type="Label" parent="Hat Placements"]
-offset_left = 3968.0
-offset_top = -440.0
-offset_right = 4119.0
-offset_bottom = -417.0
-text = "Put Collectible here"
-
-[node name="Hat7" type="Label" parent="Hat Placements"]
-offset_left = 4040.0
-offset_top = 128.0
-offset_right = 4104.0
-offset_bottom = 203.0
-theme_override_font_sizes/font_size = 10
-text = "Put Collectible here"
-autowrap_mode = 2
-
-[node name="Hat8" type="Label" parent="Hat Placements"]
-offset_left = 7416.0
-offset_top = -504.0
-offset_right = 7567.0
-offset_bottom = -481.0
-text = "Put Collectible here"
-
-[node name="Hat9" type="Label" parent="Hat Placements"]
-offset_left = 6432.0
-offset_top = -1720.0
-offset_right = 6583.0
-offset_bottom = -1697.0
-text = "Put Collectible here"
-
-[node name="Hat10" type="Label" parent="Hat Placements"]
-offset_left = 8896.0
-offset_top = 16.0
-offset_right = 9198.0
-offset_bottom = 39.0
-text = "Hat 10 comes from defeating final boss"
-
 [node name="Player" parent="." instance=ExtResource("1_vttgw")]
 position = Vector2(-1168, -240)
 
@@ -382,6 +345,27 @@ filename = "res://assets/Lila/Hat-4.png"
 [node name="Hat5" parent="Pickups" instance=ExtResource("19_rye4h")]
 position = Vector2(2528, -1504)
 filename = "res://assets/Lila/Hat-5.png"
+
+[node name="Hat6" parent="Pickups" instance=ExtResource("19_rye4h")]
+position = Vector2(4048, -472)
+filename = "res://assets/Lila/Hat-6.png"
+
+[node name="Hat7" parent="Pickups" instance=ExtResource("19_rye4h")]
+position = Vector2(4064, 168)
+filename = "res://assets/Lila/Hat-7.png"
+
+[node name="Hat8" parent="Pickups" instance=ExtResource("19_rye4h")]
+position = Vector2(7488, -472)
+filename = "res://assets/Lila/Hat-8.png"
+
+[node name="Hat9" parent="Pickups" instance=ExtResource("19_rye4h")]
+position = Vector2(6504, -1672)
+filename = "res://assets/Lila/Hat-9.png"
+
+[node name="Hat10" parent="Pickups" instance=ExtResource("19_rye4h")]
+position = Vector2(8616, 232)
+scale = Vector2(0.5, 0.5)
+filename = "res://assets/Lila/Hat-10.png"
 
 [node name="Checkpoints" type="Node" parent="."]
 
