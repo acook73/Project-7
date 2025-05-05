@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkejbm8k48ctg"]
+
+[ext_resource type="Script" uid="uid://gjepbmmlqhyy" path="res://scripts/hat.gd" id="1_uepus"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uo2on"]
+size = Vector2(20, 22)
+
+[node name="Hat" type="Node2D"]
+script = ExtResource("1_uepus")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_uo2on")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

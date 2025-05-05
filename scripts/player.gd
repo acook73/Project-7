@@ -33,6 +33,7 @@ extends CharacterBody2D
 
 signal endGrapple(isGrappleJumping)
 
+var checkpoint = false
 var direction = 0
 var numDashes = maxDash
 var dashTimer = 0
@@ -57,14 +58,17 @@ var knockback = 0
 var knockbackDir = 0
 var permaUpgrades: Array
 var reset: Array
+var hats: Array = ["none"]
 var hitboxPos
 var hitboxRot
 var dir
 var offset = 1
 var dJump = false
 var uDash = false
+var selectedHat = 0
 
 func _ready():
+	
 	hitboxPos = {"upHitbox1": upHitbox1.position, "upHitbox2": upHitbox2.position, 
 	"upHitbox3": upHitbox3.position, "sideHitbox1": sideHitbox1.position,
 	"crouchHitbox1": crouchHitbox1.position, "downHitbox1": downHitbox1.position,
@@ -84,7 +88,7 @@ func _ready():
 		if (save_file.get_line() == "1"):
 			load_game()
 		
-	
+	loadHats()
 func isGrappling(data):
 	grappling = data
 	if (isGrappling):
@@ -99,6 +103,10 @@ func dash(dir: int):
 		dashing = true
 		velocity.x = dashImpulse * dir
 		numDashes -= 1
+		if (dir == 1):
+			$Hat.position.x = 6
+		else:
+			$Hat.position.x = -8
 		$Timers/DashCool.start()
 		$Timers/DashTimer.start()
 
@@ -154,6 +162,7 @@ func doGravity(delta: float):
 
 func slideSquish(direction: float ):
 	if squished == false and not attacking:
+		$Hat.position.y = -31
 		animated_sprite.play("squish")
 		squished = true
 	if (abs(velocity.x) > 9.0 and direction == velocity.x/abs(velocity.x)):
@@ -175,6 +184,7 @@ func slideSquish(direction: float ):
 
 func unsquish():
 	if (not attacking):
+		$Hat.position.y = -35
 		animated_sprite.play("unsquish")
 		squished = false
 
@@ -291,6 +301,9 @@ func _on_button_2_pressed() -> void:
 	get_tree().paused = false
 	load_game()
 	
+
+
+
 func load_game():
 	direction = 0
 	numDashes = maxDash
@@ -329,13 +342,24 @@ func load_game():
 				print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 				continue
 			var node_data = json.data
-			position = Vector2(node_data["pos_x"], node_data["pos_y"])
+			#position = Vector2(node_data["pos_x"], node_data["pos_y"])
 			for i in reset.size():
-				var path = NodePath(reset[i])
+				var path = NodePath("Pickups/" + reset[i])
 				get_parent().get_node(path).anim.visible = true
 				get_parent().get_node(path).coll.disabled = false
 			for i in node_data.keys():
-				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
+				if i == "filename":
+					if (node_data[i] != get_parent().get_scene_file_path()):
+						var save_file2 = FileAccess.open("res://loadFlag.save", FileAccess.WRITE)
+						var node_data2 = "1"
+						save_file2.store_line(node_data2)
+						get_tree().change_scene_to_file(node_data[i])
+						break
+				elif i == "pos_x":
+					position.x = node_data[i]
+				elif i == "pos_y":
+					position.y = node_data[i]
+				elif i == "parent":
 					continue
 				elif i == "rem":
 					permaUpgrades = node_data[i]
@@ -343,15 +367,45 @@ func load_game():
 						print(node_data[i][j])
 						#print($Game)
 						print(get_tree().get_root())
-						var temp = get_parent().get_node(node_data[i][j])
+						var temp = get_parent().get_node(NodePath("Pickups/" + str(node_data[i][j])))
 						if (temp != null):
 							temp.queue_free()
 						#get_tree().get_root().remove_child(find_child(node_data[i][j]))
 					continue
+						
+				elif i == "selectedHat":
+					selectedHat = int(node_data[i])
+					continue
 				set(i, node_data[i])
+
+func loadHats():
+	hats.clear()
+	if not FileAccess.file_exists("res://hats.save"):
+		return
+	else:
+		var save_file = FileAccess.open("res://hats.save", FileAccess.READ)
+		while save_file.get_position() < save_file.get_length():
+			var json_string = save_file.get_line()
+			var json = JSON.new()
+			var parse_result = json.parse(json_string)
+			if not parse_result == OK:
+				print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+				continue
+			var node_data = json.data
+			for i in node_data.keys():
+				if i == "hats":
+					for j in node_data[i].size():
+						hats.append(node_data[i][j])
+	if(hats[selectedHat%hats.size()] != "none"):
+		$Hat.set_texture(load(hats[selectedHat%hats.size()]))
+	else:
+		$Hat.visible = false
+		$PausePreview/Hat.visible = false
 
 #const CAMERA_MOVEMENT_SPEED : int = 5
 func _physics_process(delta: float) -> void:
+	#if (hats.size() != 0):
+		#print (hats[0])
 	#if (Input.is_action_pressed("left")):
 		#$ParallaxBackground/ParallaxLayerFar.position.x -= CAMERA_MOVEMENT_SPEED
 		#$ParallaxBackground/ParallaxLayerNear.position.x -= CAMERA_MOVEMENT_SPEED*2
@@ -379,13 +433,14 @@ func _physics_process(delta: float) -> void:
 	#$TextureProgressBar.max_value = hp_max
 	#$TextureProgressBar.value = hp
 	if (hp <= 0):
-		get_tree().paused = true
-		
 		label.visible = true
 		exit.visible = true
 		exit.disabled = false
 		button2.visible = true
 		button2.disabled = false
+		get_tree().paused = true
+		
+		
 		acceleration = 0
 		animated_sprite.play("idle")
 		
@@ -426,6 +481,16 @@ func _physics_process(delta: float) -> void:
 		$Buttons/Reset.disabled = false
 		$Buttons/Resume.visible = true
 		$Buttons/Resume.disabled = false
+		$Buttons/Right.visible = true
+		$Buttons/Right.disabled = false
+		$Buttons/Left.visible = true
+		$Buttons/Left.disabled = false
+		$PausePreview.visible = true
+		if (hats[selectedHat%hats.size()] != "none"):
+			$PausePreview/Hat.visible = true
+			$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		else:
+			$PausePreview/Hat.visible = false
 		$Labels/Pause.visible = true
 	
 
@@ -447,6 +512,10 @@ func _physics_process(delta: float) -> void:
 	if (not dashing and wasDashing):
 		velocity.x = SPEED * direction
 		wasDashing = false
+		if (dir == 1):
+			$Hat.position.x = 2
+		else:
+			$Hat.position.x = -4
 	
 	if (is_on_floor()):
 		lastSafePos.x = position.x - 5*direction
@@ -466,8 +535,14 @@ func _physics_process(delta: float) -> void:
 		#flips sprite
 		if direction == 1:
 			animated_sprite.flip_h = false
+			if(not dashing):
+				$Hat.position.x = 2
+				$Hat.flip_h = false
 		elif direction == -1:
 			animated_sprite.flip_h = true
+			if(not dashing):
+				$Hat.position.x = -4
+				$Hat.flip_h = true
 	
 		#parses user input to determine which action needs to be played
 		#crouch/slide begin
@@ -505,6 +580,12 @@ func _on_reset_pressed() -> void:
 	$Buttons/Reset.disabled = true
 	$Buttons/Resume.visible = false
 	$Buttons/Resume.disabled = true
+	$Buttons/Right.visible = false
+	$Buttons/Right.disabled = true
+	$Buttons/Left.visible = false
+	$Buttons/Left.disabled = true
+	$PausePreview.visible = false
+	$PausePreview/Hat.visible = true
 	$Labels/Pause.visible = false
 	load_game()
 
@@ -516,6 +597,12 @@ func _on_resume_pressed() -> void:
 	$Buttons/Reset.disabled = true
 	$Buttons/Resume.visible = false
 	$Buttons/Resume.disabled = true
+	$Buttons/Right.visible = false
+	$Buttons/Right.disabled = true
+	$Buttons/Left.visible = false
+	$Buttons/Left.disabled = true
+	$PausePreview.visible = false
+	$PausePreview/Hat.visible = true
 	$Labels/Pause.visible = false
 	get_tree().paused = false
 
@@ -532,3 +619,27 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	set_position(lastSafePos)
 	velocity = Vector2.ZERO
 	hp -= 25
+
+
+func _on_right_pressed() -> void:
+	selectedHat += 1
+	if (hats[selectedHat%hats.size()] != "none"):
+		$PausePreview/Hat.visible = true
+		$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		$Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		$Hat.visible = true
+	else:
+		$PausePreview/Hat.visible = false
+		$Hat.visible = false
+
+
+func _on_left_pressed() -> void:
+	selectedHat -= 1
+	if (hats[selectedHat%hats.size()] != "none"):
+		$PausePreview/Hat.visible = true
+		$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		$Hat.set_texture(load(hats[selectedHat%hats.size()]))
+		$Hat.visible = true
+	else:
+		$PausePreview/Hat.visible = false
+		$Hat.visible = false

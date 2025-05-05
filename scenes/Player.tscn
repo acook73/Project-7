@@ -1,4 +1,4 @@
-[gd_scene load_steps=112 format=3 uid="uid://6t3rhj7cu0t7"]
+[gd_scene load_steps=113 format=3 uid="uid://6t3rhj7cu0t7"]
 
 [ext_resource type="Script" uid="uid://d2tsv5skjn3fu" path="res://scripts/player.gd" id="1_v6fml"]
 [ext_resource type="Texture2D" uid="uid://dsivcgnc332o7" path="res://assets/Lila/Lila-Dash.png" id="2_70d11"]
@@ -14,7 +14,6 @@
 [ext_resource type="Script" uid="uid://ixgave8akowv" path="res://scripts/grapple_ray.gd" id="10_o4126"]
 [ext_resource type="Texture2D" uid="uid://dgaegwo348jvs" path="res://assets/Background/path5545-3.png" id="17_jfpux"]
 [ext_resource type="Texture2D" uid="uid://coo0ass450pdn" path="res://assets/Background/Background - Layered.png" id="19_sfy4j"]
-[ext_resource type="Texture2D" uid="uid://cscsgsr50jhdk" path="res://assets/Background/Background - Top.png" id="20_gv3ic"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p7iby"]
 radius = 5.0
@@ -719,12 +718,107 @@ height = 33.1636
 radius = 7.0
 height = 16.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_xdlf2"]
+atlas = ExtResource("3_qu4a1")
+region = Rect2(0, 0, 80, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e2ifm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xdlf2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 10
 collision_layer = 12
 collision_mask = 12
 script = ExtResource("1_v6fml")
 outgoingKnockback = 100
+
+[node name="Hat" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(2, -35)
+scale = Vector2(1, 1.125)
+
+[node name="Buttons" type="Node2D" parent="."]
+
+[node name="Button2" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -101.0
+offset_top = -95.0
+offset_right = 102.0
+offset_bottom = -58.0
+text = "Return to last checkpoint"
+
+[node name="Button" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -73.0
+offset_top = -48.0
+offset_right = 73.0
+offset_bottom = -11.0
+text = "Return to Menu"
+
+[node name="Menu" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -160.0
+offset_top = -24.0
+offset_right = 160.0
+offset_bottom = 48.0
+disabled = true
+text = "Return to Menu"
+
+[node name="Reset" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -160.0
+offset_top = -112.0
+offset_right = 160.0
+offset_bottom = -40.0
+disabled = true
+text = "Return to Last Checkpoint"
+
+[node name="Resume" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+z_index = 15
+offset_left = -160.0
+offset_top = -200.0
+offset_right = 160.0
+offset_bottom = -128.0
+disabled = true
+text = "Resume"
+
+[node name="Right" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+offset_left = -208.0
+offset_top = -16.0
+offset_right = -184.0
+offset_bottom = 15.0
+disabled = true
+text = ">"
+
+[node name="Left" type="Button" parent="Buttons"]
+process_mode = 2
+visible = false
+offset_left = -288.0
+offset_top = -16.0
+offset_right = -264.0
+offset_bottom = 16.0
+disabled = true
+text = "<"
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(1, -11)
@@ -835,7 +929,7 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_viqgg")
 disabled = true
 
-[node name="Labels" type="Node" parent="."]
+[node name="Labels" type="Node2D" parent="."]
 
 [node name="DJump" type="Label" parent="Labels"]
 visible = false
@@ -871,9 +965,9 @@ horizontal_alignment = 1
 visible = false
 z_index = 15
 offset_left = -88.0
-offset_top = -176.0
+offset_top = -248.0
 offset_right = 90.0
-offset_bottom = -151.0
+offset_bottom = -223.0
 text = "Paused"
 horizontal_alignment = 1
 
@@ -890,15 +984,6 @@ motion_mirroring = Vector2(256, 128)
 texture = ExtResource("19_sfy4j")
 centered = false
 
-[node name="ParallaxTreeTop" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.25, 0.25)
-motion_offset = Vector2(0, -128)
-motion_mirroring = Vector2(256, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxTreeTop"]
-texture = ExtResource("20_gv3ic")
-centered = false
-
 [node name="ParallaxLayerFog" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2(0, -192)
 motion_scale = Vector2(0.4, 0.4)
@@ -909,65 +994,23 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("17_jfpux")
 centered = false
 
-[node name="Buttons" type="Node" parent="."]
-
-[node name="Button2" type="Button" parent="Buttons"]
-process_mode = 2
+[node name="PausePreview" type="AnimatedSprite2D" parent="."]
 visible = false
-z_index = 15
-offset_left = -101.0
-offset_top = -95.0
-offset_right = 102.0
-offset_bottom = -58.0
-text = "Return to last checkpoint"
+position = Vector2(-240, -32)
+scale = Vector2(2.667, 3)
+sprite_frames = SubResource("SpriteFrames_e2ifm")
 
-[node name="Button" type="Button" parent="Buttons"]
-process_mode = 2
+[node name="Hat" type="Sprite2D" parent="PausePreview"]
 visible = false
-z_index = 15
-offset_left = -73.0
-offset_top = -48.0
-offset_right = 73.0
-offset_bottom = -11.0
-text = "Return to Menu"
+position = Vector2(3, -20)
+scale = Vector2(1, 1)
 
-[node name="Menu" type="Button" parent="Buttons"]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -159.0
-offset_top = 54.0
-offset_right = 161.0
-offset_bottom = 126.0
-disabled = true
-text = "Return to Menu"
-
-[node name="Reset" type="Button" parent="Buttons"]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -160.0
-offset_top = -32.0
-offset_right = 160.0
-offset_bottom = 40.0
-disabled = true
-text = "Return to Last Checkpoint"
-
-[node name="Resume" type="Button" parent="Buttons"]
-process_mode = 2
-visible = false
-z_index = 15
-offset_left = -160.0
-offset_top = -120.0
-offset_right = 160.0
-offset_bottom = -48.0
-disabled = true
-text = "Resume"
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_entered" from="AnimatedSprite2D/AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
 [connection signal="pressed" from="Buttons/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Buttons/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Buttons/Menu" to="." method="_on_menu_pressed"]
 [connection signal="pressed" from="Buttons/Reset" to="." method="_on_reset_pressed"]
 [connection signal="pressed" from="Buttons/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Buttons/Right" to="." method="_on_right_pressed"]
+[connection signal="pressed" from="Buttons/Left" to="." method="_on_left_pressed"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="AnimatedSprite2D/AttackHitbox" to="." method="_on_attack_hitbox_body_entered"]
