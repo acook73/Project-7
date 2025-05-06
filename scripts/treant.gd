@@ -41,7 +41,7 @@ extends CharacterBody2D
 @export var attackPower = 25
 @export var knockback = 200
 @export var hp = 4000
-
+var first = true
 var incomingKnockback
 var knockbackDir
 var damaged = false
@@ -228,11 +228,13 @@ func _physics_process(delta: float) -> void:
 		$GPUParticlesExplode.emitting = true
 	if ($hitEffect.is_stopped() and $TreantSprite != null):
 		$TreantSprite.material.set_shader_parameter("solid_color", Color.TRANSPARENT)
-	if (hp <= 0):
-		$GPUParticlesExplode2.emitting
+	if (hp <= 0 and first):
+		first = false
+		$GPUParticlesExplode2.emitting = true
 		attackTimer.wait_time = 100000
 		attackTimer.start()
 		await get_tree().create_timer(5).timeout
+		$GPUParticlesExplode2.set_deferred("emitting", false)
 		$TreantSprite.visible = false
 		$Hitbox.set_deferred("disabled", true)
 		await get_tree().create_timer(10).timeout

@@ -17,9 +17,7 @@ func _physics_process(_delta: float) -> void:
 			#$AudioStreamPlayer.playing = false
 			#await get_tree().create_timer(.5).timeout
 			$AudioStreamPlayer.get_stream_playback().switch_to_clip(1)
-			$AudioStreamPlayer.volume_db = 10
-			await get_tree().create_timer(7.5).timeout
-			$AudioStreamPlayer.volume_db = 0
+			await get_tree().create_timer(7.33).timeout
 			$AudioStreamPlayer.get_stream_playback().switch_to_clip(2)
 		#$AudioStreamPlayer.get_stream_playback().play()
 		$TextureProgressBar2.max_value = $Player.hp_max
