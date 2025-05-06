@@ -32,3 +32,6 @@ Pause menu displays incorrectly during the boss battle due to a camera limit.
 
 ### Any other information that will inform the instructor and TAs for final grading. If there is special equipment, e.g., NES controllers or a special library, we’ll make an appointment for the demo during exam week
 The github commit history and distribution is not entirely accurate as a second branch used to exist but has since been deleted to consolidate everything into main.
+
+### TimeTable
+https://docs.google.com/spreadsheets/d/1eTF4j_EUvGNvzUMLImwWzTzpdtglq4dNzuvr8brg4Qs/edit?gid=0#gid=0 
