@@ -182,6 +182,8 @@ func attackManager():
 						verticalComplete += 1
 		
 		if (verticalComplete == 10):
+			verticalComplete = 0
+			verticalCount = 1
 			attacking = false
 			prevAttack = 2
 			attackEnded = true
