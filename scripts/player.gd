@@ -425,6 +425,7 @@ func load_game():
 					selectedHat = int(node_data[i])
 					continue
 				set(i, node_data[i])
+	hp = hp_max
 
 #loads player hats into array and displays saved selected hat
 func loadHats():
@@ -684,6 +685,8 @@ func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 
 #spike hit (layer 6)
 func _on_area_2d_body_entered(_body: Node2D) -> void:
+	if(grappling):
+		endGrapple.emit("wall")
 	set_position(lastSafePos)
 	velocity = Vector2.ZERO
 	hp -= 25
