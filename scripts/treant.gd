@@ -59,6 +59,7 @@ var verticalLoops = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 var verticalHitboxes
 var verticalComplete = 0
 
+# Setup verticalHitboxes here, since you have to do it in runtime
 func _ready():
 	attacking = false
 	attackEnded = false
@@ -67,6 +68,8 @@ func _ready():
 						verticalHitbox5, verticalHitbox6, verticalHitbox7, verticalHitbox8,
 						verticalHitbox9, verticalHitbox10]
 
+# Chooses which attack to use. Every 6th attack is a boulder throw, otherwise it is random,
+# although no attack can be used twice in a row
 func attackChooser():
 	attackCount += 1
 	attackEnded = false
@@ -113,6 +116,9 @@ func attackChooser():
 			animatedSprite.animation = "magicCharge"
 			animatedSprite.play()
 	
+	
+# Actually activates the attack, including animations, hitboxes, and projectile spawing,
+# all dependent on the current animation and frame.
 func attackManager():
 	if (currentAttack == 0): # Low Root Attack
 		if (horizontalRoot.animation == "lowRootPrepare" and horizontalRoot.frame == 5):
@@ -217,6 +223,7 @@ func attackManager():
 			animatedSprite.animation = "idle"
 
 func _physics_process(delta: float) -> void:
+	# Getting damaged
 	if (damaged2 and $TreantSprite != null):
 		$TreantSprite.material.set_shader_parameter("solid_color", Color.RED)
 		$hitEffect.start()
@@ -240,26 +247,26 @@ func _physics_process(delta: float) -> void:
 		$Hitbox.set_deferred("disabled", true)
 		await get_tree().create_timer(10).timeout
 		queue_free()
+		# Start the attack timer if needed
 	if (attackEnded == true and attackTimer.is_stopped()):
 		attackTimer.start()
-		print("hi")
 		
 	if (attacking):
 		attackManager()
-
+		
 func _on_attack_timer_timeout() -> void:
 	attackChooser()
 
 
 
-
+# Deal damage to player
 func _on_root_hitboxes_body_entered(body: Node2D) -> void:
 	body.hp -= attackPower
 	body.knockback = knockback
 	body.knockbackDir = -1
 	#$AttackBox/CollisionShape2D.set_deferred("disabled", true) 
 
-
+# Change camera to boss camera
 func _on_camera_hitbox_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):
 		$Camera2D.make_current()

@@ -14,22 +14,24 @@ extends Node2D
 @export var swingForce = 100.0
 @export var minLength = 5.0
 
-
+# Used to communicate with player script
 signal grappleSignal(isGrappling)
 
 var grappling = false
 var grapplePoint;
 var hasLeftGround = 0
 
+# Connect with player
 func _ready():
 	grappleSignal.connect(player.isGrappling)
 	stopMomentum.wait_time = freezeTime
 
 func _physics_process(delta: float) -> void:
 	
+	# Set the ray to look at the mouse, then grapple if needed
 	grappleRay.look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("grapple"):
-		launch("grapple")
+		launch()
 
 	if Input.is_action_just_released("grapple"):
 		retract()
@@ -41,16 +43,17 @@ func _physics_process(delta: float) -> void:
 		hasLeftGround = 0
 	else:
 		hasLeftGround += 1
-		
-func launch(type):
+
+# Launches the grapple
+func launch():
 	if grappleRay.is_colliding():
-		if grappleRay.get_collider().name == "Grapple Layer":
+		if grappleRay.get_collider().name == "Grapple Layer": # INteract with tiles
 			grappling = true
 			grapplePoint = grappleRay.get_collision_point()
 			grappleLine.show()
 			grappleSignal.emit(true)
 			stopMomentum.start()
-		elif "collision_layer" in grappleRay.get_collider():
+		elif "collision_layer" in grappleRay.get_collider(): # Interact with area2Ds
 			if (grappleRay.get_collider().collision_layer & (1 << 1)):
 				grappling = true
 				grapplePoint = grappleRay.get_collision_point()
@@ -59,18 +62,18 @@ func launch(type):
 				stopMomentum.start()
 
 	
-func retract():
+func retract(): # Stop grappling
 	grappling = false
 	grappleSignal.emit(false)
 	grappleLine.hide()
 	grappleLine.set_point_position(1, Vector2(0, 0))
 	
 	
-func endGrappleEarly(data):
+func endGrappleEarly(data): # Used by both th eplayer script and this script
 	if data == "wall" or (data == "ground" and hasLeftGround <= 10):
 		retract()
 
-func grapple(delta):
+func grapple(delta): # Actually calculate the velocity needed while grappling
 	if not stopMomentum.is_stopped():
 		player.velocity = Vector2.ZERO
 	else:
@@ -86,5 +89,5 @@ func grapple(delta):
 		
 		updateRope()
 
-func updateRope():
+func updateRope(): # Shorten the rope as needed
 	grappleLine.set_point_position(1, to_local(grapplePoint))
