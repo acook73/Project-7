@@ -1,7 +1,6 @@
 #menu screen
 extends Node2D
 @onready var start: Button = $Button
-@onready var options: Button = $Button1
 @onready var quit: Button = $Button2
 @onready var cont: Button = $Button3
 var direction = 1

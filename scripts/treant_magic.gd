@@ -7,8 +7,8 @@ var first = true
 @export var attackPower = 25
 @export var knockback = 250
 
-#func _ready():
-	
+
+#calculates vector to hit player's current location in .5 seconds and sets velocity to it
 func _physics_process(delta: float) -> void:
 	if player != null and first:
 		velocity.x = (position.x-player.position.x)*-2
@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 		first = false
 	move_and_slide()
 
-
+#does damage if hits player, destroys projectile if it hits anything
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):
 		body.hp -= attackPower
@@ -30,7 +30,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	await get_tree().create_timer(0.3).timeout
 	queue_free()
 
-
+#for getting player location
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):
 		player = body
