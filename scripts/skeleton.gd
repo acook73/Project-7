@@ -21,7 +21,7 @@ func doGravity(delta: float):
 			temp.y -= velocity.y/(2.5*temp.y)
 		velocity += temp
 
-#walsk towards the player if out of range of bow
+#walk towards the player if out of range of bow
 func chase():
 	#allows the enemy to stop if moving the wrong direction
 	if (direction * velocity.x < 0):

@@ -60,8 +60,9 @@ var verticalHitboxes
 var verticalComplete = 0
 
 func _ready():
+	attacking = false
+	attackEnded = false
 	animatedSprite.animation = "idle"
-	attackTimer.start()
 	verticalHitboxes = [verticalHitbox1, verticalHitbox2, verticalHitbox3, verticalHitbox4,
 						verticalHitbox5, verticalHitbox6, verticalHitbox7, verticalHitbox8,
 						verticalHitbox9, verticalHitbox10]
@@ -262,3 +263,6 @@ func _on_root_hitboxes_body_entered(body: Node2D) -> void:
 func _on_camera_hitbox_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):
 		$Camera2D.make_current()
+		attackTimer.start()
+		attacking = true
+		attackEnded = true
