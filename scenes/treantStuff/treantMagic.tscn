@@ -1,3 +1,56 @@
-[gd_scene load_steps=0 format=3 uid="uid://dqx8jwq88q1al"]
+[gd_scene load_steps=6 format=3 uid="uid://dqx8jwq88q1al"]
+
+[ext_resource type="Script" uid="uid://jnf7gcdmoiv" path="res://scripts/treant_magic.gd" id="1_s4un4"]
+[ext_resource type="Texture2D" uid="uid://dx46mmj2oa8da" path="res://assets/Treant/Magic Attack/ball.png" id="2_owxs4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4rcdm"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_d8apu"]
+radius = 1168.68
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_owxs4"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 32.25
+initial_velocity_max = 102.15
+gravity = Vector3(0, 98, 0)
+color = Color(0.121569, 1, 0.0862745, 1)
 
 [node name="TreantMagic" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_s4un4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4rcdm")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_4rcdm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(2, 2)
+texture = ExtResource("2_owxs4")
+
+[node name="Area2D2" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+shape = SubResource("CircleShape2D_d8apu")
+
+[node name="GPUParticlesExplode" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 20
+lifetime = 0.15
+one_shot = true
+fixed_fps = 120
+process_material = SubResource("ParticleProcessMaterial_owxs4")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]

@@ -11,7 +11,8 @@ func _ready() -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):
 		body.selectedHat = body.selectedHat % body.hats.size()
-		body.hats.append(filename)
+		if (body.hats.find(filename) == -1):
+			body.hats.append(filename)
 		body.reset.append(self.name)
 		body.permaUpgrades.append(self.name)
 		$Sprite2D.visible = false

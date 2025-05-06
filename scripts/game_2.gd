@@ -4,8 +4,16 @@ extends Node2D
 
 #handles health bar and resets the boss to full health if player dies
 func _physics_process(_delta: float) -> void:
-	$Player/Camera2D2/TextureProgressBar.max_value = $Player.hp_max
-	$Player/Camera2D2/TextureProgressBar.value = $Player.hp
+	if ($Player/Camera2D2.is_current()):
+		$Player/Camera2D2/TextureProgressBar.max_value = $Player.hp_max
+		$Player/Camera2D2/TextureProgressBar.value = $Player.hp
+		$TextureProgressBar2.visible = false
+		$Player/Camera2D2/TextureProgressBar.visible = true
+	else:
+		$TextureProgressBar2.max_value = $Player.hp_max
+		$TextureProgressBar2.value = $Player.hp
+		$Player/Camera2D2/TextureProgressBar.visible = false
+		$TextureProgressBar2.visible = true
 	if ($Player.hp <= 0):
 		$Enemies/Treant.hp = 4000
 
@@ -13,3 +21,11 @@ func _physics_process(_delta: float) -> void:
 func _on_teleport_barrier_body_entered(body: Node2D) -> void:
 	body.set_position(body.lastSafePos)
 	body.hp -= 10
+
+
+func _on_win_body_entered(body: Node2D) -> void:
+	if (body.name == "Player"):
+		$Win/WinLabel.visible = true
+		await get_tree().create_timer(5).timeout
+		get_tree().change_scene_to_file("res://scenes/menu.tscn")
+		

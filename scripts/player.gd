@@ -412,13 +412,9 @@ func load_game():
 				elif i == "rem":
 					permaUpgrades = node_data[i]
 					for j in node_data[i].size():
-						print(node_data[i][j])
-						#print($Game)
-						print(get_tree().get_root())
 						var temp = get_parent().get_node(NodePath("Pickups/" + str(node_data[i][j])))
 						if (temp != null):
 							temp.queue_free()
-						#get_tree().get_root().remove_child(find_child(node_data[i][j]))
 					continue
 						
 				elif i == "selectedHat":
@@ -464,6 +460,7 @@ func loadHats():
 	else:
 		$Hat.visible = false
 		$PausePreview/Hat.visible = false
+		
 
 #handles player physics looping every frame
 func _physics_process(delta: float) -> void:
@@ -740,3 +737,12 @@ func _on_left_pressed() -> void:
 	else:
 		$PausePreview/Hat.visible = false
 		$Hat.visible = false
+
+
+func _on_attack_hitbox_area_entered(area: Area2D) -> void:
+	print("start")
+	if (area.name == "WeakpointArea"):
+		print("end")
+		area.get_parent().damaged2 = true
+		area.get_parent().hp -= 1000
+		area.get_child(0).set_deferred("disabled", true)

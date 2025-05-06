@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=4 uid="uid://b7d301ch6d8yy"]
+[gd_scene load_steps=24 format=4 uid="uid://b7d301ch6d8yy"]
 
 [ext_resource type="Script" uid="uid://dneim0qiti01q" path="res://scripts/game_2.gd" id="1_c45dc"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_vttgw"]
@@ -36,16 +36,31 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hv4xm"]
+
 [node name="Game2" type="Node2D"]
 script = ExtResource("1_c45dc")
+
+[node name="TextureProgressBar2" type="TextureProgressBar" parent="."]
+offset_left = 8000.0
+offset_top = -53.0
+offset_right = 8075.0
+offset_bottom = 11.0
+value = 50.0
+allow_lesser = true
+nine_patch_stretch = true
+texture_under = ExtResource("3_io8iw")
+texture_progress = ExtResource("4_rye4h")
+tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 
 [node name="Hat Placements" type="Node" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("1_vttgw")]
-position = Vector2(-1168, -240)
+position = Vector2(8200, 256)
+hp = 1e+06
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
-position = Vector2(0, -96)
+position = Vector2(0, -104)
 zoom = Vector2(3.5, 3.5)
 position_smoothing_speed = 20.0
 
@@ -472,7 +487,26 @@ position = Vector2(6848, -1056)
 [node name="AnimatedSprite2D" parent="Checkpoints/Checkpoint16" index="1"]
 position = Vector2(0, 144)
 
+[node name="Win" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Win"]
+position = Vector2(8616, 232)
+shape = SubResource("RectangleShape2D_hv4xm")
+
+[node name="WinLabel" type="Label" parent="Win"]
+visible = false
+offset_left = 8264.0
+offset_top = 88.0
+offset_right = 8400.0
+offset_bottom = 112.0
+text = "You Win!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="body_entered" from="Teleport barrier" to="." method="_on_teleport_barrier_body_entered"]
+[connection signal="body_entered" from="Win" to="." method="_on_win_body_entered"]
 
 [editable path="Checkpoints/Checkpoint"]
 [editable path="Checkpoints/Checkpoint2"]

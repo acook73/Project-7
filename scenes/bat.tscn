@@ -345,8 +345,10 @@ process_material = SubResource("ParticleProcessMaterial_v5wyi")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_gstla")
 sprite_frames = SubResource("SpriteFrames_jn7vh")
-animation = &"dive"
+animation = &"idle"
 autoplay = "idle"
+frame = 3
+frame_progress = 0.0890178
 offset = Vector2(0, -4)
 
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]

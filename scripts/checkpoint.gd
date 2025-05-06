@@ -14,7 +14,8 @@ func save(body: Node2D):
 		"rem" : body.permaUpgrades,
 		"maxJumps": body.maxJumps,
 		"maxDash": body.maxDash,
-		"selectedHat": body.selectedHat
+		"selectedHat": body.selectedHat,
+		"attackPower": body.attackPower
 	}
 	return save_dict
 
