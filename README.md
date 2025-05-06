@@ -24,11 +24,12 @@ s + left click (in air) to down attack
 right click to grapple      
 esc to pause     
 
-#### interactions
+#### Interactions
 Player can use the movement options explained above to traverse the level while gathering upgrades and fighting enemies. The player will make their way to the final boss, and upon defeating it, they will beat the game.
 
 ### Known bugs. If you document what you know is wrong, and these are minor issues, we will not take off for them. Examples include weird behavior, image mismatches, other last minute issues. If you document more serious issues (seg faults on conclusion, program crashing, etc.) we will give more partial credit.
 Pause menu displays incorrectly during the boss battle due to a camera limit.
+There is a potential bug after playing through the full game and then fighting the final boss where the final boss will get stuck on an attack. It can be fixed by quitting to menu and loading from checkpoint. (We think it has been fixed but it is being listed here just in case)
 
 ### Any other information that will inform the instructor and TAs for final grading. If there is special equipment, e.g., NES controllers or a special library, we’ll make an appointment for the demo during exam week
 The github commit history and distribution is not entirely accurate as a second branch used to exist but has since been deleted to consolidate everything into main.
