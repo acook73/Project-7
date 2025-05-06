@@ -1,19 +1,17 @@
+#skeleton enemy, creates arrow projectiles to shoot at the player
 extends CharacterBody2D
 @export var ARROW = preload("res://scenes/arrow.tscn")
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @export var hp = 100
-var player = null
-var playerChase = false
-var direction = 0
-var JumpY = -300
 @export var acceleration = 25
 @export var SPEED = 50
-var airborne = false
-var slashDelayPlayed = false
 var playerShoot = false
 var incomingKnockback = 0
 var knockbackDir = 0
 var damaged = false
+var player = null
+var playerChase = false
+var direction = 0
 
 func doGravity(delta: float):
 	if not is_on_floor():
@@ -23,9 +21,10 @@ func doGravity(delta: float):
 			temp.y -= velocity.y/(2.5*temp.y)
 		velocity += temp
 
+#walsk towards the player if out of range of bow
 func chase():
-	#position += (player.position-position)/JumpX
-	if (direction * velocity.x < 0 or slashDelayPlayed):
+	#allows the enemy to stop if moving the wrong direction
+	if (direction * velocity.x < 0):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	else:
 		$AnimatedSprite2D.play("walk")
@@ -35,44 +34,44 @@ func chase():
 			velocity.x += acceleration*direction
 
 func _physics_process(delta: float) -> void:
+	#hit shader handling
 	if (damaged and $AnimatedSprite2D != null):
 		$AnimatedSprite2D.material.set_shader_parameter("solid_color", Color.WHITE)
 		$hitEffect.start()
 		damaged = false
 		$GPUParticlesExplode.emitting = true
-	
 	if ($hitEffect.is_stopped() and $AnimatedSprite2D != null):
 		$AnimatedSprite2D.material.set_shader_parameter("solid_color", Color.TRANSPARENT)
 	
+	#death handling
 	if (hp <= 0):
 		remove_child($Area2D)
 		remove_child($AnimatedSprite2D)
 		$shootDelay.start()
 		await get_tree().create_timer(0.3).timeout
 		queue_free()
+		
+	#knockback handling
 	if (incomingKnockback != 0):
-		#position.y += -15
 		velocity.y = incomingKnockback * -1 
 		velocity.x = incomingKnockback * knockbackDir
 		move_and_slide()
-		#velocity.x = move_toward(velocity.x, knockback, SPEED)
-		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
 		incomingKnockback = 0
 	
-	#print($RayCast2D.is_colliding())
 	
 	doGravity(delta)
+	
 	if (is_on_floor()):
 		velocity.y = 0
+	
+	#tries to get in range of player to shoot
 	if (playerChase):
 		#sprite flipping
 		if(player.position.x-position.x < 0):
-			#print($RayCast2D.position.x)
 			direction = -1
 			$RayCast2D.position.x = -15
 			animated_sprite.flip_h = false
 		else:
-			#print($RayCast2D.position.x)
 			direction = 1
 			$RayCast2D.position.x = 17
 			animated_sprite.flip_h = true
@@ -80,10 +79,12 @@ func _physics_process(delta: float) -> void:
 		#decides whether to shoot an arrow
 		if (abs(player.position.x-position.x) < 250 and abs(player.position.y-position.y) < 40):
 			velocity.x = move_toward(velocity.x, 0, SPEED)
+			#shoots
 			if ($shootDelay.is_stopped()):
 				$AnimatedSprite2D.play("shoot")
 				$shootDelay.start()
 				await get_tree().create_timer(0.95).timeout
+				#creates an arrow and makes it move towards the player
 				var arrow = ARROW.instantiate()
 				get_tree().current_scene.add_child(arrow)
 				arrow.position.x = position.x + 11*direction
@@ -106,24 +107,24 @@ func _physics_process(delta: float) -> void:
 		$AnimatedSprite2D.play("idle")
 	move_and_slide()
 
-
+#sees player
 func _on_detection_range_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):
 		player = body
 		playerChase = true
 	
 
-
+#no longer sees player
 func _on_detection_range_body_exited(body: Node2D) -> void:
 	if (body.name == "Player"):
 		player = null
 		playerChase = false
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
-
+#within bow distance
 func _on_area_2d_body_entered(_body: Node2D) -> void:
 	playerShoot = true
 
-
+#exited bow range
 func _on_area_2d_body_exited(_body: Node2D) -> void:
 	playerShoot = false

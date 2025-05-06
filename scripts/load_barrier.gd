@@ -1,7 +1,8 @@
+#barrier that changes level to the file specified
 extends Node2D
 
+#filename filled in for each local instance
 @export var filename = "temp"
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if (body.name == "Player"):

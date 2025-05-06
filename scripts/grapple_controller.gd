@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		hasLeftGround += 1
 		
-func launch(type):
+func launch(_type):
 	if grappleRay.is_colliding():
 		if grappleRay.get_collider().name == "Grapple Layer":
 			grappling = true

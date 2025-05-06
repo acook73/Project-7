@@ -390,7 +390,6 @@ one_shot = true
 fixed_fps = 120
 process_material = SubResource("ParticleProcessMaterial_5pgwy")
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="body_entered" from="DetectionRange" to="." method="_on_detection_range_body_entered"]

@@ -1,5 +1,7 @@
+#additional jump pickup
 extends Node2D
 
+#allows pickup to be restored if player returns to checkpoint
 @onready var anim = $AnimatedSprite2D
 @onready var coll = $Area2D/CollisionShape2D
 # Called when the node enters the scene tree for the first time.

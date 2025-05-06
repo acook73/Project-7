@@ -1,3 +1,4 @@
+#The player
 extends CharacterBody2D
 
 @onready var animated_sprite := $AnimatedSprite2D
@@ -16,7 +17,7 @@ extends CharacterBody2D
 @onready var exit := $Buttons/Button
 @onready var button2 := $Buttons/Button2
 
-
+#player stats
 @export var SPEED = 150.0
 @export var hp = 150.0
 @export var hp_max = 150.0
@@ -33,6 +34,7 @@ extends CharacterBody2D
 
 signal endGrapple(isGrappleJumping)
 
+#variables to track animation states, timers, pickups, and other important information
 var checkpoint = false
 var direction = 0
 var numDashes = maxDash
@@ -67,8 +69,10 @@ var dJump = false
 var uDash = false
 var selectedHat = 0
 
+#when the player is instantiated
 func _ready():
 	
+	#hitbox positions are loaded into dictionaries
 	hitboxPos = {"upHitbox1": upHitbox1.position, "upHitbox2": upHitbox2.position, 
 	"upHitbox3": upHitbox3.position, "sideHitbox1": sideHitbox1.position,
 	"crouchHitbox1": crouchHitbox1.position, "downHitbox1": downHitbox1.position,
@@ -79,43 +83,69 @@ func _ready():
 	"crouchHitbox1": crouchHitbox1.rotation, "downHitbox1": downHitbox1.rotation,
 	"downHitbox2": downHitbox2.rotation, "downHitbox3": downHitbox3.rotation,
 	"downHitbox4": downHitbox4.rotation}
+	
+	#player is added to the player group
 	add_to_group("Player", true)
 	endGrapple.connect(grappleController.endGrappleEarly)
+
+	#loadFlag is checked to see if a save file needs to be loaded from
 	if not FileAccess.file_exists("res://loadFlag.save"):
 		return
 	else:
 		var save_file = FileAccess.open("res://loadFlag.save", FileAccess.READ)
 		if (save_file.get_line() == "1"):
 			load_game()
-		
+	
+	#player hats are loaded
 	loadHats()
+	
+#handles whether the player is grappling or not
 func isGrappling(data):
 	grappling = data
 	if (isGrappling):
 		cancelled = true
 
-func dash(dir: int):
-	#finds direction to dash based on sprite orientation
+#handles dashing
+func dash():
+	#only happens if player is not attacking
 	if (!attacking):
+		#cannot be hit while dashing
 		set_collision_layer_value(4, false)
 		
 		played = true
 		dashing = true
+		
+		#velocity is updated to dash speed
 		velocity.x = dashImpulse * dir
+		
+		#dash count is decremented
 		numDashes -= 1
+		
+		#hat is moved into correct position for the sprite
 		if (dir == 1):
 			$Hat.position.x = 6
 		else:
 			$Hat.position.x = -8
+		
+		#cooldowns start
 		$Timers/DashCool.start()
 		$Timers/DashTimer.start()
 
+#handles player jumping
 func jump():
+	
+	#player must have at least 1 jump available and not be grappling
 	if (Input.is_action_just_pressed("jump") and is_on_floor() and not grappling) or (Input.is_action_just_pressed("jump") and numJumps > 0 and not grappling):
+		
+		#cancels dash if player is dashing
 		if is_on_floor():
 			$Timers/DashTimer.stop()
 			cancelled = true
+		
+		#velocity update
 		velocity.y = JUMP_VELOCITY
+		
+		#animation tracking
 		if (numJumps > 0):
 			played = false
 		if not is_on_floor():
@@ -124,13 +154,15 @@ func jump():
 			if (not attacking):
 				animated_sprite.play("jump")
 				played = true
-			
+	
+	#wall jump if grappling
 	if (Input.is_action_just_pressed("jump") and is_on_wall() and grappling) or (Input.is_action_just_pressed("jump") and is_on_ceiling() and grappling or (Input.is_action_just_pressed("jump") and grappling and velocity == Vector2.ZERO)):
 		endGrapple.emit("wall")
 		numJumps = maxJumps
 		velocity.y = JUMP_VELOCITY
 		grappling = false
 
+#handles the four player attacks
 func attack():
 	if (!attacking and Input.is_action_pressed("up")):
 		animated_sprite.play("upAttack")
@@ -151,32 +183,35 @@ func attack():
 		attacking = true
 		attackSIDE = true
 	
-
+#asymptopic acceleration curve relative to the vertical velocity component
 func doGravity(delta: float):
 	if not is_on_floor():
 		var temp = get_gravity() * delta
 		if (velocity.y > 200):
-			#allows for a asymptopic acceleration curve realtive to the vertical velocity component
 			temp.y -= velocity.y/(2.5*temp.y)
 		velocity += temp
 
-func slideSquish(direction: float ):
+#crouch/slide handling
+func slideSquish():
+	#hat position adjustment
 	if squished == false and not attacking:
 		$Hat.position.y = -31
 		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
 			$Hat.position.y = -28
 		animated_sprite.play("squish")
 		squished = true
+		
+	#short slide if holding no direction keys
 	if (abs(velocity.x) > 9.0 and direction == velocity.x/abs(velocity.x)):
-		#short slide
 		if (velocity.x > 0.0):
 			velocity.x -= friction
 		else:
 			velocity.x += friction
 		if (abs(velocity.x) <= friction):
 			velocity.x = 0.0
+	
+	#long slide if holding direction key corresponding to player movement direction
 	else:
-		#long slide
 		if (velocity.x > 0.0):
 			velocity.x -= longSlide*friction
 		else:
@@ -184,7 +219,10 @@ func slideSquish(direction: float ):
 		if (abs(velocity.x) <= longSlide*friction):
 			velocity.x = 0.0
 
+#backwards crouch animation to stop crouching
 func unsquish():
+	
+	#updates hat position
 	if (not attacking):
 		$Hat.position.y = -35
 		if (hats[selectedHat%hats.size()] == "res://assets/Lila/Hat-10.png"):
@@ -192,17 +230,19 @@ func unsquish():
 		animated_sprite.play("unsquish")
 		squished = false
 
-func runAccel(direction: float):
+#accelerates player to their max speed using an asymptopic curve
+func runAccel():
 	if direction and $Timers/DashTimer.is_stopped():
 		if (velocity.x != 0 and direction == abs(velocity.x)/velocity.x):
 			velocity.x += acceleration*direction*(1-((abs(velocity.x))/SPEED))
 		else:
 			velocity.x += acceleration*direction
-		#no direction input (stop)
+	#no direction input (stop)
 	elif $Timers/DashTimer.is_stopped() and !cancelled:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
-func animationParser(direction: float):
+#figures out which animation to play
+func animationParser():
 	if (not attacking):
 		if (squished):
 			animated_sprite.play("squishing")
@@ -220,7 +260,8 @@ func animationParser(direction: float):
 			elif (velocity.y > 0):
 				animated_sprite.play("falling")
 
-func moveHitboxes(dir: int):
+#moves hitboxes into correct position based on player direction
+func moveHitboxes():
 	upHitbox1.position.x = hitboxPos["upHitbox1"].x * dir
 	upHitbox1.rotation = hitboxRot["upHitbox1"] * dir
 	upHitbox2.position.x = hitboxPos["upHitbox2"].x * dir
@@ -240,6 +281,7 @@ func moveHitboxes(dir: int):
 	downHitbox4.position.x = hitboxPos["downHitbox4"].x * dir
 	downHitbox4.rotation = hitboxRot["downHitbox4"] * dir
 
+#disables or enables correct hitboxes based on player attack input
 func attackHit():
 	if (attackUP): # Handles the hitboxes of attacking upwards
 		if (animated_sprite.frame >= 4 and animated_sprite.frame < 6):
@@ -297,17 +339,19 @@ func attackHit():
 		attackSIDE = false
 		attacking = false
 
+#return to menu from death screen
 func _on_button_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
-	
+
+#return to checkpoint from death screen
 func _on_button_2_pressed() -> void:
 	get_tree().paused = false
 	load_game()
 	
 
 
-
+#resets all variables to default values and loads back from save file
 func load_game():
 	direction = 0
 	numDashes = maxDash
@@ -382,6 +426,7 @@ func load_game():
 					continue
 				set(i, node_data[i])
 
+#loads player hats into array and displays saved selected hat
 func loadHats():
 	hats.clear()
 	if not FileAccess.file_exists("res://hats.save"):
@@ -419,18 +464,12 @@ func loadHats():
 		$Hat.visible = false
 		$PausePreview/Hat.visible = false
 
-#const CAMERA_MOVEMENT_SPEED : int = 5
+#handles player physics looping every frame
 func _physics_process(delta: float) -> void:
-	#if (hats.size() != 0):
-		#print (hats[0])
-	#if (Input.is_action_pressed("left")):
-		#$ParallaxBackground/ParallaxLayerFar.position.x -= CAMERA_MOVEMENT_SPEED
-		#$ParallaxBackground/ParallaxLayerNear.position.x -= CAMERA_MOVEMENT_SPEED*2
-	#if (Input.is_action_pressed("right")):
-		#$ParallaxBackground/ParallaxLayerFar.position.x += CAMERA_MOVEMENT_SPEED
-		#$ParallaxBackground/ParallaxLayerNear.position.x += CAMERA_MOVEMENT_SPEED*2
+	#dash animation tracking
 	wasDashing = dashing
-		
+	
+	#dash unlocked/double jump unlocked pop up
 	if (dJump and maxJumps == 1):
 		$Labels/DJump.visible = true
 		dJump = false
@@ -441,14 +480,8 @@ func _physics_process(delta: float) -> void:
 		uDash = false
 		await get_tree().create_timer(2).timeout
 		$Labels/uDash.visible = false
-	#print(hp_max)
-	#print("Squish: ")
-	#print(squished)
-	#print("Attack: ")
-	#print(attacking)
-
-	#$TextureProgressBar.max_value = hp_max
-	#$TextureProgressBar.value = hp
+	
+	#player death handling
 	if (hp <= 0):
 		label.visible = true
 		exit.visible = true
@@ -456,40 +489,38 @@ func _physics_process(delta: float) -> void:
 		button2.visible = true
 		button2.disabled = false
 		get_tree().paused = true
-		
-		
 		acceleration = 0
 		animated_sprite.play("idle")
-		
-		
-
+	
+	#determines player inputs
 	direction = Input.get_axis("left", "right") #-1 = left, 1 = right
 	var direction_y := Input.get_axis("up", "down") #-1 = up, 1 = down
-	if (animated_sprite.flip_h): # This is used for manuvering the hitboxes
+	
+	#forces to be either -1 or 1 for dir
+	if (animated_sprite.flip_h):
 		dir = -1
 	else:
 		dir = 1
-	moveHitboxes(dir) # Make sure hitboxes are in the right spot
+	moveHitboxes() # Make sure hitboxes are in the right spot
 	attackHit() # Activate and deactivate hitboxes as needed
 	
+	#player dash input
 	if Input.is_action_just_pressed("dash") and $Timers/DashCool.is_stopped() and numDashes != 0:
-		dash(dir)
-
+		dash()
+	
+	#player took knockback
 	if (knockback != 0 and not grappling):
-		#position.y += -15
 		velocity.x += knockbackDir * knockback
 		velocity.y += knockback * -1
 		move_and_slide()
-		#velocity.x = move_toward(velocity.x, knockback, SPEED)
-		#velocity.y = move_toward(velocity.y, -1*knockback, SPEED)
 		knockback = 0
 		cancelled = true
-		#animated_sprite.play("falling")
-		#squished = true
-		#direction = 0
-		#$KnockbackTimer.start()
+	
+	#no knockback if grappling
 	else:
 		knockback = 0
+	
+	#pause menu appears
 	if (Input.is_action_just_pressed("pause")):
 		get_tree().paused = true
 		$Buttons/Menu.visible = true
@@ -503,6 +534,8 @@ func _physics_process(delta: float) -> void:
 		$Buttons/Left.visible = true
 		$Buttons/Left.disabled = false
 		$PausePreview.visible = true
+		
+		#hat selection position adjustment
 		if (hats[selectedHat%hats.size()] != "none"):
 			$PausePreview/Hat.visible = true
 			$PausePreview/Hat.set_texture(load(hats[selectedHat%hats.size()]))
@@ -523,22 +556,24 @@ func _physics_process(delta: float) -> void:
 			$PausePreview/Hat.visible = false
 		$Labels/Pause.visible = true
 	
-
-	
+	#attack handling
 	if not grappling:
 		doGravity(delta)
 		if (Input.is_action_just_pressed("attack")):
 			attack()
-	#dash cancelling momentum ends after player hits the ground again
+	
+	#allows for momentum to be stored if player holds no direction keys while moving
 	if cancelled and is_on_floor():
 		cancelled = false
 	
+	#while dashing, gravity doesnt affect the player
 	if !$Timers/DashTimer.is_stopped():
 		velocity.y = 0
 	else:
 		played = false
 		dashing = false
 	
+	#resets hat position to pre dashing state
 	if (not dashing and wasDashing):
 		velocity.x = SPEED * direction
 		wasDashing = false
@@ -547,14 +582,17 @@ func _physics_process(delta: float) -> void:
 		else:
 			$Hat.position.x = -4
 	
+	#stores last safe position in case player falls off the map or hits a spike
 	if (is_on_floor()):
 		lastSafePos.x = position.x - 5*direction
 		lastSafePos.y = position.y - 13
+	
 	#resets dahes and jumps if player is on ground
 	if (is_on_floor() or (is_on_wall() and grappling)):
 		numJumps = maxJumps
 		numDashes = maxDash
 	
+	#ends grapple
 	if (is_on_floor() and grappling):
 		endGrapple.emit("ground")
 	
@@ -562,7 +600,7 @@ func _physics_process(delta: float) -> void:
 	jump()
 	
 	if not grappling:
-		#flips sprite
+		#flips sprite and hat
 		if direction == 1:
 			animated_sprite.flip_h = false
 			if(not dashing):
@@ -577,7 +615,7 @@ func _physics_process(delta: float) -> void:
 		#parses user input to determine which action needs to be played
 		#crouch/slide begin
 		if direction_y == 1:
-			slideSquish(direction)
+			slideSquish()
 	
 		#crouch end animation
 		elif squished == true and $Timers/KnockbackTimer.is_stopped():
@@ -586,22 +624,22 @@ func _physics_process(delta: float) -> void:
 		#run/dash begin
 		else:
 			#running acceleration (works in air)
-			runAccel(direction)
+			runAccel()
 		
 		#dash/run animation handling on floor and in the air
-		animationParser(direction)
+		animationParser()
 	if (not dashing):
 		set_collision_layer_value(4, true)
 	move_and_slide()
 
-
+#loads menu from pause screen
 func _on_menu_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 
 
-
+#resets to last checkpoint from pause screen
 func _on_reset_pressed() -> void:
 	get_tree().paused = false
 	$Buttons/Menu.visible = false
@@ -619,7 +657,7 @@ func _on_reset_pressed() -> void:
 	$Labels/Pause.visible = false
 	load_game()
 
-
+#resumes from pause screen
 func _on_resume_pressed() -> void:
 	$Buttons/Menu.visible = false
 	$Buttons/Menu.disabled = true
@@ -637,20 +675,20 @@ func _on_resume_pressed() -> void:
 	get_tree().paused = false
 
 
-
+#player hits enemy
 func _on_attack_hitbox_body_entered(body: Node2D) -> void:
 	body.hp -= attackPower
 	body.incomingKnockback = outgoingKnockback
 	body.knockbackDir = dir
 	body.damaged = true
 
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
+#spike hit (layer 6)
+func _on_area_2d_body_entered(_body: Node2D) -> void:
 	set_position(lastSafePos)
 	velocity = Vector2.ZERO
 	hp -= 25
 
-
+#hat selection from pause menu, increment up
 func _on_right_pressed() -> void:
 	selectedHat += 1
 	if (hats[selectedHat%hats.size()] != "none"):
@@ -675,7 +713,7 @@ func _on_right_pressed() -> void:
 		$PausePreview/Hat.visible = false
 		$Hat.visible = false
 
-
+#hat selection from pause menu, increment down
 func _on_left_pressed() -> void:
 	selectedHat -= 1
 	if (hats[selectedHat%hats.size()] != "none"):

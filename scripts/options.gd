@@ -1,3 +1,4 @@
+#options menu (not currently functional)
 extends Node2D
 
 @onready var start: Button = $Button
