@@ -90,7 +90,7 @@ tint_under = Color(0.73389, 0.703365, 0.782474, 1)
 [node name="Hat Placements" type="Node" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("1_vttgw")]
-position = Vector2(8200, 256)
+position = Vector2(-1168, -224)
 
 [node name="Camera2D2" type="Camera2D" parent="Player"]
 position = Vector2(0, -104)

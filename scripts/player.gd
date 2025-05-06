@@ -427,6 +427,7 @@ func load_game():
 func loadHats():
 	hats.clear()
 	if not FileAccess.file_exists("res://hats.save"):
+		hats.append("none")
 		return
 	else:
 		var save_file = FileAccess.open("res://hats.save", FileAccess.READ)
@@ -460,7 +461,6 @@ func loadHats():
 	else:
 		$Hat.visible = false
 		$PausePreview/Hat.visible = false
-		
 
 #handles player physics looping every frame
 func _physics_process(delta: float) -> void:
