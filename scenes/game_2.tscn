@@ -1,11 +1,14 @@
-[gd_scene load_steps=24 format=4 uid="uid://b7d301ch6d8yy"]
+[gd_scene load_steps=28 format=4 uid="uid://b7d301ch6d8yy"]
 
 [ext_resource type="Script" uid="uid://dneim0qiti01q" path="res://scripts/game_2.gd" id="1_c45dc"]
 [ext_resource type="PackedScene" uid="uid://6t3rhj7cu0t7" path="res://scenes/Player.tscn" id="1_vttgw"]
+[ext_resource type="AudioStream" uid="uid://b6fgmkijm2t2u" path="res://assets/Sounds/Music/Forest Theme.wav" id="2_5a6l3"]
 [ext_resource type="Texture2D" uid="uid://db858trn0wsgo" path="res://assets/Lila/Health Bar Frame.png" id="3_io8iw"]
+[ext_resource type="AudioStream" uid="uid://theuch54kq2v" path="res://assets/Sounds/Music/Forest Grove Boss Battle Intro.wav" id="3_r6mhj"]
 [ext_resource type="TileSet" uid="uid://dt4gun2268wqr" path="res://scenes/TilesetForest.tres" id="3_wgl31"]
 [ext_resource type="Texture2D" uid="uid://dnb14ox0cy0de" path="res://assets/Cursor/Cursor.png" id="4_f674i"]
 [ext_resource type="Texture2D" uid="uid://drwt6ww7gd7b0" path="res://assets/Lila/Health Bar fill.png" id="4_rye4h"]
+[ext_resource type="AudioStream" uid="uid://ri8dbrmyyfl3" path="res://assets/Sounds/Music/Forest Grove Boss Battle.wav" id="4_uyfoi"]
 [ext_resource type="Script" uid="uid://47daoa3em67h" path="res://scripts/pointer.gd" id="5_wjphx"]
 [ext_resource type="PackedScene" uid="uid://c3u2w1pwf3b4y" path="res://scenes/checkpoint.tscn" id="6_f674i"]
 [ext_resource type="PackedScene" uid="uid://be5hno0j7qque" path="res://scenes/slime.tscn" id="7_wjphx"]
@@ -20,6 +23,33 @@
 [ext_resource type="PackedScene" uid="uid://7v78v2uod16s" path="res://scenes/sword.tscn" id="15_k563j"]
 [ext_resource type="PackedScene" uid="uid://bkejbm8k48ctg" path="res://scenes/hat.tscn" id="19_rye4h"]
 [ext_resource type="PackedScene" uid="uid://cxglx40cd4r3v" path="res://scenes/treantStuff/treant.tscn" id="20_hv4xm"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_y24k5"]
+clip_count = 3
+clip_0/name = &"Forest Theme"
+clip_0/stream = ExtResource("2_5a6l3")
+clip_0/auto_advance = 0
+clip_1/name = &"Forest Grove Boss Battle Intro"
+clip_1/stream = ExtResource("3_r6mhj")
+clip_1/auto_advance = 1
+clip_1/next_clip = 2
+clip_2/name = &"Forest Grove Boss Battle"
+clip_2/stream = ExtResource("4_uyfoi")
+clip_2/auto_advance = 0
+_transitions = {
+Vector2i(0, -1): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(1, -1): {
+"fade_beats": 0.0,
+"fade_mode": 0,
+"from_time": 0,
+"to_time": 1
+}
+}
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1oiof"]
 normal = Vector2(-0.00325202, -0.999995)
@@ -40,6 +70,10 @@ animations = [{
 
 [node name="Game2" type="Node2D"]
 script = ExtResource("1_c45dc")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_y24k5")
+autoplay = true
 
 [node name="TextureProgressBar2" type="TextureProgressBar" parent="."]
 offset_left = 8000.0

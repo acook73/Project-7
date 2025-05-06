@@ -1,6 +1,6 @@
 #main level
 extends Node2D
-
+var first = true
 
 #handles health bar and resets the boss to full health if player dies
 func _physics_process(_delta: float) -> void:
@@ -10,6 +10,18 @@ func _physics_process(_delta: float) -> void:
 		$TextureProgressBar2.visible = false
 		$Player/Camera2D2/TextureProgressBar.visible = true
 	else:
+		#$AudioStreamPlayer.stop()
+		#await get_tree().create_timer(.5).timeout
+		if (first):
+			first = false
+			#$AudioStreamPlayer.playing = false
+			#await get_tree().create_timer(.5).timeout
+			$AudioStreamPlayer.get_stream_playback().switch_to_clip(1)
+			$AudioStreamPlayer.volume_db = 10
+			await get_tree().create_timer(7.5).timeout
+			$AudioStreamPlayer.volume_db = 0
+			$AudioStreamPlayer.get_stream_playback().switch_to_clip(2)
+		#$AudioStreamPlayer.get_stream_playback().play()
 		$TextureProgressBar2.max_value = $Player.hp_max
 		$TextureProgressBar2.value = $Player.hp
 		$Player/Camera2D2/TextureProgressBar.visible = false

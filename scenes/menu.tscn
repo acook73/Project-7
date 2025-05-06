@@ -1,10 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://k6yhmw8h183y"]
+[gd_scene load_steps=7 format=3 uid="uid://k6yhmw8h183y"]
 
 [ext_resource type="Script" uid="uid://s8rup5a7kjcp" path="res://scripts/menu.gd" id="1_yqeox"]
+[ext_resource type="AudioStream" uid="uid://d076i7ojuov84" path="res://assets/Sounds/Music/Title Theme First.wav" id="2_mhnvy"]
 [ext_resource type="Texture2D" uid="uid://coo0ass450pdn" path="res://assets/Background/Background - Layered.png" id="2_vjb58"]
+[ext_resource type="AudioStream" uid="uid://bg7yidbmd85bd" path="res://assets/Sounds/Music/Title Theme Loop.wav" id="3_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://dgaegwo348jvs" path="res://assets/Background/path5545-3.png" id="5_4ytvr"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_g3eks"]
+clip_count = 2
+clip_0/name = &"Title Theme First"
+clip_0/stream = ExtResource("2_mhnvy")
+clip_0/auto_advance = 0
+clip_1/name = &"Title Theme Loop"
+clip_1/stream = ExtResource("3_4ytvr")
+clip_1/auto_advance = 0
 
 [node name="Menu" type="Node2D"]
 script = ExtResource("1_yqeox")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamInteractive_g3eks")
+volume_db = 15.0
+autoplay = true
 
 [node name="Button3" type="Button" parent="."]
 offset_left = -296.0
@@ -55,6 +72,27 @@ vertical_alignment = 1
 position = Vector2(60, -8.00001)
 scale = Vector2(11.0937, 11.75)
 texture = ExtResource("2_vjb58")
+
+[node name="ParallaxLayerFog" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, -192)
+motion_scale = Vector2(0.4, 0.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayerFog"]
+position = Vector2(-1608, -640)
+scale = Vector2(1.53652, 1.75)
+texture = ExtResource("5_4ytvr")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+position = Vector2(0, 64)
+motion_scale = Vector2(0.4, 0.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+position = Vector2(-1760, 0)
+scale = Vector2(1.60505, 2.21875)
+texture = ExtResource("5_4ytvr")
+centered = false
+flip_v = true
 
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
