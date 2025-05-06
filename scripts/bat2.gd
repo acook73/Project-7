@@ -29,7 +29,7 @@ func chase():
 		velocity.x += 25*direction
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	#handles knockback after being hit
 	if (incomingKnockback != 0):
 		velocity.y = incomingKnockback * -1 
@@ -61,7 +61,7 @@ func _physics_process(_delta: float) -> void:
 		else:
 			direction = 1
 			animated_sprite.flip_h = true
-			chase()
+		chase()
 	move_and_slide()
 
 
