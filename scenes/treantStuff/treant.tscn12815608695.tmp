@@ -339,7 +339,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qqrcn"]
-size = Vector2(16, 217.5)
+size = Vector2(16, 112.25)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q40jv"]
 atlas = ExtResource("7_lho7t")
@@ -675,20 +675,19 @@ radius = 19.105
 radius = 27.074
 
 [node name="Treant" type="CharacterBody2D"]
-collision_layer = 5
-collision_mask = 5
+collision_layer = 21
+collision_mask = 21
 script = ExtResource("1_0yu34")
-LOOPS_NEEDED_ROCK = 25
 
 [node name="TreantSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -128)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_t6ujm")
-animation = &"rockThrow"
+animation = &"rockIdle"
 autoplay = "idle"
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-position = Vector2(0, -217.5)
+position = Vector2(0, -112.25)
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_qqrcn")
 
@@ -835,10 +834,10 @@ sprite_frames = SubResource("SpriteFrames_y8fud")
 animation = &"midRootPrepare"
 autoplay = "lowRootLoop"
 
-[node name="RockGrappleArea" type="StaticBody2D" parent="."]
+[node name="RockGrappleArea" type="Area2D" parent="."]
 position = Vector2(-47, -186)
-collision_layer = 10
-collision_mask = 10
+collision_layer = 3
+collision_mask = 3
 
 [node name="RockGrappleCollider" type="CollisionShape2D" parent="RockGrappleArea"]
 shape = SubResource("CircleShape2D_maan4")
@@ -846,7 +845,7 @@ disabled = true
 
 [node name="WeakpointArea" type="Area2D" parent="."]
 
-[node name="WeakpointCollider" type="CollisionShape2D" parent="WeakpointArea"]
+[node name="WeapointCollider" type="CollisionShape2D" parent="WeakpointArea"]
 position = Vector2(1, -185)
 shape = SubResource("CircleShape2D_v2674")
 disabled = true

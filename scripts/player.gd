@@ -340,10 +340,14 @@ func load_game():
 				elif i == "rem":
 					permaUpgrades = node_data[i]
 					for j in node_data[i].size():
+<<<<<<< Updated upstream
 						print(node_data[i][j])
 						#print($Game)
 						print(get_tree().get_root())
 						var temp = get_parent().get_node(node_data[i][j])
+=======
+						var temp = get_parent().get_node(NodePath("Pickups/" + str(node_data[i][j])))
+>>>>>>> Stashed changes
 						if (temp != null):
 							temp.queue_free()
 						#get_tree().get_root().remove_child(find_child(node_data[i][j]))

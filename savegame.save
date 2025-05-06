@@ -1,1 +1,5 @@
+<<<<<<< Updated upstream
 {"filename":"res://scenes/game.tscn","hp":150.0,"hp_max":150.0,"maxDash":1,"maxJumps":1,"parent":"/root/Game","pos_x":1178.33386230469,"pos_y":-83.9650268554688,"rem":["Jump","Jump2"]}
+=======
+{"filename":"res://scenes/game_2.tscn","hp":10.0,"hp_max":150.0,"maxDash":1.0,"maxJumps":1.0,"parent":"/root/Game2","pos_x":8105.45361328125,"pos_y":214.383560180664,"rem":["Sword","Dash","Jump2"],"selectedHat":0}
+>>>>>>> Stashed changes

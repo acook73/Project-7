@@ -3,6 +3,8 @@ extends CharacterBody2D
 @onready var animatedSprite := $TreantSprite
 @onready var treantHitbox := $Hitbox
 @onready var attackTimer := $attackTimer
+@onready var rockGrapple := $RockGrappleArea/RockGrappleCollider
+@onready var weakpoint := $WeakpointArea/WeakpointCollider
 
 # Hitboxes
 @onready var verticalHitbox1 := $Roots/RootHitboxes/VerticalRoot1Hitbox
@@ -33,9 +35,13 @@ extends CharacterBody2D
 
 @export var LOOPS_NEEDED_HORIZONTAL = 5
 @export var LOOPS_NEEDED_VERTICAL = 5
+@export var LOOPS_NEEDED_ROCK = 5
 @export var LOOPS_BEFORE_NEXT_VERTICAL = 2
 
 var incomingKnockback
+var knockbackDir
+var damaged
+
 var attackCount = 0
 var prevAttack
 var currentAttack
@@ -63,25 +69,29 @@ func attackChooser():
 	if (attackCount == 6):
 		attackCount = 0
 		currentAttack = 4
-		print("Rock")
+		animatedSprite.animation = "rockPickup"
+		animatedSprite.play()
 	else:
-		var choiche = randi_range(0, 3)
-		if (choiche == 0 and prevAttack != 0):
-			print ("low")
+		var valid = false
+		var choiche
+		while (valid == false):
+			choiche = randi_range(0, 3)
+			if (choiche != prevAttack):
+				valid = true
+		
+		if (choiche == 0):
 			currentAttack = 0
 			horizontalRoot.visible = true
 			horizontalRoot.animation = "lowRootPrepare"
 			horizontalRoot.play()
 			
 		elif (choiche == 1 and prevAttack != 1):
-			print ("mid")
 			currentAttack = 1
 			horizontalRoot.visible = true
 			horizontalRoot.animation = "midRootPrepare"
 			horizontalRoot.play()
 			
 		elif (choiche == 2 and prevAttack != 2):
-			print ("vertical")
 			currentAttack = 2
 			verticalHitboxes.shuffle()
 			verticalHitboxes[0].get_child(0).visible = true
@@ -92,7 +102,6 @@ func attackChooser():
 			
 			
 		elif (choiche == 3 and prevAttack != 3):
-			print ("magic")
 			currentAttack = 3
 			animatedSprite.animation = "magicCharge"
 			animatedSprite.play()
@@ -158,40 +167,12 @@ func attackManager():
 						verticalHitboxes[i].set_deferred("disabled", true)
 						verticalHitboxes[i].get_child(0).visible = false
 						verticalComplete += 1
-						print(i)
 		
 		if (verticalComplete == 10):
 			attacking = false
 			prevAttack = 2
 			attackEnded = true
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+			verticalLoops = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		
 	elif (currentAttack == 3): # Magic Projectile Attack
 		if (animatedSprite.frame == 10):
@@ -200,16 +181,29 @@ func attackManager():
 			prevAttack = 3
 			attackEnded = true
 			animatedSprite.animation = "idle"
-			print("hi")
 	
 	elif (currentAttack == 4): # Rock Throw Attack
-		attacking = false
-		prevAttack = 4
-		attackEnded = true
+		if animatedSprite.animation == "rockPickup" and animatedSprite.frame == 12:
+			animatedSprite.animation = "rockIdle"
+			rockGrapple.set_deferred("disabled", false)
+			weakpoint.set_deferred("disabled", false)
+		if animatedSprite.animation == "rockIdle" and animatedSprite.frame == 5:
+			loop += 1
+			if (loop == LOOPS_NEEDED_ROCK):
+				animatedSprite.animation = "rockThrow"
+				rockGrapple.set_deferred("disabled", true)
+				weakpoint.set_deferred("disabled", true)
+		if animatedSprite.animation == "rockThrow" and animatedSprite.frame == 5:
+			#Spawn ROCK (of ages)
+			attacking = false
+			prevAttack = 4
+			attackEnded = true
+			animatedSprite.animation = "idle"
 
 func _physics_process(delta: float) -> void:
 	if (attackEnded == true and attackTimer.is_stopped()):
 		attackTimer.start()
+		print("hi")
 		
 	if (attacking):
 		attackManager()

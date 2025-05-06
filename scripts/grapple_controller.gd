@@ -50,6 +50,13 @@ func launch(type):
 			grappleLine.show()
 			grappleSignal.emit(true)
 			stopMomentum.start()
+		elif "collision_layer" in grappleRay.get_collider():
+			if (grappleRay.get_collider().collision_layer & (1 << 1)):
+				grappling = true
+				grapplePoint = grappleRay.get_collision_point()
+				grappleLine.show()
+				grappleSignal.emit(true)
+				stopMomentum.start()
 
 	
 func retract():
