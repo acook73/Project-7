@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://lm1yse7hk51v"
+path="res://.godot/imported/Footsteps-Grass4.wav-1840b24b1ec99117413d4490276701aa.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Player/Step/Footsteps-Grass4.wav"
+dest_files=["res://.godot/imported/Footsteps-Grass4.wav-1840b24b1ec99117413d4490276701aa.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

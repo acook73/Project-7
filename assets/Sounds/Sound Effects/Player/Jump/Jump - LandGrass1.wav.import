@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ceh5a0rd2tme5"
+path="res://.godot/imported/Jump - LandGrass1.wav-5ff3777c5b8302fc8e24e66b6e763ce8.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Player/Jump/Jump - LandGrass1.wav"
+dest_files=["res://.godot/imported/Jump - LandGrass1.wav-5ff3777c5b8302fc8e24e66b6e763ce8.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

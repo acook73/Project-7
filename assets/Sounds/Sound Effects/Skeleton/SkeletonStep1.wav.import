@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://lr4u88c32gtf"
+path="res://.godot/imported/SkeletonStep1.wav-68d8ea1aeee3f8f843a7069281373087.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Skeleton/SkeletonStep1.wav"
+dest_files=["res://.godot/imported/SkeletonStep1.wav-68d8ea1aeee3f8f843a7069281373087.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ca5iv58r7pcvp"
+path="res://.godot/imported/AttackWoosh1.wav-76df0003bcbcf0f31d097bf0605f73ef.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/Sound Effects/Player/Attack/AttackWoosh1.wav"
+dest_files=["res://.godot/imported/AttackWoosh1.wav-76df0003bcbcf0f31d097bf0605f73ef.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
